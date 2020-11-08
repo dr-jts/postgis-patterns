@@ -442,7 +442,7 @@ https://gis.stackexchange.com/questions/223154/find-highest-elevation-along-path
 https://gis.stackexchange.com/questions/361179/postgres-remove-duplicate-rows-returned-by-st-dwithin-query
 
 
-## Query Nearest Neighbours
+## Query Nearest Neighbour
 ### Nearest Point to each point in same table
 https://gis.stackexchange.com/questions/287774/nearest-neighbor
 
@@ -561,28 +561,31 @@ https://gis.stackexchange.com/questions/238748/compare-only-valid-polygon-geomet
 https://gis.stackexchange.com/questions/124583/delete-duplicate-geometry-in-postgis-tables
 
 
-## Query with Tolerance / Robustness
-### Predicates with Tolerance
+## Query with Tolerance
+
+### Spatial Equality with Tolerance
 Example: https://gis.stackexchange.com/questions/176359/tolerance-in-postgis
 
-This post is about needing ST_Equals to have a tolerance to accommodate small differences caused by reprojection
-https://gis.stackexchange.com/questions/141790/postgis-st-equals-false-when-st-intersection-100-of-geometry?rq=1
+This post is about needing `ST_Equals` to have a tolerance to accommodate small differences caused by reprojection
+https://gis.stackexchange.com/questions/141790/postgis-st-equals-false-when-st-intersection-100-of-geometry
 
-This is about small coordinate differences defeating ST_Equals, and using ST_SnapToGrid to resolve the problem:
-https://gis.stackexchange.com/questions/56617/st-equals-postgis-problems?rq=1
+This is about small coordinate differences defeating `ST_Equals`, and using `ST_SnapToGrid` to resolve the problem:
+https://gis.stackexchange.com/questions/56617/st-equals-postgis-problems
 
-This says that copying geometries to another database causes them to fail ST_Equals (not sure why copy would change the geom - perhaps done using WKT?).  Says that using buffer is too slow
-https://gis.stackexchange.com/questions/213240/st-equals-not-matching-with-exact-geometry?noredirect=1&lq=1
+This says that copying geometries to another database causes them to fail `ST_Equals` (not sure why copy would change the geom - perhaps done using WKT?).  Says that using buffer is too slow
+https://gis.stackexchange.com/questions/213240/st-equals-not-matching-with-exact-geometry
 
 https://gis.stackexchange.com/questions/176359/tolerance-in-postgis
 
 ### ST_ClosestPoint does not intersect Line
-https://gis.stackexchange.com/questions/11510/st-closestpointline-point-does-not-intersect-line?rq=1
-Solution
-Use ST_DWithin
 
-### Discrepancy between GEOS predicates and PostGIS Intersects?
-https://gis.stackexchange.com/questions/259210/how-can-a-point-not-be-within-or-touch-but-still-intersect-a-polygon?rq=1
+https://gis.stackexchange.com/questions/11510/st-closestpointline-point-does-not-intersect-line
+
+#### Solution
+Use `ST_DWithin`
+
+### Discrepancy between GEOS predicates and PostGIS Intersects
+https://gis.stackexchange.com/questions/259210/how-can-a-point-not-be-within-or-touch-but-still-intersect-a-polygon
 
 Actually it doesn’t look like there is a discrepancy now.  But still a case where a distance tolerance might clarify things.
 
