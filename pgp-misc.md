@@ -30,8 +30,26 @@ SELECT ST_MakePolygon(ST_ExteriorRing(ST_Union(
 FROM data;
 ```
 
-### Expanding polygons contained inside a bounding polygon until one vertex touches
+### Construct expanded polygons to touches a bounding polygon
 https://gis.stackexchange.com/questions/294163/sql-postgis-expanding-polygons-contained-inside-another-polygon-until-one-ver
+
+[Expanding polygons to touch](https://i.stack.imgur.com/VQgHj.png)
+
+```sql
+WITH 
+    to_buffer(distance, b.id) AS (
+SELECT
+   ST_Distance(ST_Exteriorring(a.geom), b.geom),
+   b.id
+ FROM 
+    polygons_outer a, polygons_inner b 
+ WHERE ST_Contains(a.geom, b.geom)
+ UPDATE polygons_inner b
+   SET geom = ST_Buffer(geom, distance)
+  FROM to_buffer tb
+  WHERE b.id = tb.id;
+```
+See also note about using a scaling rather than buffer, to preserve shape of polygon
 
 ### Construct Land-Constrained Point Grid
 https://korban.net/posts/postgres/2019-10-17-generating-land-constrained-point-grids/
