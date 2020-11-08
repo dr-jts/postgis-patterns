@@ -293,6 +293,9 @@ https://gis.stackexchange.com/questions/171333/weighting-amount-of-overlapping-p
 ### Compute area covered by overlapping polygons with attribute
 https://gis.stackexchange.com/questions/90174/postgis-when-i-add-a-polygon-delete-overlapping-areas-in-other-layers
 
+### Percentage of covered area by attribute
+https://gis.stackexchange.com/questions/378532/working-out-percentage-of-polygon-covering-another-using-postgis
+
 ### Return only polygons from Overlay
 https://gis.stackexchange.com/questions/89231/postgis-st-intersection-of-polygons-can-return-lines?rq=1
 
