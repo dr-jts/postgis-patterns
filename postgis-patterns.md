@@ -13,7 +13,7 @@ A compendium of useful PostGIS problems, patterns, and solutions.
 * Query using-Index
 * Query Spatial Statistics
 * Query Distance
-* Query Neaest Neighbour
+* Query Nearest Neighbour
 * Query Geometric Shape
 * Query Invalid Geometry
 * Query Duplicates
