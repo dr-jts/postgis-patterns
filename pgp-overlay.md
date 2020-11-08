@@ -51,27 +51,6 @@ Solution
 SQL to compute LineString self-intersetions is provided
 
 
-## Polygonization
-### Polygonize OSM streets
-https://gis.stackexchange.com/questions/331529/split-streets-to-create-polygons
-
-### Polygonize a set of lines
-https://gis.stackexchange.com/questions/231237/making-linestrings-with-adjacent-lines-in-postgis?rq=1
-
-### Polygonize a set of isolines with bounding box
-https://gis.stackexchange.com/questions/127727/how-to-transform-isolines-to-isopolygons-with-postgis
-
-### Find area enclosed by a set of lines
-https://gis.stackexchange.com/questions/373933/polygon-covered-by-the-intersection-of-multiple-linestrings-postgis/373983#373983
-
-
-## Clipping
-### Clip Districts to Coastline
-http://blog.cleverelephant.ca/2019/07/simple-sql-gis.html
-https://gis.stackexchange.com/questions/331887/unioning-a-set-of-intersections
-
-### Clip lines to a set of polygons
-https://gis.stackexchange.com/questions/193217/st-difference-on-linestrings-and-polygons-slow-and-fails?rq=1
 
 ## Line Intersection
 ### Intersection of Lines which are not exactly coincident
@@ -138,6 +117,27 @@ https://gis.stackexchange.com/questions/347790/splitting-self-overlapping-lines-
 ### Remove Line Overlaps Hierarchically
 https://gis.stackexchange.com/questions/372572/how-to-remove-line-overlap-hierachically-in-postgis-with-st-difference
 
+## Polygonization
+### Polygonize OSM streets
+https://gis.stackexchange.com/questions/331529/split-streets-to-create-polygons
+
+### Polygonize a set of lines
+https://gis.stackexchange.com/questions/231237/making-linestrings-with-adjacent-lines-in-postgis?rq=1
+
+### Polygonize a set of isolines with bounding box
+https://gis.stackexchange.com/questions/127727/how-to-transform-isolines-to-isopolygons-with-postgis
+
+### Find area enclosed by a set of lines
+https://gis.stackexchange.com/questions/373933/polygon-covered-by-the-intersection-of-multiple-linestrings-postgis/373983#373983
+
+
+## Clipping
+### Clip Districts to Coastline
+http://blog.cleverelephant.ca/2019/07/simple-sql-gis.html
+https://gis.stackexchange.com/questions/331887/unioning-a-set-of-intersections
+
+### Clip lines to a set of polygons
+https://gis.stackexchange.com/questions/193217/st-difference-on-linestrings-and-polygons-slow-and-fails?rq=1
 
 ## Polygon Intersection
 
