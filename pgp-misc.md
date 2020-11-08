@@ -88,14 +88,6 @@ https://gis.stackexchange.com/questions/377606/ensuring-all-points-are-a-certain
 Uses clustering on randomly generated points.  
 Suggestion is to use neg-buffered polygon to ensure distance from polygon boundary
 
-## Transformations
-### Scale polygon around a given point
-https://gis.stackexchange.com/questions/227435/postgis-scaling-for-polygons-at-a-fixed-center-location
-
-No solution so far
-Issues
-SQL given is overly complex and inefficient.  But idea is right
-
 ## Hulls / Covering Polygons
 
 ### Construct Bounding box of set of MULTILINESTRINGs
@@ -190,6 +182,15 @@ Problem is to smooth a network of lines.  Network is not fully noded, so smoothi
 #### Solution
 Probably to node the network before smoothing.
 Not sure how to node the network and preserve IDs however!?
+
+## Transformation
+
+### Scale polygon around a given point
+https://gis.stackexchange.com/questions/227435/postgis-scaling-for-polygons-at-a-fixed-center-location
+
+No solution so far
+Issues
+SQL given is overly complex and inefficient.  But idea is right
 
 ## Ordering Geometry
 
