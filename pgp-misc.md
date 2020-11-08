@@ -33,9 +33,6 @@ FROM data;
 ### Expanding polygons contained inside a bounding polygon until one vertex touches
 https://gis.stackexchange.com/questions/294163/sql-postgis-expanding-polygons-contained-inside-another-polygon-until-one-ver
 
-### Construct Bounding box of set of MULTILINESTRINGs
-https://gis.stackexchange.com/questions/115494/bounding-box-of-set-of-multilinestrings-in-postgis?rq=1
-
 ### Construct Land-Constrained Point Grid
 https://korban.net/posts/postgres/2019-10-17-generating-land-constrained-point-grids/
 
@@ -76,6 +73,15 @@ Issues
 SQL given is overly complex and inefficient.  But idea is right
 
 ## Hulls / Covering Polygons
+
+### Construct Bounding box of set of MULTILINESTRINGs
+https://gis.stackexchange.com/questions/115494/bounding-box-of-set-of-multilinestrings-in-postgis
+```sql
+SELECT type, ST_Envelope(ST_Collect(geom))
+FROM line_table AS foo
+GROUP BY type;
+```
+
 ### Construct polygon containing lines
 https://gis.stackexchange.com/questions/238/find-polygon-that-contains-all-linestring-records-in-postgis-table
 
