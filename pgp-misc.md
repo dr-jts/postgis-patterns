@@ -21,7 +21,7 @@ https://gis.stackexchange.com/questions/352884/how-can-i-get-a-polygon-of-everyt
 * construct convex hull of both polygons together
 * subtract convex hull of each polygon
 * union with original polygons
-* remove holes
+* keep only the polygon shell (remove holes)
 
 ```sql
 WITH data(geom) AS (VALUES
