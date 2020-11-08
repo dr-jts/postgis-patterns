@@ -33,7 +33,7 @@ FROM data;
 ### Construct expanded polygons to touches a bounding polygon
 https://gis.stackexchange.com/questions/294163/sql-postgis-expanding-polygons-contained-inside-another-polygon-until-one-ver
 
-[Expanding polygons to touch](https://i.stack.imgur.com/VQgHj.png)
+![Expanding polygons to touch](https://i.stack.imgur.com/VQgHj.png)
 
 ```sql
 WITH 
