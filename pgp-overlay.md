@@ -1,4 +1,6 @@
-# PostGIS Patterns - Overlay, Noding, Clipping
+# PostGIS Patterns - Overlay
+
+Includes Noding, Clipping, Intersection, Union, Difference, Symmetric Difference, Polygonization
 
 ## Noding
 
@@ -14,7 +16,7 @@ https://gis.stackexchange.com/questions/332213/split-lines-with-points-postgis
 ### Compute points of intersection for a LineString
 https://gis.stackexchange.com/questions/16347/is-there-a-postgis-function-for-determining-whether-a-linestring-intersects-itse
 
-### Determine location of noding failures
+### Compute location of noding failures
 https://gis.stackexchange.com/questions/345341/get-location-of-postgis-geos-topology-exception
 
 Using ST_Node on set of linestrings produces an error with no indication of where the problem occurs.  Currently ST_Node uses IteratedNoder, which nodes up to 6 times, ahd fails if intersections are still found.  
@@ -23,7 +25,7 @@ Would be possible to report the nodes found in the last pass, which wouild indic
 
 Would be better to eliminate noding errors via snap-rounding, or some other kind of snapping
 
-### Clipping Set of LineString by intersection points
+### Clip Set of LineString by intersection points
 https://gis.stackexchange.com/questions/154833/cutting-linestrings-with-points
 
 Uses `ST_Split_Multi` from here: https://github.com/Remi-C/PPPP_utilities/blob/master/postgis/rc_split_multi.sql
@@ -36,10 +38,10 @@ SQL to compute LineString self-intersetions is provided
 
 
 ## Polygonization
-### Form Polygons from OSM streets
+### Polygonize OSM streets
 https://gis.stackexchange.com/questions/331529/split-streets-to-create-polygons
 
-### Form polygons from a set of lines
+### Polygonize a set of lines
 https://gis.stackexchange.com/questions/231237/making-linestrings-with-adjacent-lines-in-postgis?rq=1
 
 ### Polygonize a set of isolines with bounding box
@@ -103,15 +105,15 @@ Perhaps a flag could be added to respect direction?
 See Also
 https://gis.stackexchange.com/questions/74119/a-linestring-merger-algorithm
 
-### Merging lines to simplify a road network
+### Merge lines to simplify a road network
 Merge lines with common attributes at degree-2 nodes
 
 https://gis.stackexchange.com/questions/326433/st-linemerge-to-simplify-road-network?rq=1
 
 
-
 ## Polygon Intersection
-### Find Intersection of all geometries in a set
+
+### Intersection of all geometries in a set
 https://gis.stackexchange.com/questions/271824/st-intersection-intersection-of-all-geometries-in-a-table
 
 https://gis.stackexchange.com/questions/271941/looping-through-table-to-get-single-intersection-from-n2-geometries-using-postg
@@ -136,6 +138,7 @@ https://gis.stackexchange.com/questions/269875/aggregate-version-of-st-intersect
 
 
 ## Polygon Difference
+
 ### Subtract large set of polygons from a surrounding box
 https://gis.stackexchange.com/questions/330051/obtaining-the-geospatial-complement-of-a-set-of-polygons-to-a-bounding-box-in-po/333562#333562
 
@@ -150,7 +153,7 @@ https://gis.stackexchange.com/questions/193217/st-difference-on-linestrings-and-
 ### Split Polygons by distance from a Polygon
 https://gis.stackexchange.com/questions/78073/separate-a-polygon-in-different-polygons-depending-of-the-distance-to-another-po
 
-### Cut detailed polygons into a base polygonal coverage
+### Cut Polygons into a Polygonal coverage
 https://gis.stackexchange.com/questions/71461/using-st-difference-and-preserving-attributes-in-postgis
 
 #### Solution
@@ -167,15 +170,18 @@ https://gis.stackexchange.com/questions/250674/postgis-st-difference-similar-to-
 https://gis.stackexchange.com/questions/187406/how-to-use-st-difference-and-st-intersection-in-case-of-multipolygons-postgis
 
 https://gis.stackexchange.com/questions/90174/postgis-when-i-add-a-polygon-delete-overlapping-areas-in-other-layers
+
 ### Find Part of Polygons not fully contained by union of other Polygons
 https://gis.stackexchange.com/questions/313039/find-what-polygons-are-not-fully-covered-by-union-of-polygons-from-another-layer
 
 ## Polygon Symmetric Difference
+
 ### Construct symmetric difference of two tables
 https://gis.stackexchange.com/questions/302458/symmetrical-difference-between-two-layers
 
 
 ## Overlay - Coverage / Polygon
+
 https://gis.stackexchange.com/questions/109692/how-to-replicate-arcgis-intersect-in-postgis
 
 http://blog.cleverelephant.ca/2019/07/postgis-overlays.html
