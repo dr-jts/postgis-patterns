@@ -1,18 +1,18 @@
 # PostGIS Patterns - Overlay
 
-* Noding
-* Line Intersection
-* Line Merging
-* Line Splitting
-* Overlay Lines
-* Polygonization
-* Clipping
-* Polygon Intersection
-* Polyogn Difference
-* Polygon Symmetric Difference
-* Polygon Union
-* Polygon Splitting
-* Overlay of Polygons and Coverages
+* [Noding](#noding)
+* [Line Intersection](#line-intersection)
+* [Line Merging](#line-merging)
+* [Line Splitting](#line-splitting)
+* [Overlay Lines](#overlay-lines)
+* [Polygonization](#polygonization)
+* [Clipping](#clipping)
+* [Polygon Intersection](#polygon-intersection)
+* [Polyogn Difference](#polygon-difference)
+* [Polygon Symmetric Difference](#polygon-symmetric-difference)
+* [Polygon Union](#polygon-union)
+* [Polygon Splitting](#polygon-splitting)
+* [Overlay Polygons](#overlay-polygons)
 
 
 
@@ -210,7 +210,7 @@ https://gis.stackexchange.com/questions/313039/find-what-polygons-are-not-fully-
 https://gis.stackexchange.com/questions/302458/symmetrical-difference-between-two-layers
 
 
-## Overlay - Coverage / Polygon
+## Overlay Polygons
 
 https://gis.stackexchange.com/questions/109692/how-to-replicate-arcgis-intersect-in-postgis
 
@@ -397,6 +397,7 @@ Use ST_ClusterDBSCAN
 
 
 ## Polygon Splitting
+
 https://gis.stackexchange.com/questions/299849/split-polygon-into-separate-polygons-using-a-table-of-individual-lines
 
 ### Split rectangles along North-South axis
