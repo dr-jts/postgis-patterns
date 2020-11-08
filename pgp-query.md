@@ -164,8 +164,13 @@ WHERE NOT is_valid;
 
   
 ## Query - Polygons
+
 ### Find polygons intersecting other table of polygons using ST_Subdivide
 https://gis.stackexchange.com/questions/224138/postgis-st-intersects-vs-arcgis-select-by-location
+
+### Find cells touched by a path in order
+https://gis.stackexchange.com/questions/317401/maintaining-order-and-repetition-of-cell-names-using-postgis?atw=1
+
 ## Query - Intersection
 ### Find geometries in a table which do NOT intersect another table
 https://gis.stackexchange.com/questions/162651/looking-for-boolean-intersection-of-small-table-with-huge-table
