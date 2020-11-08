@@ -9,10 +9,10 @@ FROM (SELECT ST_CONVEXHULL(ST_COLLECT(shape::geometry)) as geom FROM schema.poly
 ```
 To scale this up/out, could process batches of polygons using a rectangular grid defined over the data space. The constructed gap polygons can be clipped to grid cells. and optional unioned afterwards
 
-### Create ellipses in WGS84
+### Construct ellipses in WGS84
 https://gis.stackexchange.com/questions/218159/postgis-ellipse-issue
 
-### Create polygon joining two polygons
+### Construct polygon joining two polygons
 https://gis.stackexchange.com/questions/352884/how-can-i-get-a-polygon-of-everything-between-two-polygons-in-postgis
 
 Solution
@@ -30,23 +30,23 @@ SELECT ST_MakePolygon(ST_ExteriorRing(ST_Union(
 FROM data;
 ```
 
-### Expanding polygons contained inside a bounding polygon until one vertice touches
+### Expanding polygons contained inside a bounding polygon until one vertex touches
 https://gis.stackexchange.com/questions/294163/sql-postgis-expanding-polygons-contained-inside-another-polygon-until-one-ver
 
-### Bounding box of set of MULTILINESTRINGs
+### Construct Bounding box of set of MULTILINESTRINGs
 https://gis.stackexchange.com/questions/115494/bounding-box-of-set-of-multilinestrings-in-postgis?rq=1
 
-### Generate Land-Constrained Point Grids
+### Construct Land-Constrained Point Grid
 https://korban.net/posts/postgres/2019-10-17-generating-land-constrained-point-grids/
 
-### Create Square Grids
+### Construct Square Grid
 https://gis.stackexchange.com/questions/16374/creating-regular-polygon-grid-in-postgis
 
 https://gis.stackexchange.com/questions/4663/how-to-create-regular-point-grid-inside-a-polygon-in-postgis
 
 https://gis.stackexchange.com/questions/271234/creating-a-grid-on-a-polygon-and-find-number-of-points-in-each-grid
 
-### Create Polygon Centrelines
+### Construct Polygon Centrelines
 https://gis.stackexchange.com/questions/322392/average-of-two-lines?noredirect=1&lq=1
 
 https://gis.stackexchange.com/questions/50668/how-can-i-merge-collapse-nearby-and-parallel-road-lines-eg-a-dual-carriageway
@@ -58,10 +58,10 @@ Idea: triangulate polygon, then connect midpoints of interior lines
 
 Idea 2: find line segments for nearest points of each line vertex.  Order by distance along line (percentage?).  Discard any that have a retrograde direction.  Join centrepoints of segments.
 
-### Straight Skeleton
+### Construct Straight Skeleton
 https://github.com/twak/campskeleton
 
-### Generate Well-spaced points within Polygon
+### Construct Well-spaced points within Polygon
 https://gis.stackexchange.com/questions/377606/ensuring-all-points-are-a-certain-distance-from-polygon-boundary
 
 Uses clustering on randomly generated points.  
@@ -82,12 +82,13 @@ https://gis.stackexchange.com/questions/238/find-polygon-that-contains-all-lines
 ### Construct lines between all points of a Polygon
 https://gis.stackexchange.com/questions/58534/get-the-lines-between-all-points-of-a-polygon-in-postgis-avoid-nested-loop
 
-Solution
+##### Solution
 Rework given SQL using CROSS JOIN and a self join
-### Generating Regions from Points
+
+### Construct Regions from Points
 https://gis.stackexchange.com/questions/92913/extra-detailed-bounding-polygon-from-many-geometric-points?rq=1
 
-### Generate regions from large sets of points (100K) tagged with region attribute.
+### Construct regions from large sets of points (100K) tagged with region attribute.
 
 Could use ST_ConcaveHull, but results would overlap
 Perhaps ST_Voronoi would be better?  How would this work, and what are limits on size of data?
@@ -125,15 +126,17 @@ https://gis.stackexchange.com/questions/340968/varying-size-buffer-along-a-line-
 ### Expand a rectangular polygon
 https://gis.stackexchange.com/questions/308333/expanding-polygon-by-distance-using-postgis
 
-### Buffering Coastlines with inlet skeletons
+### Buffer Coastlines with inlet skeletons
 https://gis.stackexchange.com/questions/300867/how-can-i-buffer-a-mulipolygon-only-on-the-coastline
-### Removing Line Buffer artifacts
+
+### Remove Line Buffer artifacts
 https://gis.stackexchange.com/questions/363025/how-to-run-a-moving-window-function-in-a-conditional-statement-in-postgis-for-bu
 
 Quite bizarre, but apparently works.
 
 
 ## Measuring
+
 ### Find Median width of Road Polygons
 https://gis.stackexchange.com/questions/364173/calculate-median-width-of-road-polygons
 
