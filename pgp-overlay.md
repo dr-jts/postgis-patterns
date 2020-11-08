@@ -1,6 +1,20 @@
 # PostGIS Patterns - Overlay
 
-Includes Noding, Clipping, Intersection, Union, Difference, Symmetric Difference, Polygonization
+* Noding
+* Polygonization
+* Clipping
+* Line Intersection
+* Line Merging
+* Line Splitting
+* Overlay Lines
+* Polygon Intersection
+* Polyogn Difference
+* Polygon Symmetric Difference
+* Polygon Union
+* Polygon Splitting
+* Overlay of Polygons and Coverages
+
+
 
 ## Noding
 
@@ -109,6 +123,20 @@ https://gis.stackexchange.com/questions/74119/a-linestring-merger-algorithm
 Merge lines with common attributes at degree-2 nodes
 
 https://gis.stackexchange.com/questions/326433/st-linemerge-to-simplify-road-network?rq=1
+
+
+## Line Splitting
+### Split Self-Overlapping Lines at Points not on the lines
+https://gis.stackexchange.com/questions/347790/splitting-self-overlapping-lines-with-points-using-postgis
+
+
+## Overlay - Lines
+https://gis.stackexchange.com/questions/186242/how-to-get-smallest-line-segments-from-intersection-difference-of-multiple-ove
+### Count All Intersections Between 2 Linestrings
+https://gis.stackexchange.com/questions/347790/splitting-self-overlapping-lines-with-points-using-postgis
+
+### Remove Line Overlaps Hierarchically
+https://gis.stackexchange.com/questions/372572/how-to-remove-line-overlap-hierachically-in-postgis-with-st-difference
 
 
 ## Polygon Intersection
@@ -283,14 +311,6 @@ Solution
 ST_Boundary -> ST_Union -> ST_Polygonize ??
 
 
-## Overlay - Lines
-https://gis.stackexchange.com/questions/186242/how-to-get-smallest-line-segments-from-intersection-difference-of-multiple-ove
-### Count All Intersections Between 2 Linestrings
-https://gis.stackexchange.com/questions/347790/splitting-self-overlapping-lines-with-points-using-postgis
-
-### Remove Line Overlaps Hierarchically
-https://gis.stackexchange.com/questions/372572/how-to-remove-line-overlap-hierachically-in-postgis-with-st-difference
-
 
 ## Polygon Union
 ### Union of Massive Number of Point Buffers
@@ -389,7 +409,4 @@ http://blog.cleverelephant.ca/2018/06/polygon-splitting.html
 
 Hmm..  does this really result in equal-area subdivision? The Voronoi-of-centroid step is distance-based, not area based…. So may not always work?  Would be good to try this on a bunch of country outines
 
-## Line Splitting
-### Split Self-Overlapping Lines at Points not on the lines
-https://gis.stackexchange.com/questions/347790/splitting-self-overlapping-lines-with-points-using-postgis
 
