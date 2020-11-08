@@ -119,6 +119,10 @@ poly AS (SELECT ST_MakePolygon( ST_AddPoint( geom, ST_StartPoint( geom ))) AS ge
 SELECT geom FROM poly;
 ```
 
+### Improve Concave Hull algorithm
+https://carto.com/blog/calculating-catchment-human-mobility-data/
+
+
 ## Buffering
 ### Variable Width Buffer
 https://gis.stackexchange.com/questions/340968/varying-size-buffer-along-a-line-with-postgis
@@ -312,10 +316,6 @@ Use window function PARTITION BY
 ### IDW Interpolation over a grid of points
 https://gis.stackexchange.com/questions/373153/spatial-interpolation-in-postgis-without-outputting-raster
 
-
-## Concave Hull
-### Improve Concave Hull algorithm
-https://carto.com/blog/calculating-catchment-human-mobility-data/
 
 ## Cleaning Data
 ### Validating Polygons
