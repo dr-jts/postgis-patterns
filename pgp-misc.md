@@ -1,4 +1,4 @@
-## Constructions
+## Construction
 ### Construct polygons filling gaps in a coverage
 https://gis.stackexchange.com/questions/368406/postgis-create-new-polygons-in-between-existing
 
