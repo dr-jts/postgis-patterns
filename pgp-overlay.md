@@ -242,7 +242,7 @@ https://postgis.net/2014/03/14/tip_intersection_faster/
 
 
 ### Find non-covered polygons
-https://gis.stackexchange.com/questions/333302/selecting-non-overlapping-polygons-from-a-one-layer-in-postgis/334217#334217
+https://gis.stackexchange.com/questions/333302/selecting-non-overlapping-polygons-from-a-one-layer-in-postgis/334217
 ```sql
 WITH
 data AS (
@@ -276,30 +276,30 @@ Count overlap depth using ST_PointOnSurface and ST_Contains
 
 https://gis.stackexchange.com/questions/315368/listing-all-overlapping-polygons-using-postgis
 
-### PostGIS Union of two polygon layers
+### Union of two polygon layers
 Wants a coverage overlay (called “QGIS Union”)
-https://gis.stackexchange.com/questions/302086/postgis-union-of-two-polygons-layers?rq=1
+https://gis.stackexchange.com/questions/302086/postgis-union-of-two-polygons-layers
 
 See also
-https://gis.stackexchange.com/questions/179533/arcgis-union-equivalent-in-postgis?rq=1
+https://gis.stackexchange.com/questions/179533/arcgis-union-equivalent-in-postgis
 https://gis.stackexchange.com/questions/115927/is-there-a-union-function-for-multiple-layers-comparable-to-arcgis-in-open-sourc
 
 ### Union Non-clean Polygons
-https://gis.stackexchange.com/questions/31895/joining-lots-of-small-polygons-to-form-larger-polygon-using-postgis/31905#31905
+https://gis.stackexchange.com/questions/31895/joining-lots-of-small-polygons-to-form-larger-polygon-using-postgis/31905
 
 ### Sum area-weighted polygons (Overlay 2 coverages)
 https://gis.stackexchange.com/questions/171333/weighting-amount-of-overlapping-polygons-in-postgis
 
-### Compute area covered by overlapping polygons with attribute
-https://gis.stackexchange.com/questions/90174/postgis-when-i-add-a-polygon-delete-overlapping-areas-in-other-layers
-
 ### Percentage of covered area by attribute
 https://gis.stackexchange.com/questions/378532/working-out-percentage-of-polygon-covering-another-using-postgis
 
-### Return only polygons from Overlay
-https://gis.stackexchange.com/questions/89231/postgis-st-intersection-of-polygons-can-return-lines?rq=1
+### Remove Polygons overlapped area on update to Polygon in other table 
+https://gis.stackexchange.com/questions/90174/postgis-when-i-add-a-polygon-delete-overlapping-areas-in-other-layers
 
-https://gis.stackexchange.com/questions/242741/st-intersection-returns-erroneous-polygons?noredirect=1&lq=1
+### Return only polygons from Overlay
+https://gis.stackexchange.com/questions/89231/postgis-st-intersection-of-polygons-can-return-lines
+
+https://gis.stackexchange.com/questions/242741/st-intersection-returns-erroneous-polygons
 
 ### Compute Coverage from Overlapping Polygons
 https://gis.stackexchange.com/questions/206473/obtaining-each-unique-area-of-overlapping-polygons-in-postgres-9-6-postgis-2-3
