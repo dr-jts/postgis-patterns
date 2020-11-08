@@ -108,6 +108,8 @@ https://gis.stackexchange.com/questions/326433/st-linemerge-to-simplify-road-net
 ### Split Self-Overlapping Lines at Points not on the lines
 https://gis.stackexchange.com/questions/347790/splitting-self-overlapping-lines-with-points-using-postgis
 
+### Split Lines by Polygons
+https://gis.stackexchange.com/questions/215886/split-lines-by-polygons
 
 ## Overlay - Lines
 https://gis.stackexchange.com/questions/186242/how-to-get-smallest-line-segments-from-intersection-difference-of-multiple-ove
@@ -396,8 +398,6 @@ Use ST_ClusterDBSCAN
 
 ## Polygon Splitting
 https://gis.stackexchange.com/questions/299849/split-polygon-into-separate-polygons-using-a-table-of-individual-lines
-
-https://gis.stackexchange.com/questions/215886/split-lines-by-polygons
 
 ### Split rectangles along North-South axis
 https://gis.stackexchange.com/questions/239801/how-can-i-split-a-polygon-into-two-equal-parts-along-a-n-s-axis?rq=1
