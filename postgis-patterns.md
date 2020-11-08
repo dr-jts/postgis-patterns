@@ -23,7 +23,7 @@ A compendium of useful PostGIS problems, patterns, and solutions.
 
 ### [Overlay](pgp-overlay.md)
 
-### [Miscellaneaous](pgp-misc.md)
+### [Miscellaneous](pgp-misc.md)
 * Construction
 * Hulls / Covering Polygons
 * Buffers
