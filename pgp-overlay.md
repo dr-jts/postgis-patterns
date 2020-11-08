@@ -1,12 +1,12 @@
 # PostGIS Patterns - Overlay
 
 * Noding
-* Polygonization
-* Clipping
 * Line Intersection
 * Line Merging
 * Line Splitting
 * Overlay Lines
+* Polygonization
+* Clipping
 * Polygon Intersection
 * Polyogn Difference
 * Polygon Symmetric Difference
