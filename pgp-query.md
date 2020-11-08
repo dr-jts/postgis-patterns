@@ -1,6 +1,6 @@
 ## PostGIS Patterns - Query, Update, Delete
 
-## Query - Point in Polygon
+## Query Point in Polygon
 ### Find Points contained by Polygons with attributes
 https://gis.stackexchange.com/questions/354319/how-to-extract-attributes-of-polygons-at-specific-points-into-new-point-layer-in
 
@@ -112,7 +112,7 @@ GROUP BY 1;
 ```
 
 
-## Query - Lines
+## Query Lines
 
 ### Find Lines which have a given angle of incidence
 https://gis.stackexchange.com/questions/134244/query-road-shape?noredirect=1&lq=1
@@ -163,15 +163,13 @@ WHERE NOT is_valid;
 ```
 
   
-## Query - Polygons
+## Query Polygons
 
 ### Find polygons intersecting other table of polygons using ST_Subdivide
 https://gis.stackexchange.com/questions/224138/postgis-st-intersects-vs-arcgis-select-by-location
 
-### Find cells touched by a path in order
-https://gis.stackexchange.com/questions/317401/maintaining-order-and-repetition-of-cell-names-using-postgis?atw=1
+## Query Intersects
 
-## Query - Intersection
 ### Find geometries in a table which do NOT intersect another table
 https://gis.stackexchange.com/questions/162651/looking-for-boolean-intersection-of-small-table-with-huge-table
 
@@ -180,7 +178,7 @@ Use NOT EXISTS:
 SELECT * FROM polygons
 WHERE NOT EXISTS (SELECT 1 FROM streets WHERE ST_Intersects(polygons.geom, streets.geom))
 ```
-## Query - Spatial Relationship
+## Query Spatial Relationship
 
 ### Find Polygons not contained by other Polygons
 https://gis.stackexchange.com/questions/185308/find-polygons-that-does-not-contain-any-polygons-with-postgis
@@ -195,7 +193,6 @@ https://gis.stackexchange.com/questions/212543/compare-row-to-all-others-in-post
 
 #### Solution
 For each polygon, compute union of polygons which intersect it, then test if the union covers the polygon
-
 
 ### Find Polygons which touch in a line
 ```sql
@@ -294,8 +291,19 @@ pcpath(id, path) AS (
 SELECT * FROM pcpath;
 ```
 
+### Test if two 3D geometries are equal
+https://gis.stackexchange.com/questions/373978/how-to-check-two-3d-geometry-are-equal-in-postgis/373980#373980
 
-## Query - Spatial Statistics
+### Find LineStrings with Common Segments
+https://gis.stackexchange.com/questions/268147/find-linestrings-with-common-segments-in-postgis-2-3
+```sql
+SELECT ST_Relate('LINESTRING(0 0, 2 0)'::geometry,
+                 'LINESTRING(1 0, 2 0)'::geometry,
+                 '1********');
+```                 
+
+
+## Query Spatial Statistics
 
 ### Count Points contained in Polygons
 
@@ -335,26 +343,27 @@ https://gis.stackexchange.com/questions/349251/finding-median-of-polygons-that-s
 https://gis.stackexchange.com/questions/143438/calculating-total-line-lengths-within-polygon
 
 
-## Use the Index, Luke
-https://gis.stackexchange.com/questions/172266/improve-performance-of-a-postgis-st-dwithin-query?rq=1
+## Query using Index
+https://gis.stackexchange.com/questions/172266/improve-performance-of-a-postgis-st-dwithin-query
 
-https://gis.stackexchange.com/questions/162651/looking-for-boolean-intersection-of-small-table-with-huge-table?rq=1
+https://gis.stackexchange.com/questions/162651/looking-for-boolean-intersection-of-small-table-with-huge-table
 
 ### Use ST_Intersects instead of ST_DIsjoint
-https://gis.stackexchange.com/questions/167945/delete-polygonal-features-in-one-layer-outside-polygon-feature-of-another-layer?noredirect=1&lq=1
+https://gis.stackexchange.com/questions/167945/delete-polygonal-features-in-one-layer-outside-polygon-feature-of-another-layer
 
 ### Spatial Predicate argument ordering important for indexing
 https://gis.stackexchange.com/questions/209959/how-to-use-st-intersects-with-different-geometry-type
 
 This may be due to indexing being used for first ST_Intersects arg, but not second?
-### Clustering on the Index
+
+### Clustering on a spatial Index
 https://gis.stackexchange.com/questions/240721/postgis-performance-increase-with-cluster
 
-### Use an Index
+### Use an Index for performance
 https://gis.stackexchange.com/questions/237709/speeding-up-intersect-query-in-postgis
 
 
-### Query - Distance
+### Query Distance
 ### Find points NOT within distance of lines
 https://gis.stackexchange.com/questions/356497/select-points-falling-outside-of-buffer-and-count
 https://gis.stackexchange.com/questions/367594/get-all-geom-points-that-are-more-than-3-meters-from-the-linestring-at-big-scal
@@ -433,12 +442,7 @@ https://gis.stackexchange.com/questions/223154/find-highest-elevation-along-path
 https://gis.stackexchange.com/questions/361179/postgres-remove-duplicate-rows-returned-by-st-dwithin-query
 
 
-## Query - Spatial Predicates
-### Test if two 3D geometries are equal
-https://gis.stackexchange.com/questions/373978/how-to-check-two-3d-geometry-are-equal-in-postgis/373980#373980
-
-
-## Query - KNN
+## Query Nearest Neighbours
 ### Nearest Point to each point in same table
 https://gis.stackexchange.com/questions/287774/nearest-neighbor
 
@@ -524,7 +528,7 @@ UPDATE points
 https://gis.stackexchange.com/questions/377674/find-nearest-polygons-of-a-multi-line-string
 
 
-## Query - Geometric Shape
+## Query Geometric Shape
 
 ### Find narrow Polygons
 https://gis.stackexchange.com/questions/316128/identifying-long-and-narrow-polygons-in-with-postgis
@@ -547,29 +551,17 @@ See https://gis.stackexchange.com/questions/151939/explanation-of-the-thinness-r
 
 
 
-## Query - Invalid Geometry
+## Query Invalid Geometry
 
 ### Skip invalid geometries when querying
 https://gis.stackexchange.com/questions/238748/compare-only-valid-polygon-geometries-in-postgis
 
-
-## Query - Relate
-
-### Find LineStrings with Common Segments
-https://gis.stackexchange.com/questions/268147/find-linestrings-with-common-segments-in-postgis-2-3
-```sql
-SELECT ST_Relate('LINESTRING(0 0, 2 0)'::geometry,
-                 'LINESTRING(1 0, 2 0)'::geometry,
-                 '1********');
-```                 
-
-
-## Query - Duplicates
+## Query Duplicates
 ### Find and Remove duplicate geometry rows
 https://gis.stackexchange.com/questions/124583/delete-duplicate-geometry-in-postgis-tables
 
 
-## Query - Tolerance / Robustness
+## Query with Tolerance / Robustness
 ### Predicates with Tolerance
 Example: https://gis.stackexchange.com/questions/176359/tolerance-in-postgis
 
@@ -594,7 +586,7 @@ https://gis.stackexchange.com/questions/259210/how-can-a-point-not-be-within-or-
 
 Actually it doesn’t look like there is a discrepancy now.  But still a case where a distance tolerance might clarify things.
 
-## Query - JOIN LATERAL
+## Query with JOIN LATERAL
 
 https://gis.stackexchange.com/questions/136403/postgis-nearest-points-with-st-distance-knn
 
