@@ -19,7 +19,7 @@ A compendium of useful PostGIS problems, patterns, and solutions.
 * Query Duplicates
 * Query with Tolerance
 * Query using JOIN LATERAL
-* Update/Delete
+* Update and Delete
 
 ## Resources
 
