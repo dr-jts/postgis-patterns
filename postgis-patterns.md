@@ -16,6 +16,7 @@ A compendium of useful PostGIS problems, patterns, and solutions.
 * [Query - Relate](pgp-query.md#query---relate)
 * [Query - Duplicates](pgp-query.md#query---duplicates)
 * [Query - JOIN LATERAL](pgp-query.md#query---join-lateral)
+* [Update/Delete](pgp-query.md#update--delete)
 
 ## Resources
 
