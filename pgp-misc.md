@@ -125,11 +125,8 @@ poly AS (SELECT ST_MakePolygon( ST_AddPoint( geom, ST_StartPoint( geom ))) AS ge
 SELECT geom FROM poly;
 ```
 
-### Improve Concave Hull algorithm
-https://carto.com/blog/calculating-catchment-human-mobility-data/
+## Buffers
 
-
-## Buffering
 ### Variable Width Buffer
 https://gis.stackexchange.com/questions/340968/varying-size-buffer-along-a-line-with-postgis
 
