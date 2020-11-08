@@ -3,19 +3,19 @@
 A compendium of useful PostGIS problems, patterns, and solutions.
 
 ## Index
-* [Query - Point in Polygon](postgis-patterns-query.md#query---point-in-polygon)
-* [Query - Lines](postgis-patterns-query.md#query---lines)
-* [Query - Polygons](postgis-patterns-query.md#query---polygons)
-* [Query - Intersection](postgis-patterns-query.md#query---intersection)
-* [Query - Spatial Relationship](postgis-patterns-query.md#query---intersection)
-* [Query - Spatial Statistics](postgis-patterns-query.md#query---spatial-statistics)
-* [Query - Distance](postgis-patterns-query.md#query---distance)
-* [Query - KNN](postgis-patterns-query.md#query---knn)
-* [Query - Geometric Shape](postgis-patterns-query.md#query---geometric-shape)
-* [Query - Invalid Geometry](postgis-patterns-query.md#query---invalid-geometry)
-* [Query - Relate](postgis-patterns-query.md#query---relate)
-* [Query - Duplicates](postgis-patterns-query.md#query---duplicates)
-* [Query - JOIN LATERAL](postgis-patterns-query.md#query---join-lateral)
+* [Query - Point in Polygon](pgp-query.md#query---point-in-polygon)
+* [Query - Lines](pgp-query.md#query---lines)
+* [Query - Polygons](pgp-query.md#query---polygons)
+* [Query - Intersection](pgp-query.md#query---intersection)
+* [Query - Spatial Relationship](pgp-query.md#query---intersection)
+* [Query - Spatial Statistics](pgp-query.md#query---spatial-statistics)
+* [Query - Distance](pgp-query.md#query---distance)
+* [Query - KNN](pgp-query.md#query---knn)
+* [Query - Geometric Shape](pgp-query.md#query---geometric-shape)
+* [Query - Invalid Geometry](pgp-query.md#query---invalid-geometry)
+* [Query - Relate](pgp-query.md#query---relate)
+* [Query - Duplicates](pgp-query.md#query---duplicates)
+* [Query - JOIN LATERAL](pgp-query.md#query---join-lateral)
 
 ## Resources
 
