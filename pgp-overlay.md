@@ -407,9 +407,9 @@ https://gis.stackexchange.com/questions/286184/splitting-polygon-in-equal-parts-
 
 See also next problem
 
-### Split Polygons into equal parts
+### Split Polygons into equal-area parts
 http://blog.cleverelephant.ca/2018/06/polygon-splitting.html
 
-Hmm..  does this really result in equal-area subdivision? The Voronoi-of-centroid step is distance-based, not area based…. So may not always work?  Would be good to try this on a bunch of country outines
+Does this really result in equal-area subdivision? The Voronoi-of-centroid step is distance-based, not area based…. So may not always work?  Would be good to try this on a bunch of country outines
 
 
