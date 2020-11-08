@@ -15,8 +15,14 @@ https://gis.stackexchange.com/questions/218159/postgis-ellipse-issue
 ### Construct polygon joining two polygons
 https://gis.stackexchange.com/questions/352884/how-can-i-get-a-polygon-of-everything-between-two-polygons-in-postgis
 
-Solution
-Form convex hull of both, subtract convex hull of each, union with original polygons, remove holes.
+![](https://i.stack.imgur.com/a7idE.png)
+
+#### Solution
+* construct convex hull of both polygons together
+* subtract convex hull of each polygon
+* union with original polygons
+* remove holes
+
 ```sql
 WITH data(geom) AS (VALUES
 ( 'POLYGON ((100 300, 200 300, 200 200, 100 200, 100 300))'::geometry )
