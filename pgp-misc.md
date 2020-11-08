@@ -192,23 +192,27 @@ Probably to node the network before smoothing.
 Not sure how to node the network and preserve IDs however!?
 
 ## Ordering Geometry
+
 ### Ordering a Square Grid
 https://gis.stackexchange.com/questions/346519/sorting-polygons-into-a-n-x-n-spatial-array
 
 https://gis.stackexchange.com/questions/255512/automatically-name-rectangles-by-spatial-order-or-position-to-each-other?noredirect=1&lq=1
 
 ### Serpentine Ordering
-https://gis.stackexchange.com/questions/176197/seeking-tool-algorithm-for-assigning-code-to-enumeration-areas-polygons-using?noredirect=1&lq=1
+https://gis.stackexchange.com/questions/176197/seeking-tool-algorithm-for-assigning-code-to-enumeration-areas-polygons-using
 
 No solution in the post
 
 Also
-https://gis.stackexchange.com/questions/73978/numbering-polygons-according-to-their-spatial-relationships?noredirect=1&lq=1
+https://gis.stackexchange.com/questions/73978/numbering-polygons-according-to-their-spatial-relationships
 
 ### Ordering Polygons along a line
-https://gis.stackexchange.com/questions/201306/numbering-adjacent-polygons-in-sequential-order?noredirect=1&lq=1
+https://gis.stackexchange.com/questions/201306/numbering-adjacent-polygons-in-sequential-order
 
 No explicit solution given, but suggestion is to compute adjacency graph and then do a graph traversal
+
+### Order polygons touched by a Line
+https://gis.stackexchange.com/questions/317401/maintaining-order-and-repetition-of-cell-names-using-postgis
 
 ### Connecting Circles Into a Polygonal Path
 https://gis.stackexchange.com/questions/246521/connecting-circles-with-lines-cover-all-circles-using-postgis
