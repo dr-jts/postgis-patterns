@@ -21,6 +21,31 @@ A compendium of useful PostGIS problems, patterns, and solutions.
 * Query using JOIN LATERAL
 * Update and Delete
 
+### [Overlay](pgp-overlay.md)
+
+### [Miscellaneaous](pgp-misc.md)
+* Construction
+* Hulls / Covering Polygons
+* Buffers
+* Simplification
+* Smoothing
+* Transformation
+* Measuring
+* Ordering Geometry
+* Generating Point Distributions
+* Contouring
+* Surface Interpolation
+* Clustering
+* Cleaning Data
+* Conflation and Matching
+* Coordinate Systems
+* Linear Referencing/Line Handling
+* Graphs
+* Temporal Trajectories
+* Input
+* Output
+
+
 ## Resources
 
 * [PostGIS on GIS StackExchange](https://gis.stackexchange.com/questions/tagged/postgis?tab=Newest)
