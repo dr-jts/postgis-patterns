@@ -1,4 +1,4 @@
-## Construction
+## Constructions
 ### Construct polygons filling gaps in a coverage
 https://gis.stackexchange.com/questions/368406/postgis-create-new-polygons-in-between-existing
 
@@ -408,11 +408,11 @@ https://gis.stackexchange.com/questions/341160/why-do-two-tables-with-valid-geom
 Also:  https://trac.osgeo.org/postgis/ticket/4755
 Has an example geometry which becomes invalid under transform
 
-## Miscellaneous
+## Routing / Pathfinding
 
 ### Seaway Distances & Routes
 https://www.ausvet.com.au/seaway-distances-with-postgresql/
-
+![](https://www.ausvet.com.au/wp-content/uploads/Blog_images/seaway_1.png)
 
 ## Linear Referencing/Line Handling
 ### Extrapolate Lines
