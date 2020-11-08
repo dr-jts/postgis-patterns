@@ -3,6 +3,8 @@
 A compendium of useful PostGIS problems, patterns, and solutions.
 
 ## Categories
+
+### [Query](pgp-query.md)
 * [Query Point in Polygon](pgp-query.md#query-point-in-polygon)
 * [Query Lines](pgp-query.md#query-lines)
 * [Query Polygons](pgp-query.md#query-polygons)
