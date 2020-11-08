@@ -30,15 +30,6 @@ SELECT ST_MakePolygon(ST_ExteriorRing(ST_Union(
 FROM data;
 ```
 
-## Transformations
-### Scale polygon around a given point
-https://gis.stackexchange.com/questions/227435/postgis-scaling-for-polygons-at-a-fixed-center-location
-
-No solution so far
-Issues
-SQL given is overly complex and inefficient.  But idea is right
-
-## Constructions
 ### Expanding polygons contained inside a bounding polygon until one vertice touches
 https://gis.stackexchange.com/questions/294163/sql-postgis-expanding-polygons-contained-inside-another-polygon-until-one-ver
 
@@ -76,6 +67,13 @@ https://gis.stackexchange.com/questions/377606/ensuring-all-points-are-a-certain
 Uses clustering on randomly generated points.  
 Suggestion is to use neg-buffered polygon to ensure distance from polygon boundary
 
+## Transformations
+### Scale polygon around a given point
+https://gis.stackexchange.com/questions/227435/postgis-scaling-for-polygons-at-a-fixed-center-location
+
+No solution so far
+Issues
+SQL given is overly complex and inefficient.  But idea is right
 
 ## Hulls / Covering Polygons
 ### Construct polygon containing lines
