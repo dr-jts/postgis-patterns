@@ -179,8 +179,10 @@ https://gis.stackexchange.com/questions/302458/symmetrical-difference-between-tw
 https://gis.stackexchange.com/questions/109692/how-to-replicate-arcgis-intersect-in-postgis
 
 http://blog.cleverelephant.ca/2019/07/postgis-overlays.html
+
 ### Flatten / Create coverage from Nested Polygons
 https://gis.stackexchange.com/questions/266005/postgis-separate-nested-polygons
+
 ### Create Coverage from overlapping Polygons
 https://gis.stackexchange.com/questions/83/separate-polygons-based-on-intersection-using-postgis
 https://gis.stackexchange.com/questions/112498/postgis-overlay-style-union-not-dissolve-style
@@ -205,8 +207,6 @@ References
 https://postgis.net/2014/03/14/tip_intersection_faster/
 
 
-### Find cells touched by a path
-https://gis.stackexchange.com/questions/317401/maintaining-order-and-repetition-of-cell-names-using-postgis?atw=1
 ### Find non-covered polygons
 https://gis.stackexchange.com/questions/333302/selecting-non-overlapping-polygons-from-a-one-layer-in-postgis/334217#334217
 ```sql
