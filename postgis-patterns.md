@@ -3,7 +3,7 @@
 A collection of interesting PostGIS patterns / solutions / problems.
 
 ## Index
-* [Query - Point in Polygon](#query---point-in-polygon)
+* [Query - Point in Polygon](postgis-patterns-query.md#query---point-in-polygon)
 * [Query - Lines](#query---lines)
 * [Query - Polygons](#query---polygons)
 * [Query - Intersection](#query---intersection)
