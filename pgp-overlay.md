@@ -141,7 +141,7 @@ https://gis.stackexchange.com/questions/193217/st-difference-on-linestrings-and-
 
 ## Polygon Intersection
 
-### Intersection of all geometries in a set
+### Intersection of all polygons in a set
 https://gis.stackexchange.com/questions/271824/st-intersection-intersection-of-all-geometries-in-a-table
 
 https://gis.stackexchange.com/questions/271941/looping-through-table-to-get-single-intersection-from-n2-geometries-using-postg
