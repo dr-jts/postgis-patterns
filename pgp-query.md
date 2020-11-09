@@ -198,6 +198,7 @@ WHERE NOT EXISTS (SELECT 1 FROM streets WHERE ST_Intersects(polygons.geom, stree
 
 ### Find Polygons not contained by other Polygons
 https://gis.stackexchange.com/questions/185308/find-polygons-that-does-not-contain-any-polygons-with-postgis
+
 #### Solution
 Use the LEFT JOIN on `ST_Contains` with NULL result pattern
 
@@ -227,7 +228,7 @@ SELECT a.id, b.id,
 ### Find Polygons in a Coverage NOT fully enclosed by other Polygons
 https://gis.stackexchange.com/questions/291824/determine-if-a-polygon-is-not-enclosed-by-other-polygons
 
-[](https://i.stack.imgur.com/tp5WK.png)
+![](https://i.stack.imgur.com/tp5WK.png)
 
 #### Solution
 Find polygons where total length of intersection with others is less than length of boundary
