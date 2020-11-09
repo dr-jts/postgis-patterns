@@ -133,13 +133,19 @@ https://gis.stackexchange.com/questions/127727/how-to-transform-isolines-to-isop
 https://gis.stackexchange.com/questions/373933/polygon-covered-by-the-intersection-of-multiple-linestrings-postgis/373983#373983
 
 
+
 ## Clipping
+
 ### Clip Districts to Coastline
 http://blog.cleverelephant.ca/2019/07/simple-sql-gis.html
+
+### Clip Unioned Polygons to remove water bodies
 https://gis.stackexchange.com/questions/331887/unioning-a-set-of-intersections
 
-### Clip lines to a set of polygons
+### Clip Lines to a set of Polygons
 https://gis.stackexchange.com/questions/193217/st-difference-on-linestrings-and-polygons-slow-and-fails?rq=1
+
+
 
 ## Polygon Intersection
 
