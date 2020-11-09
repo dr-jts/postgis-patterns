@@ -342,6 +342,14 @@ http://blog.cleverelephant.ca/2018/06/polygon-splitting.html
 
 Does this really result in equal-area subdivision? The Voronoi-of-centroid step is distance-based, not area based…. So may not always work?  Would be good to try this on a bunch of country outines
 
+### Splitting by Line creates narrow gap in Polygonal coverage
+https://gis.stackexchange.com/questions/378705/postgis-splitting-polygon-with-line-returns-different-size-polygons-that-creat
+
+Cause is that vertex introduced by splitting is not present in adjacent polygon.
+
+> Perhaps differencing splitting line from surrounding intersecting polygon would introduce that vertex?  
+> Or is it better to snap surrounding polygons to split vertices? Probably need a complex process to do this - not really something that can be done easily in DB?
+
 ## Overlay Polygons
 
 https://gis.stackexchange.com/questions/109692/how-to-replicate-arcgis-intersect-in-postgis
