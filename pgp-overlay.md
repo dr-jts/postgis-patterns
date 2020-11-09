@@ -259,13 +259,6 @@ https://gis.stackexchange.com/questions/316000/using-st-union-to-combine-several
 
 Both of these have answers recommending using a small buffer outwards and then the inverse on the result.
 
-### ST_Split creates invalid coverage (holes appear in Union)
-https://gis.stackexchange.com/questions/344716/holes-after-st-split-with-postgis
-
-Solution
-??  Need some way to create a clean coverage
-
-
 ### Union Intersecting Polygons
 https://gis.stackexchange.com/questions/187728/alternative-to-st-union-st-memunion-for-merging-overlapping-polygons-using-postg?rq=1
 
@@ -349,6 +342,13 @@ Cause is that vertex introduced by splitting is not present in adjacent polygon.
 
 > Perhaps differencing splitting line from surrounding intersecting polygon would introduce that vertex?  
 > Or is it better to snap surrounding polygons to split vertices? Probably need a complex process to do this - not really something that can be done easily in DB?
+
+### Splitting Polygon creates invalid coverage with holes
+https://gis.stackexchange.com/questions/344716/holes-after-st-split-with-postgis
+
+#### Solution
+None so far. Need some way to create a clean coverage
+
 
 ## Overlay Polygons
 
