@@ -1,9 +1,10 @@
 # PostGIS Patterns - Overlay
 
-Overlay and related processing involved using the operations of intersection, union, difference and symmetric difference.
 Overlay processes create geometry from existing ones with output vertices being either from the input 
 or from intersection points between input line segments.
 Often the output geometry is associated with attribution from the inputs which create it.
+Overlay and related processing involved using the overlay operations of `ST_Intersection`, `ST_Union`, `ST_Difference` and `ST_SymDifference`,
+as well as `ST_Split` and `ST_Node`.
 
 * [Noding](#noding)
 * [Line Intersection](#line-intersection)
