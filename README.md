@@ -1,37 +1,53 @@
-## Welcome to GitHub Pages
+# PostGIS Patterns
 
-You can use the [editor on GitHub](https://github.com/dr-jts/postgis-patterns/edit/main/README.md) to maintain and preview the content for your website in Markdown files.
+A compendium of useful PostGIS problems, patterns, and solutions, drawn from various sources including:
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+* [PostGIS on GIS StackExchange](https://gis.stackexchange.com/questions/tagged/postgis?tab=Newest)
+* [PostGIS on StackOverflow](https://stackoverflow.com/questions/tagged/postgis)
+* [PostGIS Manual 3.0](https://postgis.net/docs/manual-3.0/index.html)
+* [PostGIS Users Wiki -Examples of Spatial SQL](https://trac.osgeo.org/postgis/wiki/UsersWikiMain#ExamplesofSpatialSQL)  
 
-### Markdown
+## Categories
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+### [Query](pgp-query.md)
+* Query Point in Polygon
+* Query Lines
+* Query Polygons
+* Query Intersects
+* Query Spatial Relationship
+* Query using-Index
+* Query Spatial Statistics
+* Query Distance
+* Query Nearest Neighbour
+* Query Geometric Shape
+* Query Invalid Geometry
+* Query Duplicates
+* Query with Tolerance
+* Query using JOIN LATERAL
+* Update and Delete
 
-```markdown
-Syntax highlighted code block
+### [Overlay](pgp-overlay.md)
 
-# Header 1
-## Header 2
-### Header 3
+### [Miscellaneous](pgp-misc.md)
+* Constructions
+* Hulls / Covering Polygons
+* Buffers
+* Simplification
+* Smoothing
+* Transformation
+* Measuring
+* Ordering Geometry
+* Generating Point Distributions
+* Contouring
+* Surface Interpolation
+* Clustering
+* Cleaning Data
+* Conflation and Matching
+* Coordinate Systems
+* Linear Referencing/Line Handling
+* Graphs
+* Temporal Trajectories
+* Input
+* Output
 
-- Bulleted
-- List
 
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/dr-jts/postgis-patterns/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
