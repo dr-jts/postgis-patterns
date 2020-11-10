@@ -434,6 +434,20 @@ https://gis.stackexchange.com/questions/171333/weighting-amount-of-overlapping-p
 
 ### Percentage of covered area by attribute
 https://gis.stackexchange.com/questions/378532/working-out-percentage-of-polygon-covering-another-using-postgis
+```sql
+WITH poly_a(name, geom) AS (VALUES
+    ( 'a1', 'POLYGON ((100 200, 200 200, 200 100, 100 100, 100 200))'::geometry ),
+    ( 'a2', 'POLYGON ((300 300, 300 200, 200 200, 200 300, 300 300))'::geometry ),
+    ( 'a3', 'POLYGON ((400 400, 400 300, 300 300, 300 400, 400 400))'::geometry )
+),
+poly_b(name, geom) AS (VALUES
+    ( 'b1', 'POLYGON ((120 280, 280 280, 280 120, 120 120, 120 280))'::geometry ),
+    ( 'b2', 'POLYGON ((280 280, 280 320, 320 320, 320 280, 280 280))'::geometry )
+)
+SELECT a.name, b.name, ST_Area(ST_Intersection(a.geom, b.geom))/ST_Area(a.geom) pct
+FROM poly_a a JOIN poly_b b ON ST_Intersects(a.geom, b.geom);
+```
+
 
 ### Remove Polygons overlapped area on update to Polygon in other table 
 https://gis.stackexchange.com/questions/90174/postgis-when-i-add-a-polygon-delete-overlapping-areas-in-other-layers
