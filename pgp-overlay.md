@@ -429,10 +429,10 @@ https://gis.stackexchange.com/questions/179533/arcgis-union-equivalent-in-postgi
 https://gis.stackexchange.com/questions/115927/is-there-a-union-function-for-multiple-layers-comparable-to-arcgis-in-open-sourc
 
 
-### Sum area-weighted polygons (Overlay 2 coverages)
+### Sum of polygonal grid values weighted by area of intersection with polygon
 https://gis.stackexchange.com/questions/171333/weighting-amount-of-overlapping-polygons-in-postgis
 
-### Percentage of covered area by attribute
+### Sum Percentage of Polygons intersected by other Polygons, by label
 
 Given two polygonal coverages A and B with labels, compute the percentage area of each polygon in A covered by each label in B 
 https://gis.stackexchange.com/questions/378532/working-out-percentage-of-polygon-covering-another-using-postgis
