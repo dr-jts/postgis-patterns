@@ -433,7 +433,13 @@ https://gis.stackexchange.com/questions/115927/is-there-a-union-function-for-mul
 https://gis.stackexchange.com/questions/171333/weighting-amount-of-overlapping-polygons-in-postgis
 
 ### Percentage of covered area by attribute
+
+Given two polygonal coverages A and B with labels, compute the percentage area of each polygon in A covered by each label in B 
 https://gis.stackexchange.com/questions/378532/working-out-percentage-of-polygon-covering-another-using-postgis
+
+
+![](https://i.stack.imgur.com/bQjSi.png)
+
 ```sql
 WITH poly_a(name, geom) AS (VALUES
     ( 'a1', 'POLYGON ((100 200, 200 200, 200 100, 100 100, 100 200))'::geometry ),
@@ -442,10 +448,12 @@ WITH poly_a(name, geom) AS (VALUES
 ),
 poly_b(name, geom) AS (VALUES
     ( 'b1', 'POLYGON ((120 280, 280 280, 280 120, 120 120, 120 280))'::geometry ),
-    ( 'b2', 'POLYGON ((280 280, 280 320, 320 320, 320 280, 280 280))'::geometry )
+    ( 'b2', 'POLYGON ((280 280, 280 320, 320 320, 320 280, 280 280))'::geometry ),
+    ( 'b2', 'POLYGON ((390 390, 390 360, 360 360, 360 390, 390 390))'::geometry )
 )
-SELECT a.name, b.name, ST_Area(ST_Intersection(a.geom, b.geom))/ST_Area(a.geom) pct
-FROM poly_a a JOIN poly_b b ON ST_Intersects(a.geom, b.geom);
+SELECT a.name, b.name, SUM( ST_Area(ST_Intersection(a.geom, b.geom))/ST_Area(a.geom) ) pct
+FROM poly_a a JOIN poly_b b ON ST_Intersects(a.geom, b.geom)
+GROUP BY a.name, b.name;
 ```
 
 
