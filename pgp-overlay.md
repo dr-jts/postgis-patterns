@@ -215,7 +215,12 @@ https://gis.stackexchange.com/questions/187406/how-to-use-st-difference-and-st-i
 https://gis.stackexchange.com/questions/90174/postgis-when-i-add-a-polygon-delete-overlapping-areas-in-other-layers
 
 ### Find Part of Polygons not fully contained by union of other Polygons
+Find what countries are not fully covered by administrative boundaries and the geometry of part of country geometry 
+where it is not covered by the administrative boundaries.
+
 https://gis.stackexchange.com/questions/313039/find-what-polygons-are-not-fully-covered-by-union-of-polygons-from-another-layer
+
+![](https://i.stack.imgur.com/0kFJj.png)
 
 ## Polygon Symmetric Difference
 
