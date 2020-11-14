@@ -53,9 +53,11 @@ GROUP BY polyname;
 https://gis.stackexchange.com/questions/83615/optimizing-st-within-query-to-count-lightning-occurrences-inside-country
 
 ### Optimize Point-in-Polygon query by gridding polygons
+Count lightning occurences inside countries
 https://gis.stackexchange.com/questions/185381/optimising-a-very-large-point-in-polygon-query
 
 ### Find smallest Polygon containing Point
+Count occurences inside river polygons
 https://gis.stackexchange.com/questions/220313/point-within-a-polygon-within-another-polygon
 
 ![](https://i.stack.imgur.com/vFDCs.png)
