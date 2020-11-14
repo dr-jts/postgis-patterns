@@ -49,8 +49,11 @@ FROM polygons
     LEFT JOIN points ON st_intersects(points.geom, polygons.geom)
 GROUP BY polyname;
 ```
-### Optimizing Point-in-Polygon query
+### Optimize Point-in-Polygon query by evaluating against smaller polygons
 https://gis.stackexchange.com/questions/83615/optimizing-st-within-query-to-count-lightning-occurrences-inside-country
+
+### Optimize Point-in-Polygon query by gridding polygons
+https://gis.stackexchange.com/questions/185381/optimising-a-very-large-point-in-polygon-query
 
 ### Find smallest Polygon containing Point
 https://gis.stackexchange.com/questions/220313/point-within-a-polygon-within-another-polygon
