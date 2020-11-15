@@ -263,6 +263,17 @@ https://gis.stackexchange.com/questions/246521/connecting-circles-with-lines-cov
 ### Ordered list of polygons intersecting a line
 https://gis.stackexchange.com/questions/179061/find-all-intersections-of-a-linestring-and-a-polygon-and-the-order-in-which-it-i?rq=1
 
+### Ordering points along lines
+
+Given:
+* way (id, name, geom (multistring))
+* station (id, name, geom (polygon)) - circles for each station, which may or may not intersect way line
+
+Find the station order along each way
+
+https://gis.stackexchange.com/questions/379220/finding-station-order-number-along-way-using-postgis
+
+The first step is to replace the station polygons by points (i.e. use centroid)
 
 ## Generating Point Distributions
 ### Generate Evenly-Distributed Points in a Polygon
