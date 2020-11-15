@@ -8,7 +8,7 @@
 * [Query using-Index](pgp-query.md#query-using-index)
 * [Query Spatial Statistics](pgp-query.md#query-spatial-statistics)
 * [Query Distance](pgp-query.md#query-distance)
-* [Query Neaest Neighbour](pgp-query.md#query-nearest-neighbour)
+* [Query Nearest Neighbour](pgp-query.md#query-nearest-neighbour)
 * [Query Geometric Shape](pgp-query.md#query-geometric-shape)
 * [Query Invalid Geometry](pgp-query.md#query-invalid-geometry)
 * [Query Duplicates](pgp-query.md#query-duplicates)
