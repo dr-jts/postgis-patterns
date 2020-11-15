@@ -275,6 +275,34 @@ https://gis.stackexchange.com/questions/379220/finding-station-order-number-alon
 
 The first step is to replace the station polygons by points (i.e. use centroid)
 
+```sql
+WITH
+  dumped_ways AS (
+    SELECT way_name,
+           dmp.path[1] AS way_part,
+           dmp.geom
+    FROM   s_602_ptrc.way,
+           LATERAL ST_Dump(geom) AS dmp
+  )
+
+SELECT ROW_NUMBER() OVER(PARTITION BY nway.way_name, nway.way_part ORDER BY nway._frac) AS id,
+       station.nome AS station,
+       nway.way_name,
+       nway.way_part,
+       station.geom
+FROM   s_602_ptrc.station
+CROSS JOIN LATERAL (
+  SELECT dumped_ways.way_name,
+         dumped_ways.way_part,
+         ST_LineLocatePoint(dumped_ways.geom, station.geom) AS _frac
+  FROM   dumped_ways
+  ORDER BY
+         dumped_ways.geom <-> ST_Centroid(station.geom)
+  LIMIT  1
+) AS nway
+ORDER BY nway.way_name, nway.way_part, nway._frac;
+```
+
 ## Generating Point Distributions
 ### Generate Evenly-Distributed Points in a Polygon
 
