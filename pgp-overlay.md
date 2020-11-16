@@ -187,9 +187,17 @@ conventional approach is too slow to use  (Note: user never actually completed p
 ### Subtract MultiPolygons from LineStrings
 https://gis.stackexchange.com/questions/239696/subtract-multipolygon-table-from-linestring-table
 
+https://gis.stackexchange.com/questions/11592/difference-between-two-layers-in-postgis
+#### Solution
+```sql
+SELECT COALESCE(ST_Difference(river.geom, lakes.geom), river.geom) As river_geom 
+FROM river 
+  LEFT JOIN lakes ON ST_Intersects(river.geom, lakes.geom);
+```
+
 https://gis.stackexchange.com/questions/193217/st-difference-on-linestrings-and-polygons-slow-and-fails
 
-https://gis.stackexchange.com/questions/11592/difference-between-two-layers-in-postgis
+
 
 #### Solution
 ```sql
