@@ -149,10 +149,6 @@ http://blog.cleverelephant.ca/2019/07/simple-sql-gis.html
 ### Clip Unioned Polygons to remove water bodies
 https://gis.stackexchange.com/questions/331887/unioning-a-set-of-intersections
 
-### Clip Lines to a set of Polygons
-https://gis.stackexchange.com/questions/193217/st-difference-on-linestrings-and-polygons-slow-and-fails?rq=1
-
-
 
 ## Polygon Intersection
 
@@ -192,6 +188,18 @@ conventional approach is too slow to use  (Note: user never actually completed p
 https://gis.stackexchange.com/questions/239696/subtract-multipolygon-table-from-linestring-table
 
 https://gis.stackexchange.com/questions/193217/st-difference-on-linestrings-and-polygons-slow-and-fails
+
+#### Solution
+```sql
+SELECT row_number() over() AS gid,
+ST_CollectionExtract(ST_Multi(ST_Difference(a.geom, b.geom)), 2)::geometry(MultiLineString, 27700) as geom
+FROM lines a
+  JOIN LATERAL (
+    SELECT ST_UNION(polygons.geom)
+    FROM polygons
+    WHERE ST_Intersects(a.geom,polygons.geom)
+  ) AS b;
+```
 
 ### Split Polygons by distance from a Polygon
 https://gis.stackexchange.com/questions/78073/separate-a-polygon-in-different-polygons-depending-of-the-distance-to-another-po
