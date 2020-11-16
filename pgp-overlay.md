@@ -222,6 +222,17 @@ https://gis.stackexchange.com/questions/187406/how-to-use-st-difference-and-st-i
 
 https://gis.stackexchange.com/questions/90174/postgis-when-i-add-a-polygon-delete-overlapping-areas-in-other-layers
 
+https://gis.stackexchange.com/questions/155597/using-st-difference-to-remove-overlapping-features
+
+```sql
+SELECT id, COALESCE(ST_Difference(geom, (SELECT ST_Union(b.geom) 
+                                         FROM parcels b
+                                         WHERE ST_Intersects(a.geom, b.geom)
+                                         AND a.id != b.id)), 
+                    a.geom)
+FROM parcels a;
+```
+
 ### Find Part of Polygons not fully contained by union of other Polygons
 Find what countries are not fully covered by administrative boundaries and the geometry of part of country geometry 
 where it is not covered by the administrative boundaries.
