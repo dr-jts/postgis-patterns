@@ -227,7 +227,18 @@ https://gis.stackexchange.com/questions/379300/how-to-remove-overlaps-and-keep-h
 
 #### Solution
 
-Not sure solution presented is correct.
+```sql
+SELECT ST_Multi(COALESCE(
+         ST_Difference(a.geom, blade.geom),
+         a.geom
+       )) AS geom
+FROM   table1 AS a
+CROSS JOIN LATERAL (
+  SELECT ST_Union(geom) AS geom
+  FROM   table1 AS b
+  WHERE  a.prio > b.prio
+) AS blade;
+```
 
 ![](https://i.stack.imgur.com/W326R.png)
 
