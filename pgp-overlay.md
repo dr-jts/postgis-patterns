@@ -189,6 +189,8 @@ https://gis.stackexchange.com/questions/239696/subtract-multipolygon-table-from-
 
 https://gis.stackexchange.com/questions/193217/st-difference-on-linestrings-and-polygons-slow-and-fails
 
+https://gis.stackexchange.com/questions/11592/difference-between-two-layers-in-postgis
+
 #### Solution
 ```sql
 SELECT row_number() over() AS gid,
