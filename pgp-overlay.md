@@ -222,6 +222,17 @@ https://gis.stackexchange.com/questions/313039/find-what-polygons-are-not-fully-
 
 ![](https://i.stack.imgur.com/0kFJj.png)
 
+### Remove overlaps by lower-priority polygons
+https://gis.stackexchange.com/questions/379300/how-to-remove-overlaps-and-keep-highest-priority-polygon
+
+#### Solution
+
+Not sure solution presented is correct.
+
+![](https://i.stack.imgur.com/W326R.png)
+
+
+
 ## Polygon Symmetric Difference
 
 ### Construct symmetric difference of two tables
