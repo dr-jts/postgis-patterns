@@ -375,6 +375,26 @@ https://gis.stackexchange.com/questions/31895/joining-lots-of-small-polygons-to-
  FROM parishes
  GROUP BY county_name;
 ```
+### Create polygons that fill gaps
+https://gis.stackexchange.com/questions/60655/creating-polygons-from-gaps-in-postgis
+
+![](https://i.stack.imgur.com/PjcTl.png)
+
+```sql
+WITH polygons(geom) AS
+(VALUES (ST_Buffer(ST_Point(0, 0), 1.1,3)),
+        (ST_Buffer(ST_Point(0, 2), 1.1,3)),
+        (ST_Buffer(ST_Point(2, 2), 1.1,3)),
+        (ST_Buffer(ST_Point(2, 0), 1.1,3)),
+        (ST_Buffer(ST_Point(4, 1), 1.3,3))
+),
+bigpoly AS
+(SELECT ST_UNION(geom)geom 
+ FROM polygons)
+SELECT ST_BuildArea(ST_InteriorRingN(geom,i)) 
+FROM bigpoly
+CROSS JOIN generate_series(1,(SELECT ST_NumInteriorRings(geom) FROM bigpoly)) as i;
+```
 
 ## Polygon Splitting
 
