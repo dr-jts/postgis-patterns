@@ -121,6 +121,19 @@ Idea: triangulate polygon, then connect midpoints of interior lines
 
 Idea 2: find line segments for nearest points of each line vertex.  Order by distance along line (percentage?).  Discard any that have a retrograde direction.  Join centrepoints of segments.
 
+### Construct lines joininge every vertex in a polygon
+
+https://gis.stackexchange.com/questions/58534/get-the-lines-between-all-points-of-a-polygon-in-postgis-avoid-nested-loop
+
+```sql
+WITH poly_geom AS (SELECT way FROM planet_osm_polygon WHERE id=1),
+     points1 AS (SELECT (ST_DumpPoints(poly_geom.way)).* FROM poly_geom),
+     points2 AS (SELECT (ST_DumpPoints(poly_geom.way)).* FROM poly_geom)
+SELECT DISTINCT ST_MakeLine(points1.geom, points2.geom)
+FROM points1,points2
+WHERE points1.path <> points2.path;
+```
+
 ### Construct Straight Skeleton
 https://github.com/twak/campskeleton
 
