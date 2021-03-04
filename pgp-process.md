@@ -362,6 +362,8 @@ Cluster a selection of points using DBSCAN, and return centroid of cluster and c
 
 https://gis.stackexchange.com/questions/388848/clustering-and-combining-points-in-postgis
 
+![](https://i.stack.imgur.com/auPHl.jpg)
+
 ### Non-spatial clustering by distance
 https://stackoverflow.com/questions/49250734/sql-window-function-that-groups-values-within-selected-distance
 
