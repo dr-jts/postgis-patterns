@@ -29,6 +29,19 @@ A compendium of useful PostGIS problems, patterns, and solutions, drawn from var
 ### [Update / Delete](pgp-updel.md)
 
 ### [Overlay](pgp-overlay.md)
+* Noding
+* Line Intersection
+* Line Merging
+* Line Splitting
+* Overlay Lines
+* Polygonization
+* Clipping
+* Polygon Intersection
+* Polyogn Difference
+* Polygon Symmetric Difference
+* Polygon Union
+* Polygon Splitting
+* Overlay Polygons
 
 ### [Miscellaneous](pgp-misc.md)
 * Constructions
