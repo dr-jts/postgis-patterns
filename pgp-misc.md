@@ -356,6 +356,12 @@ Use ST_SnapToGrid to compute a cell id for each point, then bin the points based
 Solution 2
 Generate grid of cells covering desired area, then JOIN LATERAL to points to aggregate.  Not sure how to select a representative point doing this though - perhaps MIN or MAX?  Requires a grid-generating function, which is coming in PostGIS 3.1
 
+### Clustering Points using DBSCAN
+
+Cluster a selection of points using DBSCAN, and return centroid of cluster and count of points.
+
+https://gis.stackexchange.com/questions/388848/clustering-and-combining-points-in-postgis
+
 ### Non-spatial clustering by distance
 https://stackoverflow.com/questions/49250734/sql-window-function-that-groups-values-within-selected-distance
 
