@@ -362,6 +362,20 @@ Cluster a selection of points using DBSCAN, and return centroid of cluster and c
 
 https://gis.stackexchange.com/questions/388848/clustering-and-combining-points-in-postgis
 
+```sql
+WITH pts AS (
+    SELECT (ST_DumpPoints(ST_GeneratePoints('POLYGON ((10 90, 90 90, 90 10, 10 10, 10 90))', 100, 2))).geom AS geom
+)
+SELECT x.cid, ST_Centroid(ST_Collect(x.geom)) geom, ST_NumGeometries(ST_Collect(x.geom)) num_points FROM
+(
+    SELECT ST_ClusterDBSCAN(geom, eps := 8, minpoints := 2) over () AS cid, geom
+    FROM pts
+    GROUP BY(geom)
+) as x
+WHERE cid IS NOT NULL
+GROUP BY x.cid ORDER BY cid;
+```
+
 ![](https://i.stack.imgur.com/auPHl.jpg)
 
 ### Non-spatial clustering by distance
