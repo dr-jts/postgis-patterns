@@ -26,6 +26,8 @@ A compendium of useful PostGIS problems, patterns, and solutions, drawn from var
 * Query using JOIN LATERAL
 * Update and Delete
 
+### [Update / Delete](pgp-updel.md)
+
 ### [Overlay](pgp-overlay.md)
 
 ### [Miscellaneous](pgp-misc.md)
