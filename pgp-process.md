@@ -1,4 +1,4 @@
-# PostGIS Patterns - Miscellaneous
+# PostGIS Patterns - Processing
 
 * Geometry Creation
 * Geometry Editing
