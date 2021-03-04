@@ -7,6 +7,8 @@ A compendium of useful PostGIS problems, patterns, and solutions, drawn from var
 * [PostGIS Manual 3.0](https://postgis.net/docs/manual-3.0/index.html)
 * [PostGIS Users Wiki -Examples of Spatial SQL](https://trac.osgeo.org/postgis/wiki/UsersWikiMain#ExamplesofSpatialSQL)  
 
+See https://dr-jts.github.io/postgis-patterns/.
+
 ## Categories
 
 ### [Query](pgp-query.md)
