@@ -445,7 +445,7 @@ Use window function PARTITION BY
 
 
 
-## Surface Interpolation'
+## Surface Interpolation
 
 ### IDW Interpolation over a grid of points
 https://gis.stackexchange.com/questions/373153/spatial-interpolation-in-postgis-without-outputting-raster
