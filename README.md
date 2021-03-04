@@ -43,7 +43,7 @@ A compendium of useful PostGIS problems, patterns, and solutions, drawn from var
 * Polygon Splitting
 * Overlay Polygons
 
-### [Miscellaneous](pgp-misc.md)
+### [Processing](pgp-process.md)
 * Constructions
 * Hulls / Covering Polygons
 * Buffers
