@@ -366,7 +366,7 @@ https://gis.stackexchange.com/questions/388848/clustering-and-combining-points-i
 WITH pts AS (
     SELECT (ST_DumpPoints(ST_GeneratePoints('POLYGON ((10 90, 90 90, 90 10, 10 10, 10 90))', 100, 2))).geom AS geom
 )
-SELECT x.cid, ST_Centroid(ST_Collect(x.geom)) geom, ST_NumGeometries(ST_Collect(x.geom)) num_points FROM
+SELECT x.cid, ST_Centroid(ST_Collect(x.geom)) geom, COUNT(cid) num_points FROM
 (
     SELECT ST_ClusterDBSCAN(geom, eps := 8, minpoints := 2) over () AS cid, geom
     FROM pts
