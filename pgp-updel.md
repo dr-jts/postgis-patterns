@@ -2,7 +2,7 @@
 
 ## Update
 ### Update a column by a spatial condition
-https://gis.stackexchange.com/questions/364391/how-to-refer-to-another-table-in-a-case-when-statement-in-postgis
+<https://gis.stackexchange.com/questions/364391/how-to-refer-to-another-table-in-a-case-when-statement-in-postgis>
 ```sql
 UPDATE table1
     SET column3 = (
