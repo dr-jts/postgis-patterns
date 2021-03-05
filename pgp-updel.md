@@ -20,9 +20,9 @@ Is LIMIT 1 needed?
 
 ## Delete
 ### Delete Lines Contained in Polygons
-https://gis.stackexchange.com/questions/372549/delete-lines-within-polygon
+<https://gis.stackexchange.com/questions/372549/delete-lines-within-polygon>
 
-Use an EXISTS expression:
+Use an `EXISTS` expression:
 ```sql
 DELETE
 FROM   <lines> AS ln
@@ -32,6 +32,6 @@ WHERE  EXISTS (
   WHERE  ST_Within(ln.geom, pl.geom)
 );
 ```
-If the ST_Within check hits the first TRUE (selecting a truthy 1), the sub-query terminates for the current row (no matter if there were more than one hit).
+If the `ST_Within` check hits the first TRUE (selecting a truthy 1), the sub-query terminates for the current row (no matter if there were more than one hit).
 
-This is among the most efficient ways for when a table has to be traversed by row (as in an UPDATE/DELETE), or otherwise compared against a pre-selection (of e.g. ids).
+This is among the most efficient ways for when a table has to be traversed by row (as in an `UPDATE`/`DELETE`), or otherwise compared against a pre-selection (of e.g. ids).
