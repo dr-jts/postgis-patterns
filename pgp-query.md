@@ -1,5 +1,8 @@
 ## PostGIS Patterns - Query
 
+1. TOC
+{:toc}
+
 * [Query Point in Polygon](pgp-query.md#query-point-in-polygon)
 * [Query Lines](pgp-query.md#query-lines)
 * [Query Polygons](pgp-query.md#query-polygons)
