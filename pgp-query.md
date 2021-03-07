@@ -3,21 +3,6 @@
 1. TOC
 {:toc}
 
-* [Query Point in Polygon](pgp-query.md#query-point-in-polygon)
-* [Query Lines](pgp-query.md#query-lines)
-* [Query Polygons](pgp-query.md#query-polygons)
-* [Query Intersects](pgp-query.md#query-intersects)
-* [Query Spatial Relationship](pgp-query.md#query-spatial-relationship)
-* [Query using-Index](pgp-query.md#query-using-index)
-* [Query Spatial Statistics](pgp-query.md#query-spatial-statistics)
-* [Query Distance](pgp-query.md#query-distance)
-* [Query Nearest Neighbour](pgp-query.md#query-nearest-neighbour)
-* [Query Geometric Shape](pgp-query.md#query-geometric-shape)
-* [Query Invalid Geometry](pgp-query.md#query-invalid-geometry)
-* [Query Duplicates](pgp-query.md#query-duplicates)
-* [Query with Tolerance](pgp-query.md#query-with-tolerance)
-* [Query using JOIN LATERAL](pgp-query.md#query-with-join-lateral)
-
 ## Query Point in Polygon
 ### Find Points contained by Polygons with attributes
 https://gis.stackexchange.com/questions/354319/how-to-extract-attributes-of-polygons-at-specific-points-into-new-point-layer-in
@@ -76,11 +61,11 @@ ON ST_within(compequip.geom, a.geom)
 ORDER BY compequip.id, ST_Area(a.geom)
 ```
 ### Find Points NOT in Polygons
-https://gis.stackexchange.com/questions/139880/postgis-st-within-or-st-disjoint-performance-issues?rq=1
+https://gis.stackexchange.com/questions/139880/postgis-st-within-or-st-disjoint-performance-issues
 
 https://gis.stackexchange.com/questions/26156/updating-attribute-values-of-points-outside-area-using-postgis
 
-https://gis.stackexchange.com/questions/313517/postgresql-postgis-spatial-join-but-keep-all-features-that-dont-intersect?rq=1
+https://gis.stackexchange.com/questions/313517/postgresql-postgis-spatial-join-but-keep-all-features-that-dont-intersect
 
 This is not PiP, but the solution of using NOT EXISTS might be applicable?
 
@@ -143,7 +128,7 @@ GROUP BY 1;
 https://gis.stackexchange.com/questions/134244/query-road-shape?noredirect=1&lq=1
 
 ### Find Line Intersections
-https://gis.stackexchange.com/questions/20835/identifying-road-intersections-using-postgis?rq=1
+https://gis.stackexchange.com/questions/20835/identifying-road-intersections-using-postgis
 
 ### Find Lines which intersect N Polygons
 https://gis.stackexchange.com/questions/349994/st-intersects-with-multiple-geometries
@@ -253,12 +238,12 @@ HAVING 1e-6 >
 ```
 
 ### Test if Point is on a Line
-https://gis.stackexchange.com/questions/11510/st-closestpointline-point-does-not-intersect-line?rq=1
+https://gis.stackexchange.com/questions/11510/st-closestpointline-point-does-not-intersect-line
 
 Also https://gis.stackexchange.com/questions/350461/find-path-containing-point
 
 ### Find Start Points of Rivers and Headwater polygons
-https://gis.stackexchange.com/questions/131806/find-start-of-river?rq=1
+https://gis.stackexchange.com/questions/131806/find-start-of-river
 https://gis.stackexchange.com/questions/132266/find-headwater-polygons?noredirect=1&lq=1
 
 ### Find routes which terminate in Polygons but do not cross them
@@ -446,11 +431,11 @@ https://stackoverflow.com/questions/60218993/postgis-how-do-i-find-results-withi
 https://gis.stackexchange.com/questions/332073/is-there-any-function-that-can-calculate-the-maximum-minimum-distance-from-a-geo/334260#334260
 
 ### Find farthest vertex from polygon centroid
-https://stackoverflow.com/questions/31497071/farthest-distance-of-a-polygon-point-from-its-centroid?rq=1
+https://stackoverflow.com/questions/31497071/farthest-distance-of-a-polygon-point-from-its-centroid
 ### Remove Duplicate Points within given Distance
-https://gis.stackexchange.com/questions/24818/remove-duplicate-points-based-on-a-specified-distance?rq=1
+https://gis.stackexchange.com/questions/24818/remove-duplicate-points-based-on-a-specified-distance
 ### Find Distance and Bearing from Point to Polygon
-https://gis.stackexchange.com/questions/27564/how-to-get-distance-bearing-between-a-point-and-the-nearest-part-of-a-polygon?rq=1
+https://gis.stackexchange.com/questions/27564/how-to-get-distance-bearing-between-a-point-and-the-nearest-part-of-a-polygon
 
 
 ### Use DWithin instead of Buffer
@@ -460,7 +445,7 @@ https://gis.stackexchange.com/questions/297317/st-intersects-returns-true-while-
 https://gis.stackexchange.com/questions/124158/finding-outermost-border-of-set-of-geomertries-circles-using-postgis
 
 ### Find points returned by function within elliptical area
-https://gis.stackexchange.com/questions/17857/finding-points-within-elliptical-area-using-postgis?rq=1
+https://gis.stackexchange.com/questions/17857/finding-points-within-elliptical-area-using-postgis
 
 ### Query Point with highest elevation along a transect through a point cloud
 https://gis.stackexchange.com/questions/223154/find-highest-elevation-along-path
