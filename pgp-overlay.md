@@ -1,4 +1,5 @@
 # PostGIS Patterns - Overlay
+{: .no_toc }
 
 Overlay processes create geometry from existing ones with output vertices being either from the input 
 or from intersection points between input line segments.
@@ -7,20 +8,8 @@ Often the output geometry is associated with attribution from the inputs which c
 Overlay and related processing involved using the overlay operations of `ST_Intersection`, `ST_Union`, `ST_Difference` and `ST_SymDifference`,
 as well as `ST_Split` and `ST_Node`.
 
-* [Noding](#noding)
-* [Line Intersection](#line-intersection)
-* [Line Merging](#line-merging)
-* [Line Splitting](#line-splitting)
-* [Overlay Lines](#overlay-lines)
-* [Polygonization](#polygonization)
-* [Clipping](#clipping)
-* [Polygon Intersection](#polygon-intersection)
-* [Polyogn Difference](#polygon-difference)
-* [Polygon Symmetric Difference](#polygon-symmetric-difference)
-* [Polygon Union](#polygon-union)
-* [Polygon Splitting](#polygon-splitting)
-* [Overlay Polygons](#overlay-polygons)
-
+1. TOC
+{:toc}
 
 
 ## Noding
