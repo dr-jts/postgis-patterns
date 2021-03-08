@@ -7,16 +7,14 @@
 ## Geometry Creation
 
 ### Use ST_MakePoint or ST_PointFromText
-[Link](https://gis.stackexchange.com/questions/122247/st-makepoint-or-st-pointfromtext-to-generate-points)
+<https://gis.stackexchange.com/questions/122247/st-makepoint-or-st-pointfromtext-to-generate-points>
+<https://gis.stackexchange.com/questions/58605/which-function-for-creating-a-point-in-postgis/58630#58630>
 
-https://gis.stackexchange.com/questions/58605/which-function-for-creating-a-point-in-postgis/58630#58630
-
-Solutions
+**Solution**
 ST_MakePoint is much faster
 
 ### Collect Lines into a MultiLine in a given order
-https://gis.stackexchange.com/questions/166701/postgis-merging-linestrings-into-multilinestrings-in-a-particular-order
-
+<https://gis.stackexchange.com/questions/166701/postgis-merging-linestrings-into-multilinestrings-in-a-particular-order>
 
 
 ## Geometry Editing
