@@ -1,9 +1,8 @@
 # PostGIS Patterns - Processing
+{: .no_toc }
 
-* Geometry Creation
-* Geometry Editing
-* Constructions
-* Surface Interpolation
+1. TOC
+{:toc}
 
 ## Geometry Creation
 
