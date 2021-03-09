@@ -1,3 +1,7 @@
+---
+nav_order: 1
+---
+
 # PostGIS Patterns
 
 See also the [website](https://dr-jts.github.io/postgis-patterns/).
