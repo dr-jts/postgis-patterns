@@ -31,10 +31,6 @@ https://gis.stackexchange.com/a/349016/14766
 Similar
 https://gis.stackexchange.com/questions/291374/cut-out-polygons-that-at-least-partially-fall-in-another-polygon
 
-### Select every Nth point from a LineString
-https://stackoverflow.com/questions/60319473/postgis-how-do-i-select-every-second-point-from-linestring
-
-
 
 ## Constructions
 
