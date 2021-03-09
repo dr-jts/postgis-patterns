@@ -1,3 +1,8 @@
+---
+layout: default
+nav_order: 1
+---
+
 # PostGIS Patterns
 
 A compendium of useful PostGIS problems, patterns, and solutions, drawn from various sources including:
