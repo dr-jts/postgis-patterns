@@ -180,6 +180,16 @@ Uses DumpPoint and windowing functions
 
 ![](https://i.stack.imgur.com/XFfYE.png)
 
+Note that the point count needs to be substituted in two places in the following query:
+```sql
+WITH shell AS (
+  SELECT ST_ExteriorRing('POLYGON ((5 5, 10 15, 17 10, 5 5))') geom
+)
+SELECT i, ST_LineInterpolatePoint(geom, (i-1.0)/40) pt
+    FROM shell
+    JOIN generate_series (1, 40) AS step(i) ON true;
+```
+
 ### Find Segment of Line Closest to Point to allow Point Insertion
 https://gis.stackexchange.com/questions/368479/finding-line-segment-of-point-on-linestring-using-postgis
 
