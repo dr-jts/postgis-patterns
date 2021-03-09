@@ -221,7 +221,7 @@ ST_Snap does this nicely
 SELECT ST_AsText( ST_Snap('LINESTRING (0 0, 9 9, 20 20)',
   'MULTIPOINT( (1 1.1), (12 11.9) )', 0.2));
 ```
-## Graphs
+## Networks
 ### Find Shortest Path through linear network
 Input Parameters: linear network MultiLineString, start point, end point
 
