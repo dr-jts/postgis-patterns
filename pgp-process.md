@@ -160,7 +160,7 @@ https://gis.stackexchange.com/questions/58534/get-the-lines-between-all-points-o
 Rework given SQL using CROSS JOIN and a self join
 
 ### Construct Regions from Points
-https://gis.stackexchange.com/questions/92913/extra-detailed-bounding-polygon-from-many-geometric-points?rq=1
+https://gis.stackexchange.com/questions/92913/extra-detailed-bounding-polygon-from-many-geometric-points
 
 ### Construct regions from large sets of points (100K) tagged with region attribute.
 
@@ -271,7 +271,7 @@ https://gis.stackexchange.com/questions/317401/maintaining-order-and-repetition-
 https://gis.stackexchange.com/questions/246521/connecting-circles-with-lines-cover-all-circles-using-postgis
 
 ### Ordered list of polygons intersecting a line
-https://gis.stackexchange.com/questions/179061/find-all-intersections-of-a-linestring-and-a-polygon-and-the-order-in-which-it-i?rq=1
+https://gis.stackexchange.com/questions/179061/find-all-intersections-of-a-linestring-and-a-polygon-and-the-order-in-which-it-i
 
 ### Ordering points along lines
 
@@ -316,7 +316,7 @@ ORDER BY nway.way_name, nway.way_part, nway._frac;
 ## Generating Point Distributions
 ### Generate Evenly-Distributed Points in a Polygon
 
-https://gis.stackexchange.com/questions/8468/creating-evenly-distributed-points-within-an-irregular-boundary?rq=1
+https://gis.stackexchange.com/questions/8468/creating-evenly-distributed-points-within-an-irregular-boundary
 
 One solution: create a grid of points and then clip to polygon
 
@@ -327,11 +327,11 @@ https://gis.stackexchange.com/questions/4663/how-to-create-regular-point-grid-in
 https://gis.stackexchange.com/questions/4828/seeking-algorithm-to-place-maximum-number-of-points-within-constrained-area-at-m
 
 ### Thin out Points along lines
-https://gis.stackexchange.com/questions/131854/spacing-a-set-of-points?rq=1
+https://gis.stackexchange.com/questions/131854/spacing-a-set-of-points
 
 ## Contouring
 ### Generate contours from evenly-spaced weighted points
-https://gis.stackexchange.com/questions/85968/clustering-points-in-postgresql-to-create-contour-map?rq=1
+https://gis.stackexchange.com/questions/85968/clustering-points-in-postgresql-to-create-contour-map
 NO SOLUTION
 
 ### Contouring Irregularly spaced points
@@ -379,7 +379,7 @@ GROUP BY x.cid ORDER BY cid;
 https://stackoverflow.com/questions/49250734/sql-window-function-that-groups-values-within-selected-distance
 
 ### Find Density Centroids Within Polygons
-https://gis.stackexchange.com/questions/187256/finding-density-centroids-within-polygons-in-postgis?rq=1
+<https://gis.stackexchange.com/questions/187256/finding-density-centroids-within-polygons-in-postgis<
 
 ### Group touching Polygons
 https://gis.stackexchange.com/questions/343514/postgis-recursively-finding-intersections-of-polygons-to-determine-clusters
@@ -392,7 +392,7 @@ A worked example:
 https://gis.stackexchange.com/questions/366374/how-to-use-dissolve-a-subset-of-a-postgis-table-based-on-a-value-in-a-column
 
 Similar problem in R
-https://gis.stackexchange.com/questions/254519/group-and-union-polygons-that-share-a-border-in-r?rq=1
+https://gis.stackexchange.com/questions/254519/group-and-union-polygons-that-share-a-border-in-r
 
 Issues
 DBSCAN uses distance. This will also cluster polygons which touch only at a point, not just along an edge.  Is there a way to improve this?  Allow a different distance metric perhaps - say length of overlap?
@@ -435,7 +435,7 @@ Explains how DBSCAN is a superset of ClusterWithin, and provides simpler, more p
 https://gis.stackexchange.com/questions/356663/postgis-finding-duplicate-label-within-a-radius
 
 ### Cluster with DBSCAN partitioned by polygons
-https://gis.stackexchange.com/questions/284190/python-cluster-points-with-dbscan-keeping-into-account-polygon-boundaries?rq=1
+https://gis.stackexchange.com/questions/284190/python-cluster-points-with-dbscan-keeping-into-account-polygon-boundaries
 
 ### Compute centroid of a group of points
 https://gis.stackexchange.com/questions/269407/centroid-of-point-cluster-points
@@ -491,7 +491,7 @@ https://gasparesganga.com/labs/postgis-normalize-geometry/
 ## Conflation / Matching
 
 ### Adjust polygons to fill a containing Polygon
-https://gis.stackexchange.com/questions/91889/adjusting-polygons-to-boundary-and-filling-holes?rq=1
+<https://gis.stackexchange.com/questions/91889/adjusting-polygons-to-boundary-and-filling-holes>
 
 ### Match Polygons by Shape Similarity 
 https://gis.stackexchange.com/questions/362560/measuring-the-similarity-of-two-polygons-in-postgis
@@ -550,7 +550,7 @@ Ideas
 A function ST_LineExtract(line, index1, index2) to extract a portion of a LineString between two indices
 
 ### Compute Angle at which Two Lines Intersect
-https://gis.stackexchange.com/questions/25126/how-to-calculate-the-angle-at-which-two-lines-intersect-in-postgis?rq=1
+https://gis.stackexchange.com/questions/25126/how-to-calculate-the-angle-at-which-two-lines-intersect-in-postgis
 
 ### Compute Azimuth at a Point on a Line
 https://gis.stackexchange.com/questions/178687/rotate-point-along-line-layer
@@ -559,7 +559,7 @@ Solution
 Would be nice to have a ST_SegmentIndex function to get the index of the segment nearest to a point.  Then this becomes simple.
 
 ### Compute Perpendicular Distance to a Baseline (AKA “Width” of a curve)
-https://gis.stackexchange.com/questions/54575/how-to-calculate-the-depth-of-a-linestring-using-postgis?rq=1
+<https://gis.stackexchange.com/questions/54575/how-to-calculate-the-depth-of-a-linestring-using-postgis>
 
 ### Measure Length of every LineString segment
 https://gis.stackexchange.com/questions/239576/measure-length-of-each-segment-for-a-polygon-in-postgis
@@ -574,7 +574,7 @@ Polygonize all lines, then identify lines which intersect each polygon
 Complicated recursive solution using ST_LineMerge!
 
 ### Add intersection points between sets of Lines (AKA Noding)
-https://gis.stackexchange.com/questions/41162/adding-multiple-points-to-a-linestring-in-postgis?rq=1
+<https://gis.stackexchange.com/questions/41162/adding-multiple-points-to-a-linestring-in-postgis>
 Problem
 Add nodes into a road network from access side roads
 
@@ -584,7 +584,7 @@ Hard to extract just the road network lines
 If side road falls slightly short will not create a node
 
 ### Merge lines that touch at endpoints
-https://gis.stackexchange.com/questions/177177/finding-and-merging-lines-that-touch-in-postgis?rq=1
+<https://gis.stackexchange.com/questions/177177/finding-and-merging-lines-that-touch-in-postgis>
 
 Solution given uses ST_ClusterWithin, which is clever.  Can be improved slightly however (e.g. can use ST_Boundary to get endpoints?).  Would be much nicer if ST_ClusterWithin was a window function.  
 
@@ -617,10 +617,10 @@ Not possible with ST_LineMerge
 Error is not obvious from return value though
 
 See Also
-https://gis.stackexchange.com/questions/139227/st-linemerge-doesnt-return-linestring?rq=1
+<https://gis.stackexchange.com/questions/139227/st-linemerge-doesnt-return-linestring>
 
 ### Extract Line Segments
-https://gis.stackexchange.com/questions/174472/in-postgis-how-to-split-linestrings-into-their-individual-segments?rq=1
+<https://gis.stackexchange.com/questions/174472/in-postgis-how-to-split-linestrings-into-their-individual-segments>
 
 Need an ST_DumpSegments to do this!
 
@@ -635,7 +635,7 @@ Useful patterns in this code:
 JOIN LATERAL generate_series to extract the line segments
 array slicing to extract a subline containing a section of the original line
 
-It would be clearer if parts of this SQL were wrapped in functions (e.g. perhaps an ST_LineSlice function, and a ST_DumpSegments function - which perhaps will become part of PostGIS one day).
+It would be clearer if parts of this SQL were wrapped in functions (e.g. an `ST_LineSlice` function, and a `ST_DumpSegments` function - which should become part of PostGIS).
 ```sql
 WITH data(id, geom) AS (VALUES
     ( 1, 'LINESTRING (0 0, 1 1, 2.1 2, 3 3, 4 4)'::geometry )
