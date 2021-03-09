@@ -1,5 +1,5 @@
 
-# PostGIS Patterns - Input/Output
+# Input/Output
 {: .no_toc }
 
 1. TOC
