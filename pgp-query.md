@@ -382,7 +382,7 @@ JOIN LATERAL (SELECT COUNT(1) num_adj
 SELECT county, SUM(ST_Length(ST_Intersection(counties.geom,routes.geom)))
 FROM counties
 JOIN routes ON ST_Intersects(counties.geom, routes.geom)
-GROUP BY county
+GROUP BY county;
 ```
 See following (but answers are not great)
 <https://gis.stackexchange.com/questions/143438/calculating-total-line-lengths-within-polygon>
