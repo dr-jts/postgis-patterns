@@ -176,7 +176,9 @@ Solution
 Uses DumpPoint and windowing functions
 
 ### Construct evenly-spaced points along a polygon boundary
-https://gis.stackexchange.com/questions/360199/get-list-of-equidistant-points-on-polygon-border-postgis
+<https://gis.stackexchange.com/questions/360199/get-list-of-equidistant-points-on-polygon-border-postgis>
+
+![](https://i.stack.imgur.com/XFfYE.png)
 
 ### Find Segment of Line Closest to Point to allow Point Insertion
 https://gis.stackexchange.com/questions/368479/finding-line-segment-of-point-on-linestring-using-postgis
