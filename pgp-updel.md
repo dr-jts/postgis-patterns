@@ -1,4 +1,4 @@
-## PostGIS Patterns - Update, Delete
+## Update, Delete
 
 ## Update
 ### Update a column by a spatial condition
