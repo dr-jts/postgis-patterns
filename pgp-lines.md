@@ -5,6 +5,10 @@
 {:toc}
 
 ## Linear Referencing/Line Handling
+
+### Select every Nth point from a LineString
+https://stackoverflow.com/questions/60319473/postgis-how-do-i-select-every-second-point-from-linestring
+
 ### Extrapolate Lines
 https://gis.stackexchange.com/questions/33055/extrapolating-a-line-in-postgis
 
