@@ -377,7 +377,14 @@ JOIN LATERAL (SELECT COUNT(1) num_adj
 ### Find Median of values in a Polygon neighbourhood in a Polygonal Coverage
 <https://gis.stackexchange.com/questions/349251/finding-median-of-polygons-that-share-boundaries>
 
-### Compute total length of Lines in a Polygon
+### Sum length of Lines intersecting Polygons
+```sql
+SELECT county, SUM(ST_Length(ST_Intersection(counties.geom,routes.geom)))
+FROM counties
+JOIN routes ON ST_Intersects(counties.geom, routes.geom)
+GROUP BY county
+```
+See following (but answers are not great)
 <https://gis.stackexchange.com/questions/143438/calculating-total-line-lengths-within-polygon>
 
 
