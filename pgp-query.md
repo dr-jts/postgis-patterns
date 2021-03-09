@@ -1,4 +1,4 @@
-## PostGIS Patterns - Query
+## Query
 {: .no_toc }
 
 1. TOC
