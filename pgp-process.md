@@ -330,7 +330,7 @@ A nicer solution will be when PostGIS provides a way to generate random points u
 ### Place Maximum Number of Points in a Polygon
 <https://gis.stackexchange.com/questions/4828/seeking-algorithm-to-place-maximum-number-of-points-within-constrained-area-at-m>
 
-### Thin out Points along lines
+### Sample Linear Point Clouds at given density
 <https://gis.stackexchange.com/questions/131854/spacing-a-set-of-points>
 
 ## Contouring
