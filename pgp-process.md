@@ -4,32 +4,6 @@
 1. TOC
 {:toc}
 
-## Geometry Creation
-
-### Use ST_MakePoint or ST_PointFromText
-<https://gis.stackexchange.com/questions/122247/st-makepoint-or-st-pointfromtext-to-generate-points>
-<https://gis.stackexchange.com/questions/58605/which-function-for-creating-a-point-in-postgis/58630#58630>
-
-**Solution**
-ST_MakePoint is much faster
-
-### Collect Lines into a MultiLine in a given order
-<https://gis.stackexchange.com/questions/166701/postgis-merging-linestrings-into-multilinestrings-in-a-particular-order>
-
-
-## Geometry Editing
-
-### Drop Holes from Polygons
-https://gis.stackexchange.com/questions/278154/polygons-have-holes-after-pgr-pointsaspolygon
-
-### Drop Holes from MultiPolygons
-https://gis.stackexchange.com/questions/348943/simplifying-a-multipolygon-into-one-polygon-respecting-its-outer-boundaries
-
-Solution
-https://gis.stackexchange.com/a/349016/14766
-
-Similar
-https://gis.stackexchange.com/questions/291374/cut-out-polygons-that-at-least-partially-fall-in-another-polygon
 
 
 ## Constructions
@@ -219,26 +193,6 @@ Also: https://gis.stackexchange.com/questions/20279/calculating-average-width-of
 https://gis.stackexchange.com/questions/366832/get-dimension-of-rectangular-polygon-postgis
 
 
-## Simplification
-https://gis.stackexchange.com/questions/293429/decrease-polygon-vertices-count-maintaining-its-aspect
-
-## Smoothing
-https://gis.stackexchange.com/questions/313667/postgis-snap-line-segment-endpoint-to-closest-other-line-segment
-
-Problem is to smooth a network of lines.  Network is not fully noded, so smoothing causes touching lines to become disconnected.
-#### Solution
-Probably to node the network before smoothing.
-Not sure how to node the network and preserve IDs however!?
-
-## Transformation
-
-### Scale polygon around a given point
-https://gis.stackexchange.com/questions/227435/postgis-scaling-for-polygons-at-a-fixed-center-location
-
-No solution so far
-Issues
-SQL given is overly complex and inefficient.  But idea is right
-
 ## Ordering Geometry
 
 ### Ordering a Square Grid
@@ -405,18 +359,6 @@ https://info.crunchydata.com/blog/polygon-averaging-in-postgis
 Solution: Overlay, count “depth” of each resultant, union resultants of desired depth.
 
 
-## Coordinate Systems
-
-### Find a good planar projection
-https://gis.stackexchange.com/questions/275057/how-to-find-good-meter-based-projection-in-postgis
-
-Also https://gis.stackexchange.com/questions/341243/postgis-buffer-in-meters-without-geography
-
-### ST_Transform creates invalid geometry
-https://gis.stackexchange.com/questions/341160/why-do-two-tables-with-valid-geometry-return-self-intersection-errors-when-inter
-
-Also:  https://trac.osgeo.org/postgis/ticket/4755
-Has an example geometry which becomes invalid under transform
 
 
 
