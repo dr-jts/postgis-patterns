@@ -114,27 +114,34 @@ Idea: triangulate polygon, then connect midpoints of interior lines
 
 Idea 2: find line segments for nearest points of each line vertex.  Order by distance along line (percentage?).  Discard any that have a retrograde direction.  Join centrepoints of segments.
 
-### Construct lines joininge every vertex in a polygon
+### Construct lines joining every vertex in a polygon
 
-https://gis.stackexchange.com/questions/58534/get-the-lines-between-all-points-of-a-polygon-in-postgis-avoid-nested-loop
+<https://gis.stackexchange.com/questions/58534/get-the-lines-between-all-points-of-a-polygon-in-postgis-avoid-nested-loop>
 
+Better answer:
 ```sql
-WITH poly_geom AS (SELECT way FROM planet_osm_polygon WHERE id=1),
-     points1 AS (SELECT (ST_DumpPoints(poly_geom.way)).* FROM poly_geom),
-     points2 AS (SELECT (ST_DumpPoints(poly_geom.way)).* FROM poly_geom)
-SELECT DISTINCT ST_MakeLine(points1.geom, points2.geom)
-FROM points1,points2
-WHERE points1.path <> points2.path;
+WITH poly(id, geom)AS (VALUES
+    ( 1, 'POLYGON ((2 7, 5 9, 9 7, 8 3, 5 2, 2 3, 3 5, 2 7))'::geometry )
+  )
+,ring AS (SELECT ST_ExteriorRing(geom) geom FROM poly)
+,pts AS (SELECT i, ST_PointN(geom, i) AS geom
+  FROM ring
+  JOIN LATERAL generate_series(2, ST_NumPoints(ring.geom)) AS s(i) ON true)
+SELECT ST_MakeLine(p1.geom, p2.geom) AS geom
+FROM pts p1, pts p2
+WHERE p1.i > p2.i;
 ```
 
 ### Construct Straight Skeleton
-https://github.com/twak/campskeleton
+<https://github.com/twak/campskeleton>
 
 ### Construct Well-spaced points within Polygon
-https://gis.stackexchange.com/questions/377606/ensuring-all-points-are-a-certain-distance-from-polygon-boundary
+<https://gis.stackexchange.com/questions/377606/ensuring-all-points-are-a-certain-distance-from-polygon-boundary>
 
 Uses clustering on randomly generated points.  
 Suggestion is to use neg-buffered polygon to ensure distance from polygon boundary
+
+A nicer solution will be when PostGIS provides a way to generate random points using [Poisson Disk Sampling](https://www.jasondavies.com/poisson-disc/).
 
 ## Hulls / Covering Polygons
 
