@@ -4,8 +4,6 @@ nav_order: 1
 
 # PostGIS Patterns
 
-See also the [website](https://dr-jts.github.io/postgis-patterns/).
-
 A compendium of useful PostGIS problems, patterns, and solutions, drawn from various sources including:
 
 * [PostGIS on GIS StackExchange](https://gis.stackexchange.com/questions/tagged/postgis?tab=Newest)
