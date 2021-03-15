@@ -3,6 +3,10 @@ parent: Overlay
 ---
 
 # Lines
+{: .no_toc }
+
+1. TOC
+{:toc}
 
 ## Line Intersection
 ### Intersection of Lines which are not exactly coincident
