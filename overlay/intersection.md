@@ -21,6 +21,14 @@ parent: Overlay
 * Define a function to do the looping
 * Use a recursive CTE (see SQL in #2)
 
+```sql
+CREATE AGGREGATE ST_IntersectionAgg (
+  basetype = geometry,
+  stype = geometry,
+  sfunc = ST_Intersection
+);
+```
+
 #### Issues
 * How to find all groups of intersecting polygons.  DBSCAN maybe?  (This is suggested in an answer)
 * Intersection performance - Use Polygons instead of MultiPolygons
