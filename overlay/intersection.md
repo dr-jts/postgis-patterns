@@ -40,8 +40,7 @@ SELECT ST_IntersectionAgg(geom) FROM data;
 
 #### Issues
 * How to find all groups of intersecting polygons.  DBSCAN maybe?  (This is suggested in an answer)
-* Intersection performance - Use Polygons instead of MultiPolygons
-  * https://gis.stackexchange.com/questions/101425/using-multipolygon-or-polygon-features-for-large-intersect-operations
+
 
 ### Intersection returning only Polygons
 <https://gis.stackexchange.com/questions/89231/postgis-st-intersection-of-polygons-can-return-lines>
@@ -53,6 +52,9 @@ Possibly can use `ST_CollectionExtract`?
 
 ### Intersection performance - Check containment first
 https://postgis.net/2014/03/14/tip_intersection_faster/
+
+### Intersection performance - Use Polygons instead of MultiPolygons
+<https://gis.stackexchange.com/questions/101425/using-multipolygon-or-polygon-features-for-large-intersect-operations>
 
 ## Clipping
 
