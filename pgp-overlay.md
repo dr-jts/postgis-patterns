@@ -141,12 +141,11 @@ https://gis.stackexchange.com/questions/331887/unioning-a-set-of-intersections
 
 ## Polygon Intersection
 
-### Intersection of all polygons in a set
-https://gis.stackexchange.com/questions/271824/st-intersection-intersection-of-all-geometries-in-a-table
-
-https://gis.stackexchange.com/questions/271941/looping-through-table-to-get-single-intersection-from-n2-geometries-using-postg
-
-https://gis.stackexchange.com/questions/60281/query-to-find-the-intersection-coordinates-of-multiple-polyon
+### Aggregated Intersection
+<https://gis.stackexchange.com/questions/271824/st-intersection-intersection-of-all-geometries-in-a-table>
+<https://gis.stackexchange.com/questions/271941/looping-through-table-to-get-single-intersection-from-n2-geometries-using-postg>
+<https://gis.stackexchange.com/questions/60281/query-to-find-the-intersection-coordinates-of-multiple-polyon>
+<https://gis.stackexchange.com/questions/269875/aggregate-version-of-st-intersection>
 
 #### Solutions
 * Define an aggregate function (given in #2)
@@ -161,8 +160,6 @@ https://gis.stackexchange.com/questions/60281/query-to-find-the-intersection-coo
 ### Intersection performance - Check containment first
 https://postgis.net/2014/03/14/tip_intersection_faster/
 
-### Aggregated Intersection
-https://gis.stackexchange.com/questions/269875/aggregate-version-of-st-intersection
 
 
 ## Polygon Difference
