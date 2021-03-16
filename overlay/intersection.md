@@ -48,7 +48,8 @@ SELECT ST_IntersectionAgg(geom) FROM data;
 
 Possibly can use `ST_CollectionExtract`?
 
-See also <https://gis.stackexchange.com/questions/242741/st-intersection-returns-erroneous-polygons>, which discusses a problem with QGIS visualization caused by the return of a `GEOMETRYCOLLECTION` from `ST_Intersection`.
+**See also**
+* <https://gis.stackexchange.com/questions/242741/st-intersection-returns-erroneous-polygons> discusses a problem with QGIS visualization caused by the return of a `GEOMETRYCOLLECTION` from `ST_Intersection`.
 
 ### Intersection performance - Check containment first
 https://postgis.net/2014/03/14/tip_intersection_faster/
