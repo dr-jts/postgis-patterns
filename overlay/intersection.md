@@ -28,6 +28,14 @@ CREATE AGGREGATE ST_IntersectionAgg (
   sfunc = ST_Intersection
 );
 ```
+```
+WITH data(geom) AS (VALUES
+( ST_Buffer(ST_Point(0,0), 0.75) ),
+( ST_Buffer(ST_Point(1,0), 0.75) ),
+( ST_Buffer(ST_Point(0.5,1), 0.75) )
+)
+SELECT ST_IntersectionAgg(geom) FROM data;
+```
 
 #### Issues
 * How to find all groups of intersecting polygons.  DBSCAN maybe?  (This is suggested in an answer)
