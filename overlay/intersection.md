@@ -26,6 +26,9 @@ parent: Overlay
 * Intersection performance - Use Polygons instead of MultiPolygons
   * https://gis.stackexchange.com/questions/101425/using-multipolygon-or-polygon-features-for-large-intersect-operations
 
+### Intersection returning only Polygons
+<https://gis.stackexchange.com/questions/89231/postgis-st-intersection-of-polygons-can-return-lines?rq=1>
+
 ### Intersection performance - Check containment first
 https://postgis.net/2014/03/14/tip_intersection_faster/
 
