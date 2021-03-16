@@ -28,7 +28,8 @@ CREATE AGGREGATE ST_IntersectionAgg (
   sfunc = ST_Intersection
 );
 ```
-```
+**Example:**
+```sql
 WITH data(geom) AS (VALUES
 ( ST_Buffer(ST_Point(0,0), 0.75) ),
 ( ST_Buffer(ST_Point(1,0), 0.75) ),
