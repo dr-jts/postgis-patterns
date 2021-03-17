@@ -58,13 +58,15 @@ The detailed polygons
 All remaining base polygons which were not changed
 
 ### Subtract Areas from a set of Polygons
-https://gis.stackexchange.com/questions/250674/postgis-st-difference-similar-to-arcgis-erase
+<https://gis.stackexchange.com/questions/250674/postgis-st-difference-similar-to-arcgis-erase>
 
-https://gis.stackexchange.com/questions/187406/how-to-use-st-difference-and-st-intersection-in-case-of-multipolygons-postgis
+<https://gis.stackexchange.com/questions/187406/how-to-use-st-difference-and-st-intersection-in-case-of-multipolygons-postgis>
 
-https://gis.stackexchange.com/questions/90174/postgis-when-i-add-a-polygon-delete-overlapping-areas-in-other-layers
+<https://gis.stackexchange.com/questions/90174/postgis-when-i-add-a-polygon-delete-overlapping-areas-in-other-layers>
 
-https://gis.stackexchange.com/questions/155597/using-st-difference-to-remove-overlapping-features
+<https://gis.stackexchange.com/questions/390281/using-postgis-to-find-the-overall-difference-between-two-large-polygon-dataset>
+
+<https://gis.stackexchange.com/questions/155597/using-st-difference-to-remove-overlapping-features>
 
 ```sql
 SELECT id, COALESCE(ST_Difference(geom, (SELECT ST_Union(b.geom) 
