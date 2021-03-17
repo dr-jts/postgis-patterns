@@ -49,13 +49,38 @@ https://gis.stackexchange.com/questions/78073/separate-a-polygon-in-different-po
 ### Cut Polygons into a Polygonal coverage
 https://gis.stackexchange.com/questions/71461/using-st-difference-and-preserving-attributes-in-postgis
 
+```sql
+WITH deluxe_cutter AS (
+  SELECT ST_Union(d.geom) AS geom, b.gid
+  FROM baselevel b JOIN deluxe d ON ST_Intersects(b.geom, d.geom)
+  GROUP BY b.gid
+),
+baselevel_cut AS (
+  SELECT ST_Difference(b.geom, d.geom) AS geom, b.gid
+  FROM baselevel b JOIN deluxe_cutter d ON b.gid = d.gid
+)
+-- base remainders
+SELECT 'baselevel' AS type, b.geom, b.gid
+  FROM baselevel_cut b
+UNION ALL
+-- cutter polygons
+SELECT 'deluxe' AS type, d.geom, d.gid
+  FROM deluxe d
+UNION ALL
+-- uncut base polygons
+SELECT 'baselevel' AS type, b.geom, b.gid
+  FROM baselevel b 
+  LEFT JOIN deluxe d ON ST_Intersects(b.geom,d.geom)
+  WHERE d.gid is null;
+```
+
 #### Solution
 * For each base polygon, union all cutter polygons which intersect it
 * Difference the cutter union from the base polygon
 * UNION ALL:
   * The base polygon remainders
   * The cutter polygons
-  * The base polygons which were not changed
+  * The uncut base polygons
 
 ### Erase Polygon table from another Polygon table
 <https://gis.stackexchange.com/questions/250674/postgis-st-difference-similar-to-arcgis-erase>
