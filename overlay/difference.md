@@ -92,8 +92,7 @@ LEFT JOIN LATERAL (
 ) AS ie ON true ;
 ```
 
-### Find Part of Polygons not fully contained by union of other Polygons
-Use Case: Find portions of countries not covered by administrative areas.
+Similar Use Case: Find portions of countries not covered by administrative areas.
 
 <https://gis.stackexchange.com/questions/313039/find-what-polygons-are-not-fully-covered-by-union-of-polygons-from-another-layer>
 
@@ -103,7 +102,7 @@ Use Case: Find portions of countries not covered by administrative areas.
 
 <https://gis.stackexchange.com/questions/217337/postgis-erase-logic-and-speed>.  
 
-Solution uses `ST_Subdivide` on large polygon, does difference on subdivide pieces, then unions remainder.
+A Solution: use `ST_Subdivide` on large polygon, compute difference on subdivided pieces, then union remainder.
 
 ```sql
 -- Turn NJ into a large number of small tractable areas
