@@ -93,8 +93,7 @@ LEFT JOIN LATERAL (
 ```
 
 ### Find Part of Polygons not fully contained by union of other Polygons
-Find what countries are not fully covered by administrative boundaries and the geometry of part of country geometry 
-where it is not covered by the administrative boundaries.
+Use Case: Find portions of countries not covered by administrative areas.
 
 <https://gis.stackexchange.com/questions/313039/find-what-polygons-are-not-fully-covered-by-union-of-polygons-from-another-layer>
 
