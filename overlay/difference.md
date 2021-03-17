@@ -1,4 +1,3 @@
-
 ---
 parent: Overlay
 ---
@@ -80,9 +79,47 @@ FROM parcels a;
 Find what countries are not fully covered by administrative boundaries and the geometry of part of country geometry 
 where it is not covered by the administrative boundaries.
 
-https://gis.stackexchange.com/questions/313039/find-what-polygons-are-not-fully-covered-by-union-of-polygons-from-another-layer
+<https://gis.stackexchange.com/questions/313039/find-what-polygons-are-not-fully-covered-by-union-of-polygons-from-another-layer>
 
 ![](https://i.stack.imgur.com/0kFJj.png)
+
+### Remove polygons from single large polygon
+
+<https://gis.stackexchange.com/questions/217337/postgis-erase-logic-and-speed>.  
+
+Solution uses `ST_Subdivide` on large polygon, does difference on subdivide pieces, then unions remainder.
+
+```sql
+-- Turn NJ into a large number of small tractable areas
+CREATE SEQUENCE nj_square_id;
+CREATE TABLE nj_squares AS
+  SELECT 
+    nextval('nj_square_id') AS nj_id, 
+    ST_SubDivide(geom) AS geom
+  FROM nj;
+
+-- Index the squares for faster searching
+CREATE INDEX nj_squares_x ON nj_squares USING GIST (geom);
+
+-- Index parcels too in case you forgot
+CREATE INDEX parcels_x ON parcels USING GIST (geom);
+
+-- For each square, compute "bits that aren't parcels"
+CREATE TABLE nj_not_parcels AS
+WITH parcel_polys AS (
+  SELECT nj.nj_id, ST_Union(p.geom) AS geom
+  FROM nj_squares nj
+  JOIN parcels p
+  ON ST_Intersects(p.geom, nj.geom)
+  GROUP BY nj.nj_id
+)
+SELECT nj_id,
+  ST_Difference(nj.geom, pp.geom) AS geom
+FROM parcel_polys pp 
+JOIN nj_squares
+USING (nj_id);
+```
+
 
 ### Remove overlaps by lower-priority polygons
 https://gis.stackexchange.com/questions/379300/how-to-remove-overlaps-and-keep-highest-priority-polygon
