@@ -64,17 +64,32 @@ All remaining base polygons which were not changed
 
 <https://gis.stackexchange.com/questions/90174/postgis-when-i-add-a-polygon-delete-overlapping-areas-in-other-layers>
 
-<https://gis.stackexchange.com/questions/390281/using-postgis-to-find-the-overall-difference-between-two-large-polygon-dataset>
-
 <https://gis.stackexchange.com/questions/155597/using-st-difference-to-remove-overlapping-features>
 
+<https://gis.stackexchange.com/questions/390281/using-postgis-to-find-the-overall-difference-between-two-large-polygon-dataset>
+
 ```sql
-SELECT id, COALESCE(ST_Difference(geom, (SELECT ST_Union(b.geom) 
-                                         FROM parcels b
-                                         WHERE ST_Intersects(a.geom, b.geom)
-                                         AND a.id != b.id)), 
-                    a.geom)
-FROM parcels a;
+WITH input(geom) AS (VALUES
+( 'POLYGON ((10 50, 40 50, 40 10, 10 10, 10 50))'::geometry ),
+( 'POLYGON ((70 50, 70 10, 40 10, 40 50, 70 50))'::geometry ),
+( 'POLYGON ((90 50, 90 10, 70 10, 70 50, 90 50))'::geometry ),
+( 'POLYGON ((90 90, 90 50, 70 50, 70 90, 90 90))'::geometry )
+),
+eraser(geom) AS (VALUES
+( 'POLYGON ((30 60, 50 60, 50 40, 30 40, 30 60))'::geometry ),
+( 'POLYGON ((30 30, 50 30, 50 10, 30 10, 30 30))'::geometry ),
+( 'POLYGON ((60 40, 80 40, 80 20, 60 20, 60 40))'::geometry )
+)
+SELECT COALESCE(
+         ST_Difference(i.geom, ie.geom),
+         i.geom
+       ) AS geom
+FROM  input AS i
+LEFT JOIN LATERAL (
+  SELECT ST_Union(geom) AS geom
+  FROM   eraser AS e
+  WHERE  ST_Intersects(i.geom, e.geom)
+) AS ie ON true ;
 ```
 
 ### Find Part of Polygons not fully contained by union of other Polygons
