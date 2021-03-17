@@ -10,12 +10,6 @@ parent: Overlay
 
 ## Polygon Difference
 
-### Subtract large set of polygons from a surrounding box
-https://gis.stackexchange.com/questions/330051/obtaining-the-geospatial-complement-of-a-set-of-polygons-to-a-bounding-box-in-po/333562#333562
-
-#### Issues
-conventional approach is too slow to use  (Note: user never actually completed processing, so might not have encountered geometry size issues, which could also occur)
-
 ### Subtract MultiPolygons from LineStrings
 https://gis.stackexchange.com/questions/239696/subtract-multipolygon-table-from-linestring-table
 
@@ -43,6 +37,12 @@ FROM lines a
   ) AS b;
 ```
 
+### Subtract large set of polygons from a surrounding box
+https://gis.stackexchange.com/questions/330051/obtaining-the-geospatial-complement-of-a-set-of-polygons-to-a-bounding-box-in-po/333562#333562
+
+#### Issues
+conventional approach is too slow to use  (Note: user never actually completed processing, so might not have encountered geometry size issues, which could also occur)
+
 ### Split Polygons by distance from a Polygon
 https://gis.stackexchange.com/questions/78073/separate-a-polygon-in-different-polygons-depending-of-the-distance-to-another-po
 
@@ -50,14 +50,14 @@ https://gis.stackexchange.com/questions/78073/separate-a-polygon-in-different-po
 https://gis.stackexchange.com/questions/71461/using-st-difference-and-preserving-attributes-in-postgis
 
 #### Solution
-For each base polygon, union all detailed polygons which intersect it
-Difference the detailed union from the each base polygon
-UNION ALL:
-The differenced base polygons
-The detailed polygons
-All remaining base polygons which were not changed
+* For each base polygon, union all cutter polygons which intersect it
+* Difference the cutter union from the base polygon
+* UNION ALL:
+  * The base polygon remainders
+  * The cutter polygons
+  * The base polygons which were not changed
 
-### Subtract Areas from a set of Polygons
+### Erase Polygon table from another Polygon table
 <https://gis.stackexchange.com/questions/250674/postgis-st-difference-similar-to-arcgis-erase>
 
 <https://gis.stackexchange.com/questions/187406/how-to-use-st-difference-and-st-intersection-in-case-of-multipolygons-postgis>
