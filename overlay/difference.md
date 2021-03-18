@@ -11,9 +11,9 @@ parent: Overlay
 ## Polygon Difference
 
 ### Subtract MultiPolygons from LineStrings
-https://gis.stackexchange.com/questions/239696/subtract-multipolygon-table-from-linestring-table
+<https://gis.stackexchange.com/questions/239696/subtract-multipolygon-table-from-linestring-table>
 
-https://gis.stackexchange.com/questions/11592/difference-between-two-layers-in-postgis
+<https://gis.stackexchange.com/questions/11592/difference-between-two-layers-in-postgis>
 #### Solution
 ```sql
 SELECT COALESCE(ST_Difference(river.geom, lakes.geom), river.geom) As river_geom 
@@ -44,10 +44,10 @@ https://gis.stackexchange.com/questions/330051/obtaining-the-geospatial-compleme
 conventional approach is too slow to use  (Note: user never actually completed processing, so might not have encountered geometry size issues, which could also occur)
 
 ### Split Polygons by distance from a Polygon
-https://gis.stackexchange.com/questions/78073/separate-a-polygon-in-different-polygons-depending-of-the-distance-to-another-po
+<https://gis.stackexchange.com/questions/78073/separate-a-polygon-in-different-polygons-depending-of-the-distance-to-another-po>
 
-### Cut Polygons into a Polygonal coverage
-https://gis.stackexchange.com/questions/71461/using-st-difference-and-preserving-attributes-in-postgis
+### Cut Polygons into a Polygon table
+<https://gis.stackexchange.com/questions/71461/using-st-difference-and-preserving-attributes-in-postgis>
 
 ```sql
 WITH deluxe_cutter AS (
