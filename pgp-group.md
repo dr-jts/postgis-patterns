@@ -25,9 +25,15 @@ DBSCAN uses distance. This will also cluster polygons which touch only at a poin
 ### Group connected LineStrings
 https://gis.stackexchange.com/questions/94203/grouping-connected-linestrings-in-postgis
 
-Presents a recursive CTE approach, but ultimately recommends using ST_ClusterDBCSAN
+Presents a recursive CTE approach, but ultimately recommends using `ST_ClusterDBCSAN`
 
+### Group LineStrings via connectivity and attribute
 https://gis.stackexchange.com/questions/189091/postgis-how-to-merge-contiguous-features-sharing-same-attributes-values
+```sql
+SELECT attr, unnest(ST_ClusterIntersecting(geom))
+FROM lines
+GROUP by attr;
+```
 
 ### Group Polygon Coverage into similar-sized Areas
 https://gis.stackexchange.com/questions/350339/how-to-create-polygons-of-a-specific-size
