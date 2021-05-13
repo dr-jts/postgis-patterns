@@ -8,11 +8,6 @@ A compendium of useful PostGIS problems, patterns, and solutions, drawn from var
 
 See the [website](https://dr-jts.github.io/postgis-patterns/pgp-intro.html).
 
-### [Introduction](pgp-intro.md)
-### [Query](pgp-query.md)
-### [Update / Delete](pgp-updel.md)
-### [Overlay](pgp-overlay.md)
-### [Processing](pgp-process.md)
 
 
 
