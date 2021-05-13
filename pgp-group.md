@@ -130,5 +130,26 @@ Use `ST_GeometricMedian`
 ### Construct K-Means clusters for each Polygon
 <https://gis.stackexchange.com/questions/376563/cluster-points-in-each-polygon-into-n-parts>
 
-Use window function `PARTITION BY`
+![](https://i.stack.imgur.com/eFj0g.png)
+
+Use the `ST_ClusterKMeans` window function with `PARTITION BY`.
+
+`ST_ClusterKMeans` computes cluster ids 0..n for each (hierarchy of) partition key(s) used in the PARTITION BY expression.
+
+To compute clusters for each set of points in each polygon (assuming each polygon has id `poly_id`):
+
+```sql
+WITH polys(poly_id, geom) AS (
+        VALUES  (1, 'POLYGON((0 0, 0 5, 5 5, 5 0, 0 0))'::GEOMETRY),
+                (2, 'POLYGON((10 10, 10 15, 15 15, 15 10, 10 10))'::GEOMETRY)
+    )
+SELECT  polys.poly_id,
+        ST_ClusterKMeans(pts.geom, 4) OVER(PARTITION BY polys.poly_id) AS cluster_id,
+        pts.geom
+FROM    polys,
+        LATERAL ST_Dump(ST_GeneratePoints(polys.geom, 1000, 1)) AS pts
+ORDER BY 1, 2;
+```
+![](https://i.stack.imgur.com/3Tz4X.png)
+
 
