@@ -4,6 +4,45 @@
 1. TOC
 {:toc}
 
+## Grouping
+
+### Group touching Polygons
+https://gis.stackexchange.com/questions/343514/postgis-recursively-finding-intersections-of-polygons-to-determine-clusters
+Solution: Use ST_DBSCAN which provides very good performance
+
+This problem has a similar recommended solution:
+https://gis.stackexchange.com/questions/265137/postgis-union-geometries-that-intersect-but-keep-their-original-geometries-info
+
+A worked example:
+https://gis.stackexchange.com/questions/366374/how-to-use-dissolve-a-subset-of-a-postgis-table-based-on-a-value-in-a-column
+
+Similar problem in R
+https://gis.stackexchange.com/questions/254519/group-and-union-polygons-that-share-a-border-in-r
+
+Issues
+DBSCAN uses distance. This will also cluster polygons which touch only at a point, not just along an edge.  Is there a way to improve this?  Allow a different distance metric perhaps - say length of overlap?
+
+### Group connected LineStrings
+https://gis.stackexchange.com/questions/94203/grouping-connected-linestrings-in-postgis
+
+Presents a recursive CTE approach, but ultimately recommends using ST_ClusterDBCSAN
+
+https://gis.stackexchange.com/questions/189091/postgis-how-to-merge-contiguous-features-sharing-same-attributes-values
+
+### Group Polygon Coverage into similar-sized Areas
+https://gis.stackexchange.com/questions/350339/how-to-create-polygons-of-a-specific-size
+
+More generally: how to group adjacent polygons into sets with similar sum of a given attribute.
+
+See Also
+https://gis.stackexchange.com/questions/123289/grouping-village-points-based-on-distance-and-population-size-using-arcgis-deskt
+
+Solution
+Build adjacency graph and aggregate based on total, and perhaps some distance criteria?
+Note: posts do not provide a PostGIS solution for this.  Not known if such a solution exists.
+Would need a recursive query to do this.
+How to keep clusters compact?
+
 ## Clustering
 See https://gis.stackexchange.com/questions/11567/spatial-clustering-with-postgis for a variety of approaches that predate a lot of the PostGIS clustering functions.
 
@@ -44,45 +83,9 @@ https://stackoverflow.com/questions/49250734/sql-window-function-that-groups-val
 ### Find Density Centroids Within Polygons
 <https://gis.stackexchange.com/questions/187256/finding-density-centroids-within-polygons-in-postgis<
 
-### Group touching Polygons
-https://gis.stackexchange.com/questions/343514/postgis-recursively-finding-intersections-of-polygons-to-determine-clusters
-Solution: Use ST_DBSCAN which provides very good performance
-
-This problem has a similar recommended solution:
-https://gis.stackexchange.com/questions/265137/postgis-union-geometries-that-intersect-but-keep-their-original-geometries-info
-
-A worked example:
-https://gis.stackexchange.com/questions/366374/how-to-use-dissolve-a-subset-of-a-postgis-table-based-on-a-value-in-a-column
-
-Similar problem in R
-https://gis.stackexchange.com/questions/254519/group-and-union-polygons-that-share-a-border-in-r
-
-Issues
-DBSCAN uses distance. This will also cluster polygons which touch only at a point, not just along an edge.  Is there a way to improve this?  Allow a different distance metric perhaps - say length of overlap?
-
-### Group connected LineStrings
-https://gis.stackexchange.com/questions/94203/grouping-connected-linestrings-in-postgis
-
-Presents a recursive CTE approach, but ultimately recommends using ST_ClusterDBCSAN
-
-https://gis.stackexchange.com/questions/189091/postgis-how-to-merge-contiguous-features-sharing-same-attributes-values
 
 ### Kernel Density
 https://gist.github.com/AbelVM/dc86f01fbda7ba24b5091a7f9b48d2ee
-
-### Group Polygon Coverage into similar-sized Areas
-https://gis.stackexchange.com/questions/350339/how-to-create-polygons-of-a-specific-size
-
-More generally: how to group adjacent polygons into sets with similar sum of a given attribute.
-
-See Also
-https://gis.stackexchange.com/questions/123289/grouping-village-points-based-on-distance-and-population-size-using-arcgis-deskt
-
-Solution
-Build adjacency graph and aggregate based on total, and perhaps some distance criteria?
-Note: posts do not provide a PostGIS solution for this.  Not known if such a solution exists.
-Would need a recursive query to do this.
-How to keep clusters compact?
 
 ### Bottom-Up Clustering Algorithm
 Not sure if this is worthwhile or not.  Possibly superseded by more recent standard PostGIS clustering functions
