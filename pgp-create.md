@@ -1,4 +1,4 @@
-# Create, Edit, Clean
+# Create, Access, Edit, Clean
 {: .no_toc }
 
 1. TOC
@@ -11,11 +11,41 @@
 <https://gis.stackexchange.com/questions/58605/which-function-for-creating-a-point-in-postgis/58630#58630>
 
 **Solution**
+
 ST_MakePoint is much faster
 
 ### Collect Lines into a MultiLine in a given order
 <https://gis.stackexchange.com/questions/166701/postgis-merging-linestrings-into-multilinestrings-in-a-particular-order>
 
+## Geometry Access
+
+### Extract shells and holes from MultiPolygons
+<https://gis.stackexchange.com/questions/396367/postgis-find-outers-and-inners-inside-multipolygon-geometries>
+
+**Solution**
+
+A solution using:
+
+* `generate_series` to extract the polygons (avoids having to deal with the recordset returned from `ST_Dump`)
+* SQL aggregate `FILTER` clauses to separate the shells and holes from the dumped rings
+
+```sql
+WITH multipoly(geom) AS (VALUES
+('MULTIPOLYGON (((10 10, 10 90, 70 90, 10 10), (20 80, 40 70, 40 80, 20 80), (20 70, 40 60, 20 40, 20 70)), ((50 30, 80 60, 80 30, 50 30)))'::geometry)
+),
+rings AS (
+  SELECT (r.dumped).geom AS geom, 
+         ((r.dumped).path)[1] AS loc
+    FROM (SELECT ST_DumpRings( 
+                     ST_GeometryN(geom, 
+                                  generate_series(1, 
+                                            ST_NumGeometries( geom )))) AS dumped 
+            FROM multipoly) AS r
+)
+SELECT  ST_Collect( geom ) FILTER (WHERE loc = 0) AS shells,
+        ST_Collect( geom ) FILTER (WHERE loc > 0) AS holes
+FROM rings;
+```
 
 ## Geometry Editing
 
