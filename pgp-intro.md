@@ -4,7 +4,9 @@ nav_order: 1
 
 # PostGIS Patterns
 
-A compendium of useful PostGIS problems, patterns, and solutions, drawn from various sources including:
+A compendium of useful PostGIS problems, patterns, and solutions.
+
+The information is drawn from various sources including:
 
 * [PostGIS on GIS StackExchange](https://gis.stackexchange.com/questions/tagged/postgis?tab=Newest)
 * [PostGIS on StackOverflow](https://stackoverflow.com/questions/tagged/postgis)
