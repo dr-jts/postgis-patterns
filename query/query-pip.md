@@ -64,7 +64,7 @@ LEFT JOIN a
 ON ST_within(compequip.geom, a.geom)
 ORDER BY compequip.id, ST_Area(a.geom)
 ```
-### Find Points NOT in Polygons
+## Find Points NOT in Polygons
 https://gis.stackexchange.com/questions/139880/postgis-st-within-or-st-disjoint-performance-issues
 
 https://gis.stackexchange.com/questions/26156/updating-attribute-values-of-points-outside-area-using-postgis
