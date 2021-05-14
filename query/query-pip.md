@@ -8,7 +8,7 @@ parent: Querying
 1. TOC
 {:toc}
 
-## Find Points contained by Polygons, keeping attributes
+## Find Points contained in Polygons, keeping attributes
 <https://gis.stackexchange.com/questions/354319/how-to-extract-attributes-of-polygons-at-specific-points-into-new-point-layer-in>
 
 #### Solution
@@ -35,10 +35,10 @@ To omit points not in any polygon, use `INNER JOIN` (or just `JOIN`) instead of 
 ```sql
 SELECT
   polyname,
-  COUNT(pid) FILTER (WHERE pid='w') AS "w",
-  COUNT(pid) FILTER (WHERE pid='x') AS "x",
-  COUNT(pid) FILTER (WHERE pid='y') AS "y",
-  COUNT(pid) FILTER (WHERE pid='z') AS "z"
+  COUNT(pid) FILTER (WHERE pid='w') AS w,
+  COUNT(pid) FILTER (WHERE pid='x') AS x,
+  COUNT(pid) FILTER (WHERE pid='y') AS y,
+  COUNT(pid) FILTER (WHERE pid='z') AS z
 FROM polygons
     LEFT JOIN points ON st_intersects(points.geom, polygons.geom)
 GROUP BY polyname;
