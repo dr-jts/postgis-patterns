@@ -121,7 +121,7 @@ FROM    polytable AS ply,
           WHERE  ST_Intersects(ply.geom, pt.geom)
         ) AS pnt1,
         LATERAL (
-          SELECT COUNT(c.*) AS cnt
+          SELECT COUNT(pt.*) AS cnt
           FROM   pointtable2 AS pt
           WHERE  ST_Intersects(ply.geom, pt.geom)
         ) AS pnt2
