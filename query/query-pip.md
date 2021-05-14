@@ -28,6 +28,7 @@ SELECT pt.id, poly.*
     (SELECT * FROM polygons poly 
        WHERE ST_Intersects(poly.geom, pt.geom) LIMIT 1) AS poly ON true;
 ```
+To omit points not in any polygon, use `INNER JOIN` (or just `JOIN`) instead of `LEFT OUTER JOIN`.
 
 ## Count kinds of Points in Polygons
 <https://gis.stackexchange.com/questions/356976/postgis-count-number-of-points-by-name-within-distinct-polygons>
