@@ -158,10 +158,10 @@ SELECT 'baselevel' AS type, b.geom, b.gid
   * The cutter polygons
   * The uncut base polygons
 
-### Subtract MultiPolygons from LineStrings
+### Remove MultiPolygons from LineStrings
 <https://gis.stackexchange.com/questions/239696/subtract-multipolygon-table-from-linestring-table>
-
 <https://gis.stackexchange.com/questions/11592/difference-between-two-layers-in-postgis>
+
 #### Solution
 ```sql
 SELECT COALESCE(ST_Difference(river.geom, lakes.geom), river.geom) As river_geom 
