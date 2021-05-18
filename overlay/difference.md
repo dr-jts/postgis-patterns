@@ -64,6 +64,9 @@ USING (nj_id);
 <https://gis.stackexchange.com/questions/390281/using-postgis-to-find-the-overall-difference-between-two-large-polygon-dataset>
 
 #### Solution
+* For each target polygon, find union of all intersecting eraser polygons
+* Use `LEFT JOIN` to include targets with no intersections
+* Result is either difference of eraser from target, or original target (via `COALESCE`)
 
 ```sql
 WITH input(geom) AS (VALUES
