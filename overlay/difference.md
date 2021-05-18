@@ -10,38 +10,115 @@ parent: Overlay
 
 ## Polygon Difference
 
-### Subtract MultiPolygons from LineStrings
-<https://gis.stackexchange.com/questions/239696/subtract-multipolygon-table-from-linestring-table>
-
-<https://gis.stackexchange.com/questions/11592/difference-between-two-layers-in-postgis>
-#### Solution
-```sql
-SELECT COALESCE(ST_Difference(river.geom, lakes.geom), river.geom) As river_geom 
-FROM river 
-  LEFT JOIN lakes ON ST_Intersects(river.geom, lakes.geom);
-```
-
-https://gis.stackexchange.com/questions/193217/st-difference-on-linestrings-and-polygons-slow-and-fails
-
-
-
-#### Solution
-```sql
-SELECT row_number() over() AS gid,
-ST_CollectionExtract(ST_Multi(ST_Difference(a.geom, b.geom)), 2)::geometry(MultiLineString, 27700) as geom
-FROM lines a
-  JOIN LATERAL (
-    SELECT ST_UNION(polygons.geom)
-    FROM polygons
-    WHERE ST_Intersects(a.geom,polygons.geom)
-  ) AS b;
-```
-
-### Subtract large set of polygons from a surrounding box
+### Remove large set of polygons from a surrounding box
 https://gis.stackexchange.com/questions/330051/obtaining-the-geospatial-complement-of-a-set-of-polygons-to-a-bounding-box-in-po/333562#333562
 
 #### Issues
 conventional approach is too slow to use  (Note: user never actually completed processing, so might not have encountered geometry size issues, which could also occur)
+
+### Remove polygons from single large polygon
+
+<https://gis.stackexchange.com/questions/217337/postgis-erase-logic-and-speed>.  
+
+#### Solution
+* Use `ST_Subdivide` on large polygon
+* Compute difference on subdivided pieces
+* Union remainders
+
+```sql
+-- Turn NJ into a large number of small tractable areas
+CREATE SEQUENCE nj_square_id;
+CREATE TABLE nj_squares AS
+  SELECT 
+    nextval('nj_square_id') AS nj_id, 
+    ST_SubDivide(geom) AS geom
+  FROM nj;
+
+-- Index the squares for faster searching
+CREATE INDEX nj_squares_x ON nj_squares USING GIST (geom);
+
+-- Index parcels too in case you forgot
+CREATE INDEX parcels_x ON parcels USING GIST (geom);
+
+-- For each square, compute "bits that aren't parcels"
+CREATE TABLE nj_not_parcels AS
+WITH parcel_polys AS (
+  SELECT nj.nj_id, ST_Union(p.geom) AS geom
+  FROM nj_squares nj
+  JOIN parcels p
+  ON ST_Intersects(p.geom, nj.geom)
+  GROUP BY nj.nj_id
+)
+SELECT nj_id,
+  ST_Difference(nj.geom, pp.geom) AS geom
+FROM parcel_polys pp 
+JOIN nj_squares
+USING (nj_id);
+```
+
+### Remove Polygon table from another Polygon table
+<https://gis.stackexchange.com/questions/250674/postgis-st-difference-similar-to-arcgis-erase>
+
+<https://gis.stackexchange.com/questions/187406/how-to-use-st-difference-and-st-intersection-in-case-of-multipolygons-postgis>
+
+<https://gis.stackexchange.com/questions/90174/postgis-when-i-add-a-polygon-delete-overlapping-areas-in-other-layers>
+
+<https://gis.stackexchange.com/questions/155597/using-st-difference-to-remove-overlapping-features>
+
+<https://gis.stackexchange.com/questions/390281/using-postgis-to-find-the-overall-difference-between-two-large-polygon-dataset>
+
+#### Solution
+
+```sql
+WITH input(geom) AS (VALUES
+( 'POLYGON ((10 50, 40 50, 40 10, 10 10, 10 50))'::geometry ),
+( 'POLYGON ((70 50, 70 10, 40 10, 40 50, 70 50))'::geometry ),
+( 'POLYGON ((90 50, 90 10, 70 10, 70 50, 90 50))'::geometry ),
+( 'POLYGON ((90 90, 90 50, 70 50, 70 90, 90 90))'::geometry )
+),
+eraser(geom) AS (VALUES
+( 'POLYGON ((30 60, 50 60, 50 40, 30 40, 30 60))'::geometry ),
+( 'POLYGON ((30 30, 50 30, 50 10, 30 10, 30 30))'::geometry ),
+( 'POLYGON ((60 40, 80 40, 80 20, 60 20, 60 40))'::geometry )
+)
+SELECT COALESCE(
+         ST_Difference(i.geom, ie.geom),
+         i.geom
+       ) AS geom
+FROM  input AS i
+LEFT JOIN LATERAL (
+  SELECT ST_Union(geom) AS geom
+  FROM   eraser AS e
+  WHERE  ST_Intersects(i.geom, e.geom)
+) AS ie ON true ;
+```
+
+Similar: Find portions of countries not covered by administrative areas.
+
+<https://gis.stackexchange.com/questions/313039/find-what-polygons-are-not-fully-covered-by-union-of-polygons-from-another-layer>
+
+![](https://i.stack.imgur.com/0kFJj.png)
+
+### Remove overlaps by lower-priority polygons
+https://gis.stackexchange.com/questions/379300/how-to-remove-overlaps-and-keep-highest-priority-polygon
+
+#### Solution
+
+```sql
+SELECT ST_Multi(COALESCE(
+         ST_Difference(a.geom, blade.geom),
+         a.geom
+       )) AS geom
+FROM   table1 AS a
+CROSS JOIN LATERAL (
+  SELECT ST_Union(geom) AS geom
+  FROM   table1 AS b
+  WHERE  a.prio > b.prio
+) AS blade;
+```
+
+![](https://i.stack.imgur.com/W326R.png)
+
 
 ### Split Polygons by distance from a Polygon
 <https://gis.stackexchange.com/questions/78073/separate-a-polygon-in-different-polygons-depending-of-the-distance-to-another-po>
@@ -82,106 +159,32 @@ SELECT 'baselevel' AS type, b.geom, b.gid
   * The cutter polygons
   * The uncut base polygons
 
-### Erase Polygon table from another Polygon table
-<https://gis.stackexchange.com/questions/250674/postgis-st-difference-similar-to-arcgis-erase>
+### Subtract MultiPolygons from LineStrings
+<https://gis.stackexchange.com/questions/239696/subtract-multipolygon-table-from-linestring-table>
 
-<https://gis.stackexchange.com/questions/187406/how-to-use-st-difference-and-st-intersection-in-case-of-multipolygons-postgis>
-
-<https://gis.stackexchange.com/questions/90174/postgis-when-i-add-a-polygon-delete-overlapping-areas-in-other-layers>
-
-<https://gis.stackexchange.com/questions/155597/using-st-difference-to-remove-overlapping-features>
-
-<https://gis.stackexchange.com/questions/390281/using-postgis-to-find-the-overall-difference-between-two-large-polygon-dataset>
-
+<https://gis.stackexchange.com/questions/11592/difference-between-two-layers-in-postgis>
+#### Solution
 ```sql
-WITH input(geom) AS (VALUES
-( 'POLYGON ((10 50, 40 50, 40 10, 10 10, 10 50))'::geometry ),
-( 'POLYGON ((70 50, 70 10, 40 10, 40 50, 70 50))'::geometry ),
-( 'POLYGON ((90 50, 90 10, 70 10, 70 50, 90 50))'::geometry ),
-( 'POLYGON ((90 90, 90 50, 70 50, 70 90, 90 90))'::geometry )
-),
-eraser(geom) AS (VALUES
-( 'POLYGON ((30 60, 50 60, 50 40, 30 40, 30 60))'::geometry ),
-( 'POLYGON ((30 30, 50 30, 50 10, 30 10, 30 30))'::geometry ),
-( 'POLYGON ((60 40, 80 40, 80 20, 60 20, 60 40))'::geometry )
-)
-SELECT COALESCE(
-         ST_Difference(i.geom, ie.geom),
-         i.geom
-       ) AS geom
-FROM  input AS i
-LEFT JOIN LATERAL (
-  SELECT ST_Union(geom) AS geom
-  FROM   eraser AS e
-  WHERE  ST_Intersects(i.geom, e.geom)
-) AS ie ON true ;
+SELECT COALESCE(ST_Difference(river.geom, lakes.geom), river.geom) As river_geom 
+FROM river 
+  LEFT JOIN lakes ON ST_Intersects(river.geom, lakes.geom);
 ```
 
-Similar Use Case: Find portions of countries not covered by administrative areas.
-
-<https://gis.stackexchange.com/questions/313039/find-what-polygons-are-not-fully-covered-by-union-of-polygons-from-another-layer>
-
-![](https://i.stack.imgur.com/0kFJj.png)
-
-### Remove polygons from single large polygon
-
-<https://gis.stackexchange.com/questions/217337/postgis-erase-logic-and-speed>.  
-
-A Solution: use `ST_Subdivide` on large polygon, compute difference on subdivided pieces, then union remainder.
-
-```sql
--- Turn NJ into a large number of small tractable areas
-CREATE SEQUENCE nj_square_id;
-CREATE TABLE nj_squares AS
-  SELECT 
-    nextval('nj_square_id') AS nj_id, 
-    ST_SubDivide(geom) AS geom
-  FROM nj;
-
--- Index the squares for faster searching
-CREATE INDEX nj_squares_x ON nj_squares USING GIST (geom);
-
--- Index parcels too in case you forgot
-CREATE INDEX parcels_x ON parcels USING GIST (geom);
-
--- For each square, compute "bits that aren't parcels"
-CREATE TABLE nj_not_parcels AS
-WITH parcel_polys AS (
-  SELECT nj.nj_id, ST_Union(p.geom) AS geom
-  FROM nj_squares nj
-  JOIN parcels p
-  ON ST_Intersects(p.geom, nj.geom)
-  GROUP BY nj.nj_id
-)
-SELECT nj_id,
-  ST_Difference(nj.geom, pp.geom) AS geom
-FROM parcel_polys pp 
-JOIN nj_squares
-USING (nj_id);
-```
+https://gis.stackexchange.com/questions/193217/st-difference-on-linestrings-and-polygons-slow-and-fails
 
 
-### Remove overlaps by lower-priority polygons
-https://gis.stackexchange.com/questions/379300/how-to-remove-overlaps-and-keep-highest-priority-polygon
 
 #### Solution
-
 ```sql
-SELECT ST_Multi(COALESCE(
-         ST_Difference(a.geom, blade.geom),
-         a.geom
-       )) AS geom
-FROM   table1 AS a
-CROSS JOIN LATERAL (
-  SELECT ST_Union(geom) AS geom
-  FROM   table1 AS b
-  WHERE  a.prio > b.prio
-) AS blade;
+SELECT row_number() over() AS gid,
+ST_CollectionExtract(ST_Multi(ST_Difference(a.geom, b.geom)), 2)::geometry(MultiLineString, 27700) as geom
+FROM lines a
+  JOIN LATERAL (
+    SELECT ST_UNION(polygons.geom)
+    FROM polygons
+    WHERE ST_Intersects(a.geom,polygons.geom)
+  ) AS b;
 ```
-
-![](https://i.stack.imgur.com/W326R.png)
-
-
 
 ## Polygon Symmetric Difference
 
