@@ -2,7 +2,7 @@
 parent: Processing
 ---
 
-# Buffering
+# Buffers
 {: .no_toc }
 
 1. TOC
