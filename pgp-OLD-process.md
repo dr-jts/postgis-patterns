@@ -1,3 +1,7 @@
+---
+nav_exclude: true
+---
+
 # Processing
 {: .no_toc }
 
