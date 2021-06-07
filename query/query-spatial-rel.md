@@ -91,17 +91,18 @@ LEFT JOIN LATERAL
 #### Solution using DISTINCT ON
 <https://gis.stackexchange.com/questions/41501/join-based-on-maximum-overlap-in-postgis-postgresql>
 
-1) Calculate area of intersection for every pair of records.
+1) Calculate area of intersection for every pair of rows which intersect.
 2) Order them by a.id and by intersection area when a.id are equal.
-3) In every group of equal a.id keep the first record (which has the largest intersection area because of ordering in step 2).
+3) For each `a.id` keep the first row (which has the largest intersection area because of ordering in step 2).
 
 ```sql
 SELECT DISTINCT ON (a.id)
   a.id AS a_id,
   b.id AS b_id,
-  ST_Area(ST_Intersection(a.geom, b.geom)) AS intersect_area
+  ST_Area(ST_Intersection( a.geom, b.geom )) AS intersect_area
 FROM a, b
-ORDER BY a.id, ST_Area(ST_Intersection(a.geom, b.geom)) DESC
+WHERE st_intersects( a.geom, b.geom)
+ORDER BY a.id, ST_Area(ST_Intersection( a.geom, b.geom )) DESC
 ```
 
 ### Compute hierarchy of a nested Polygonal Coverage
