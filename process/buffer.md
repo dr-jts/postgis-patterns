@@ -1,0 +1,23 @@
+---
+parent: Processing
+---
+
+# Buffering
+{: .no_toc }
+
+1. TOC
+{:toc}
+
+### Variable Width Buffer
+https://gis.stackexchange.com/questions/340968/varying-size-buffer-along-a-line-with-postgis
+
+### Expand a rectangular polygon
+https://gis.stackexchange.com/questions/308333/expanding-polygon-by-distance-using-postgis
+
+### Buffer Coastlines with inlet skeletons
+https://gis.stackexchange.com/questions/300867/how-can-i-buffer-a-mulipolygon-only-on-the-coastline
+
+### Remove Line Buffer artifacts
+https://gis.stackexchange.com/questions/363025/how-to-run-a-moving-window-function-in-a-conditional-statement-in-postgis-for-bu
+
+Quite bizarre, but apparently works.
