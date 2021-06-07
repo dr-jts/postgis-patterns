@@ -22,6 +22,34 @@ WHERE NOT EXISTS (SELECT 1 FROM streets WHERE ST_Intersects(polygons.geom, stree
 ### Test if two 3D geometries are equal
 https://gis.stackexchange.com/questions/373978/how-to-check-two-3d-geometry-are-equal-in-postgis/373980#373980
 
+## With Tolerance
+
+### Spatial Equality with Tolerance
+Example: <https://gis.stackexchange.com/questions/176359/tolerance-in-postgis>
+
+This post is about needing `ST_Equals` to have a tolerance to accommodate small differences caused by reprojection
+<https://gis.stackexchange.com/questions/141790/postgis-st-equals-false-when-st-intersection-100-of-geometry>
+
+This is about small coordinate differences defeating `ST_Equals`, and using `ST_SnapToGrid` to resolve the problem:
+<https://gis.stackexchange.com/questions/56617/st-equals-postgis-problems>
+
+This says that copying geometries to another database causes them to fail `ST_Equals` (not sure why copy would change the geom - perhaps done using WKT?).  Says that using buffer is too slow
+<https://gis.stackexchange.com/questions/213240/st-equals-not-matching-with-exact-geometry>
+
+<https://gis.stackexchange.com/questions/176359/tolerance-in-postgis>
+
+### ST_ClosestPoint does not intersect Line
+
+<https://gis.stackexchange.com/questions/11510/st-closestpointline-point-does-not-intersect-line>
+
+#### Solution
+Use `ST_DWithin`
+
+### Discrepancy between GEOS predicates and PostGIS Intersects
+<https://gis.stackexchange.com/questions/259210/how-can-a-point-not-be-within-or-touch-but-still-intersect-a-polygon>
+
+Actually it doesn’t look like there is a discrepancy now.  But still a case where a distance tolerance might clarify things.
+
 ## Polygon / Polygon
 
 ### Find Polygons not contained by other Polygons
@@ -185,3 +213,5 @@ SELECT ST_Relate('LINESTRING(0 0, 2 0)'::geometry,
 https://gis.stackexchange.com/questions/11510/st-closestpointline-point-does-not-intersect-line
 
 Also https://gis.stackexchange.com/questions/350461/find-path-containing-point
+
+
