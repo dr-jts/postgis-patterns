@@ -133,6 +133,32 @@ WHERE st_intersects( a.geom, b.geom)
 ORDER BY a.id, ST_Area(ST_Intersection( a.geom, b.geom )) DESC
 ```
 
+### Find Polygons intersecting another Polygon table using ST_Subdivide
+<https://gis.stackexchange.com/questions/224138/postgis-st-intersects-vs-arcgis-select-by-location>
+<https://blog.cleverelephant.ca/2019/11/subdivide.html>
+
+
+Subdividing Polygons into smaller pieces improves the selectivity of indexes, 
+and improves the performance of `ST_Intersects`.
+
+```sql
+CREATE TABLE lte_subdivided AS 
+SELECT ST_Subdivide(geom) as GEOM, gid
+FROM lde_coverage;
+
+CREATE TABLE cities_subdivided AS 
+SELECT ST_Subdivide(geom) as GEOM, id
+FROM cities;
+
+CREATE INDEX cgx ON cities_subdivided USING GIST (geom);
+CREATE INDEX lgx on lte_subdivided USING GIST (geom);
+
+SELECT distinct c.id 
+FROM cities_subdivided c
+JOIN lte_subdivided l 
+ON ST_Intersects(c.geom, l.geom)
+```
+
 ### Compute hierarchy of a nested Polygonal Coverage
 <https://gis.stackexchange.com/questions/343100/intersecting-polygons-to-build-boundary-hierearchy-using-postgis>
 
