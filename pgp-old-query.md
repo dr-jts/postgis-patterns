@@ -408,7 +408,7 @@ https://gis.stackexchange.com/questions/240721/postgis-performance-increase-with
 https://gis.stackexchange.com/questions/237709/speeding-up-intersect-query-in-postgis
 
 
-### Query Distance
+## Query Distance
 ### Find points NOT within distance of lines
 https://gis.stackexchange.com/questions/356497/select-points-falling-outside-of-buffer-and-count
 https://gis.stackexchange.com/questions/367594/get-all-geom-points-that-are-more-than-3-meters-from-the-linestring-at-big-scal
