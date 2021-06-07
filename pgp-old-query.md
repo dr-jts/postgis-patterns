@@ -1,3 +1,7 @@
+---
+nav_exclude: true
+---
+
 ## OLD Query
 {: .no_toc }
 
