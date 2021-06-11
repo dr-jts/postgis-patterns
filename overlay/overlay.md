@@ -62,10 +62,9 @@ Solution retains all areas from first layer, but not the second:
 <https://gis.stackexchange.com/questions/179533/arcgis-union-equivalent-in-postgis>
 
 #### See also
-This answer seems suspect:
-<https://gis.stackexchange.com/questions/302086/postgis-union-of-two-polygons-layers>
+This answer seems suspect - it may be doing more work than required.
 
-<https://gis.stackexchange.com/questions/115927/is-there-a-union-function-for-multiple-layers-comparable-to-arcgis-in-open-sourc>
+<https://gis.stackexchange.com/questions/302086/postgis-union-of-two-polygons-layers>
 
 ### Overlay of two polygon layers - by Node-Polygonize
 
