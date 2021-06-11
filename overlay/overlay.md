@@ -73,7 +73,7 @@ This answer seems suspect - it may be doing more work than required.
 * Polygonize resultants using `ST_Polygonize`
 * Generate an interior point for each resultant using `ST_PointOnSurface`
 * Attach parent attribution by joining on interior points using `ST_Contains`
-* 
+
 <https://trac.osgeo.org/postgis/wiki/UsersWikiExamplesOverlayTables>
 
 ```sql
