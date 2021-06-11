@@ -17,7 +17,6 @@ parent: Overlay
 <https://gis.stackexchange.com/questions/83/separate-polygons-based-on-intersection-using-postgis>
 <https://gis.stackexchange.com/questions/112498/postgis-overlay-style-union-not-dissolve-style>
 <https://gis.stackexchange.com/questions/109692/how-to-replicate-arcgis-intersect-in-postgis>
-<http://blog.cleverelephant.ca/2019/07/postgis-overlays.html>
 
 #### Solution
 One answer suggests the standard Extract Lines > Node > Polygonize approach (although does not include the PIP parentage step).  But a comment says that this does not scale well (Pierre Racine…).
@@ -26,6 +25,9 @@ Also links to PostGIS wiki:  <https://trac.osgeo.org/postgis/wiki/UsersWikiExamp
 
 ### Count Overlap Depth in set of polygons
 <https://gis.stackexchange.com/questions/159282/counting-overlapping-polygons-in-postgis-using-st-union-very-slow>
+<http://blog.cleverelephant.ca/2019/07/postgis-overlays.html>
+
+![](http://blog.cleverelephant.ca/images//2019/overlays8.png)
 
 #### Solution
 * Compute overlay of dataset using `ST_Node` and `ST_Polygonize`.
