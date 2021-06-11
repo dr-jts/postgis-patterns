@@ -87,6 +87,11 @@ This answer seems suspect - it may be doing more work than required.
 * Generate an interior point for each resultant using `ST_PointOnSurface`
 * Attach parent attribution by joining on interior points using `ST_Contains`
 
+#### Notes
+* All intermediate operations are dataset-wide, so materializing as intermediate tables will not improve performance.  That might help with memory usage, however.
+* The input tables should have spatial indexes, to improve performance of the final join step
+* This approach generalizes nicely to multiple tables,
+
 <https://trac.osgeo.org/postgis/wiki/UsersWikiExamplesOverlayTables>
 
 ```sql
