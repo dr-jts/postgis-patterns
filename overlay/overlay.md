@@ -150,8 +150,10 @@ INSERT INTO parcel_jurisdictions(parcel_gid,jurisdiction_gid,isect_geom)
 References
 <https://postgis.net/2014/03/14/tip_intersection_faster/>
 
-### Sum of polygonal grid values weighted by area of intersection with polygon
+### Sum rectangular grid values weighted by area of overlap with Polygons
 <https://gis.stackexchange.com/questions/171333/weighting-amount-of-overlapping-polygons-in-postgis>
+
+![](https://i.stack.imgur.com/NQ8zu.jpg)
 
 ### Sum Percentage of Polygons intersected by other Polygons, by label
 
