@@ -68,9 +68,13 @@ This answer seems suspect - it may be doing more work than required.
 
 ### Overlay of two polygon layers - by Node-Polygonize
 
+* Extract linework using `ST_Boundary`
+* Node/dissolve lines using `ST_Union`
+* Polygonize resultants using `ST_Polygonize`
+* Generate an interior point for each resultant using `ST_PointOnSurface`
+* Attach parent attribution by joining on interior points using `ST_Contains`
+* 
 <https://trac.osgeo.org/postgis/wiki/UsersWikiExamplesOverlayTables>
-
-![](https://trac.osgeo.org/postgis/raw-attachment/wiki/UsersWikiExamplesOverlayTables/overlay1.png)
 
 ```sql
 WITH poly_a(id, geom) AS (VALUES
@@ -88,7 +92,7 @@ WITH poly_a(id, geom) AS (VALUES
   UNION ALL
   SELECT ST_Boundary(geom) AS geom FROM poly_b
 )
-,noded_lines AS ( SELECT St_Union(geom) AS geom FROM lines ) 
+,noded_lines AS ( SELECT ST_Union(geom) AS geom FROM lines ) 
 ,resultants AS (  
   SELECT geom, ST_PointOnSurface(geom) AS pip 
     FROM St_Dump(
@@ -96,8 +100,8 @@ WITH poly_a(id, geom) AS (VALUES
 )
 SELECT a.id AS ida, b.id AS idb, r.geom
   FROM resultants r
-  LEFT JOIN poly_a a ON St_Within(r.pip, a.geom) 
-  LEFT JOIN poly_b b ON St_Within(r.pip, b.geom)
+  LEFT JOIN poly_a a ON ST_Contains(a.geom, r.pip) 
+  LEFT JOIN poly_b b ON ST_Contains(b.geom, r.pip)
   WHERE a.id IS NOT NULL OR b.id IS NOT NULL;
 ```
 ![image](https://user-images.githubusercontent.com/3529053/121740578-1fb6df80-cab2-11eb-93a5-eb28966766cf.png)
