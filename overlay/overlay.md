@@ -10,19 +10,20 @@ parent: Overlay
 
 ## Overlay Polygons
 
-https://gis.stackexchange.com/questions/109692/how-to-replicate-arcgis-intersect-in-postgis
+<https://gis.stackexchange.com/questions/109692/how-to-replicate-arcgis-intersect-in-postgis>
 
-http://blog.cleverelephant.ca/2019/07/postgis-overlays.html
+<http://blog.cleverelephant.ca/2019/07/postgis-overlays.html>
 
 ### Flatten / Create coverage from Nested Polygons
-https://gis.stackexchange.com/questions/266005/postgis-separate-nested-polygons
+<https://gis.stackexchange.com/questions/266005/postgis-separate-nested-polygons>
 
 ### Create Coverage from overlapping Polygons
-https://gis.stackexchange.com/questions/83/separate-polygons-based-on-intersection-using-postgis
-https://gis.stackexchange.com/questions/112498/postgis-overlay-style-union-not-dissolve-style
-Solution
+<https://gis.stackexchange.com/questions/83/separate-polygons-based-on-intersection-using-postgis>
+<https://gis.stackexchange.com/questions/112498/postgis-overlay-style-union-not-dissolve-style>
+
+#### Solution
 One answer suggests the standard Extract Lines > Node > Polygonize approach (although does not include the PIP parentage step).  But a comment says that this does not scale well (Pierre Racine…).
-Also links to PostGIS wiki:  https://trac.osgeo.org/postgis/wiki/UsersWikiExamplesOverlayTables
+Also links to PostGIS wiki:  <https://trac.osgeo.org/postgis/wiki/UsersWikiExamplesOverlayTables>
 
 ### Improve performance of a coverage overlay
 https://gis.stackexchange.com/questions/31310/acquiring-arcgis-like-speed-in-postgis/31562
