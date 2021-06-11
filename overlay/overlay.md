@@ -56,14 +56,22 @@ User implements a very complex overlay process, but can not get it to work, like
 
 ## Overlay - Two Inputs
 
-### Union of two polygon layers
+### Overlay of two polygon layers - by Intersection
+
+<https://gis.stackexchange.com/questions/179533/arcgis-union-equivalent-in-postgis>
+
 Wants a coverage overlay (called “QGIS Union”)
 <https://gis.stackexchange.com/questions/302086/postgis-union-of-two-polygons-layers>
 
 See also
-<https://gis.stackexchange.com/questions/179533/arcgis-union-equivalent-in-postgis>
+
 <https://gis.stackexchange.com/questions/115927/is-there-a-union-function-for-multiple-layers-comparable-to-arcgis-in-open-sourc>
 
+### Overlay of two polygon layers - by Node-Polygonize
+
+<https://trac.osgeo.org/postgis/wiki/UsersWikiExamplesOverlayTables>
+
+![](https://trac.osgeo.org/postgis/attachment/wiki/UsersWikiExamplesOverlayTables/overlay1.png)
 
 ### Remove Polygons overlapped area on update to Polygon in other table 
 <https://gis.stackexchange.com/questions/90174/postgis-when-i-add-a-polygon-delete-overlapping-areas-in-other-layers>
