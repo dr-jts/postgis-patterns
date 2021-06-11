@@ -71,7 +71,7 @@ See also
 
 <https://trac.osgeo.org/postgis/wiki/UsersWikiExamplesOverlayTables>
 
-![](https://trac.osgeo.org/postgis/attachment/wiki/UsersWikiExamplesOverlayTables/overlay1.png)
+![](https://trac.osgeo.org/postgis/raw-attachment/wiki/UsersWikiExamplesOverlayTables/overlay1.png)
 
 ### Remove Polygons overlapped area on update to Polygon in other table 
 <https://gis.stackexchange.com/questions/90174/postgis-when-i-add-a-polygon-delete-overlapping-areas-in-other-layers>
