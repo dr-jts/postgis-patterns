@@ -8,7 +8,7 @@ parent: Overlay
 1. TOC
 {:toc}
 
-## Overlay - Single Input
+## Overlay - Overlapping Polygons
 
 ### Flatten / Create coverage from Nested Polygons
 <https://gis.stackexchange.com/questions/266005/postgis-separate-nested-polygons>
@@ -54,7 +54,7 @@ User implements a very complex overlay process, but can not get it to work, like
 #### Solution
 `ST_Boundary` -> `ST_Union` -> `ST_Polygonize` ??
 
-## Overlay - Two Inputs
+## Overlay - Two Polygonal Coverages
 
 ### Overlay of two polygon layers - by Intersection
 
