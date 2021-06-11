@@ -72,6 +72,38 @@ This answer seems suspect - it may be doing more work than required.
 
 ![](https://trac.osgeo.org/postgis/raw-attachment/wiki/UsersWikiExamplesOverlayTables/overlay1.png)
 
+```sql
+WITH poly_a(id, geom) AS (VALUES
+    ( 'a1', 'POLYGON ((10 40, 30 40, 30 10, 10 10, 10 40))'::geometry ),
+    ( 'a2', 'POLYGON ((70 10, 30 10, 30 90, 70 90, 70 10), (40 40, 60 40, 60 20, 40 20, 40 40), (40 80, 60 80, 60 60, 40 60, 40 80))'::geometry ),
+    ( 'a3', 'POLYGON ((40 40, 60 40, 60 20, 40 20, 40 40))'::geometry )
+)
+,poly_b(id, geom) AS (VALUES
+    ( 'b1', 'POLYGON ((90 70, 90 50, 50 50, 50 70, 90 70))'::geometry ),
+    ( 'b2', 'POLYGON ((90 30, 50 30, 50 50, 90 50, 90 30))'::geometry ),
+    ( 'b2', 'POLYGON ((90 10, 70 10, 70 30, 90 30, 90 10))'::geometry )
+)
+,lines AS ( 
+  SELECT ST_Boundary(geom) AS geom FROM poly_a
+  UNION ALL
+  SELECT ST_Boundary(geom) AS geom FROM poly_b
+)
+,noded_lines AS ( SELECT St_Union(geom) AS geom FROM lines ) 
+,resultants AS (  
+  SELECT geom, ST_PointOnSurface(geom) AS pip 
+    FROM St_Dump(
+           ( SELECT ST_Polygonize(geom) AS geom FROM noded_lines ))   
+)
+SELECT a.id AS ida, b.id AS idb, r.geom
+  FROM resultants r
+  LEFT JOIN poly_a a ON St_Within(r.pip, a.geom) 
+  LEFT JOIN poly_b b ON St_Within(r.pip, b.geom)
+  WHERE a.id IS NOT NULL OR b.id IS NOT NULL;
+```
+![image](https://user-images.githubusercontent.com/3529053/121740578-1fb6df80-cab2-11eb-93a5-eb28966766cf.png)
+![image](https://user-images.githubusercontent.com/3529053/121740709-5b51a980-cab2-11eb-8b78-d74e30aede65.png)
+
+
 ### Remove Polygons overlapped area on update to Polygon in other table 
 <https://gis.stackexchange.com/questions/90174/postgis-when-i-add-a-polygon-delete-overlapping-areas-in-other-layers>
 
