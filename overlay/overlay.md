@@ -70,6 +70,9 @@ User implements a very complex overlay process, but can not get it to work, like
 Solution retains all areas from first layer, but not the second:
 <https://gis.stackexchange.com/questions/179533/arcgis-union-equivalent-in-postgis>
 
+This has what looks like a complete solution (although complex):
+<https://gis.stackexchange.com/questions/401245/getting-the-composite-of-two-polygon-layers<
+
 #### See also
 This answer seems suspect - it may be doing more work than required.
 
@@ -79,6 +82,7 @@ This answer seems suspect - it may be doing more work than required.
 
 * Extract linework using `ST_Boundary`
 * Node/dissolve lines using `ST_Union`
+  * Sometimes `ST_Node` is suggested, but it does not dissolve duplicate lines 
 * Polygonize resultants using `ST_Polygonize`
 * Generate an interior point for each resultant using `ST_PointOnSurface`
 * Attach parent attribution by joining on interior points using `ST_Contains`
