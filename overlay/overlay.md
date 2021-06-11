@@ -24,14 +24,21 @@ Also links to PostGIS wiki:  <https://trac.osgeo.org/postgis/wiki/UsersWikiExamp
 
 
 ### Count Overlap Depth in set of polygons
-<https://gis.stackexchange.com/questions/159282/counting-overlapping-polygons-in-postgis-using-st-union-very-slow>
+
 <http://blog.cleverelephant.ca/2019/07/postgis-overlays.html>
 
 ![](http://blog.cleverelephant.ca/images//2019/overlays8.png)
 
+Howver, this post indicates this approach might be slow for large datasets:
+<https://gis.stackexchange.com/questions/159282/counting-overlapping-polygons-in-postgis-using-st-union-very-slow>
+
 #### Solution
-* Compute overlay of dataset using `ST_Node` and `ST_Polygonize`.
-* Count overlap depth using `ST_PointOnSurface` and `ST_Contains`
+* Extract linework of polygons using `ST_Boundary`
+* Compute overlay of dataset using `ST_Union` 
+  * sometimes `ST_Node` is suggested, but this does not dissolve linework, which causes problems with polgonization 
+* Polygonize linwork using `ST_Polygonize`
+* Generate an interior point for each resultant using `ST_PointOnSurface`
+* Count resultant overlap depth by joining back to original dataset with `ST_Contains`
 
 ### Identify Overlapping Polygon Resultant Parentage
 
