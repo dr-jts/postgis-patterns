@@ -24,35 +24,10 @@ One answer suggests the standard Extract Lines > Node > Polygonize approach (alt
 Also links to PostGIS wiki:  <https://trac.osgeo.org/postgis/wiki/UsersWikiExamplesOverlayTables>
 
 
-
-### Find non-covered polygons
-<https://gis.stackexchange.com/questions/333302/selecting-non-overlapping-polygons-from-a-one-layer-in-postgis>
-```sql
-WITH
-data AS (
-    SELECT * FROM (VALUES
-        ( 'A', 'POLYGON ((100 200, 200 200, 200 100, 100 100, 100 200))'::geometry ),
-        ( 'B', 'POLYGON ((300 200, 400 200, 400 100, 300 100, 300 200))'::geometry ),
-        ( 'C', 'POLYGON ((100 400, 200 400, 200 300, 100 300, 100 400))'::geometry ),
-        ( 'AA', 'POLYGON ((120 380, 180 380, 180 320, 120 320, 120 380))'::geometry ),
-        ( 'BA', 'POLYGON ((110 180, 160 180, 160 130, 110 130, 110 180))'::geometry ),
-        ( 'BB', 'POLYGON ((170 130, 190 130, 190 110, 170 110, 170 130))'::geometry ),
-        ( 'CA', 'POLYGON ((330 170, 380 170, 380 120, 330 120, 330 170))'::geometry ),
-        ( 'AAA', 'POLYGON ((330 170, 380 170, 380 120, 330 120, 330 170))'::geometry ),
-        ( 'BAA', 'POLYGON ((121 171, 151 171, 151 141, 121 141, 121 171))'::geometry ),
-        ( 'CAA', 'POLYGON ((341 161, 351 161, 351 141, 341 141, 341 161))'::geometry ),
-        ( 'CAB', 'POLYGON ((361 151, 371 151, 371 131, 361 131, 361 151))'::geometry )
-    ) AS t(id, geom)
-)
-SELECT a.id
-FROM data AS A
-LEFT JOIN data AS b ON a.id <> b.id AND ST_CoveredBy(a.geom, b.geom)
-WHERE b.geom IS NULL;
-```
 ### Count Overlap Depth in set of polygons
 <https://gis.stackexchange.com/questions/159282/counting-overlapping-polygons-in-postgis-using-st-union-very-slow>
 
-#### Solution 1: 
+#### Solution
 * Compute overlay of dataset using `ST_Node` and `ST_Polygonize`.
 * Count overlap depth using `ST_PointOnSurface` and `ST_Contains`
 
