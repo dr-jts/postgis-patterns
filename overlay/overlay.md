@@ -26,7 +26,7 @@ One answer suggests the standard Extract Lines > Node > Polygonize approach (alt
 Also links to PostGIS wiki:  <https://trac.osgeo.org/postgis/wiki/UsersWikiExamplesOverlayTables>
 
 ### Improve performance of a coverage overlay
-<https://gis.stackexchange.com/questions/31310/acquiring-arcgis-like-speed-in-postgis/31562>
+<https://gis.stackexchange.com/questions/31310/acquiring-arcgis-like-speed-in-postgis>
 
 #### Problem
 Finding all intersections of a large set of parcel polygons against a set of jurisdiction polygons is slow
@@ -36,7 +36,10 @@ Reduce # calls to ST_Intersection by testing if parcel is wholly contained in po
 ```sql
 INSERT INTO parcel_jurisdictions(parcel_gid,jurisdiction_gid,isect_geom) 
   SELECT a.orig_gid AS parcel_gid, b.orig_gid AS jurisdiction_gid, 
-    CASE WHEN ST_Within(a.geom,b.geom) THEN a.geom ELSE ST_Multi(ST_Intersection(a.geom,b.geom)) END AS geom 
+    CASE 
+      WHEN ST_Within(a.geom,b.geom) THEN a.geom 
+      ELSE ST_Multi(ST_Intersection(a.geom,b.geom)) 
+    END AS geom 
   FROM valid_parcels a 
     JOIN valid_jurisdictions b ON ST_Intersects(a.geom, b.geom);
 ```
