@@ -16,6 +16,14 @@ parent: Processing
 ### Expand a rectangular polygon
 <https://gis.stackexchange.com/questions/308333/expanding-polygon-by-distance-using-postgis>
 
+Use `join=mitre mitre_limit=<buffer distance>`
+
+```sql
+SELECT ST_Buffer(
+        'LINESTRING(5 5,15 15,15 5)'
+           ), 1, 'endcap=square join=mitre mitre_limit=1');
+```
+
 ### Buffer Coastlines with inlet skeletons
 <https://gis.stackexchange.com/questions/300867/how-can-i-buffer-a-mulipolygon-only-on-the-coastline>
 
