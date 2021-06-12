@@ -90,7 +90,10 @@ This answer seems suspect - it may be doing more work than required.
 #### Notes
 * All intermediate operations are dataset-wide, so materializing as intermediate tables will not improve performance.  That might help with memory usage, however.
 * The input tables should have spatial indexes, to improve performance of the final join step
-* This approach generalizes nicely to multiple tables,
+* Compard to the intersection approach, this approach:
+  * reduces the chance of a topology error due to input precision or invalidity
+  * is more likely to produce a non-overlapping coverage as a result
+* This approach generalizes easily to multiple tables,
 
 <https://trac.osgeo.org/postgis/wiki/UsersWikiExamplesOverlayTables>
 
