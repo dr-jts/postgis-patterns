@@ -11,6 +11,8 @@ parent: Processing
 ### Variable Width Buffer
 <https://gis.stackexchange.com/questions/340968/varying-size-buffer-along-a-line-with-postgis>
 
+![](https://i.stack.imgur.com/sUKMj.png)
+
 ### Expand a rectangular polygon
 <https://gis.stackexchange.com/questions/308333/expanding-polygon-by-distance-using-postgis>
 
