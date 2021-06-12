@@ -88,13 +88,15 @@ This answer seems suspect - it may be doing more work than required.
 * Attach parent attribution by joining on interior points using `ST_Contains`
 
 #### Notes
-* All intermediate operations are dataset-wide, so materializing as intermediate tables will not improve performance.  That might help with memory usage, however.
+* All intermediate operations are dataset-wide, so materializing as intermediate tables will not improve performance.  
+  * But it might help with memory usage, and monitoring progress
 * The input tables should have spatial indexes, to improve performance of the final join step
 * Compard to the intersection approach, this approach:
   * reduces the chance of a topology error due to input precision or invalidity
   * is more likely to produce a non-overlapping coverage as a result
 * This approach generalizes easily to multiple tables,
 
+<https://gis.stackexchange.com/questions/401245/getting-the-composite-of-two-polygon-layers>
 <https://trac.osgeo.org/postgis/wiki/UsersWikiExamplesOverlayTables>
 
 ```sql
