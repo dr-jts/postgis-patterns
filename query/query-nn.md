@@ -8,6 +8,25 @@ parent: Querying
 1. TOC
 {:toc}
 
+### Technical Explanation
+<https://blog.crunchydata.com/blog/a-deep-dive-into-postgis-nearest-neighbor-search>
+
+`<->` Operator [manual](https://postgis.net/docs/geometry_distance_knn.html).
+
+PostGIS workshop - [Nearest Neighbour Searching](https://postgis.net/workshops/postgis-intro/knn.html).
+
+### Using KNN with JOIN LATERAL
+<http://www.postgresonline.com/journal/archives/306-KNN-GIST-with-a-Lateral-twist-Coming-soon-to-a-database-near-you.html>
+
+<https://gis.stackexchange.com/questions/207592/postgis-osm-faster-query-to-find-nearest-line-of-points>
+
+<https://gis.stackexchange.com/questions/278357/how-to-update-with-lateral-nearest-neighbour-query>
+<https://gis.stackexchange.com/questions/338312/find-closest-polygon-from-point-and-get-its-attributes>
+
+<https://carto.com/blog/lateral-joins/>
+
+
+
 ## Point / Point
 
 ### Find Nearest Point to Points in same table
@@ -44,19 +63,6 @@ ON true;
 <https://gis.stackexchange.com/questions/136403/postgis-nearest-points-with-st-distance-knn>
 Lots of obsolete options, dbastons answer is best
 
-
-### Using KNN with JOIN LATERAL
-<http://www.postgresonline.com/journal/archives/306-KNN-GIST-with-a-Lateral-twist-Coming-soon-to-a-database-near-you.html>
-
-<https://gis.stackexchange.com/questions/207592/postgis-osm-faster-query-to-find-nearest-line-of-points>
-
-<https://gis.stackexchange.com/questions/278357/how-to-update-with-lateral-nearest-neighbour-query>
-<https://gis.stackexchange.com/questions/338312/find-closest-polygon-from-point-and-get-its-attributes>
-
-<https://carto.com/blog/lateral-joins/>
-
-#### Technical Explanation
-<https://blog.crunchydata.com/blog/a-deep-dive-into-postgis-nearest-neighbor-search>
 
 ### Compute point value as average of N nearest points
 <https://gis.stackexchange.com/questions/349754/calculate-average-of-the-temperature-value-from-4-surrounded-points-in-postgis>
