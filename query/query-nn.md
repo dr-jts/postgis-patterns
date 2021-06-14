@@ -36,29 +36,38 @@ JOIN LATERAL (
 ) AS g2
 ON true;
 ```
-https://gis.stackexchange.com/questions/136403/postgis-nearest-points-with-st-distance-knn
+
+<https://gis.stackexchange.com/questions/401425/postgis-closest-point-to-another-point>
+
+<https://gis.stackexchange.com/questions/136403/postgis-nearest-points-with-st-distance-knn>
 Lots of obsolete options, dbastons answer is best
 
 ## Snap Points to closest Point on Line
-https://gis.stackexchange.com/questions/279387/automatically-snapping-points-to-closest-part-of-line
-## Find Shortest Line from Points to Roads (KNN, LATERAL)
-https://gis.stackexchange.com/questions/332019/distinct-st-shortestline
+<https://gis.stackexchange.com/questions/279387/automatically-snapping-points-to-closest-part-of-line>
 
-https://gis.stackexchange.com/questions/283794/get-barrier-edge-id
+## Find Shortest Line from Points to Roads (KNN, LATERAL)
+<https://gis.stackexchange.com/questions/332019/distinct-st-shortestline>
+
+<https://gis.stackexchange.com/questions/283794/get-barrier-edge-id>
 
 ## Matching points to nearest Line Segments
-https://gis.stackexchange.com/questions/296445/get-closest-road-segment-to-segmentized-linestring-points
+<https://gis.stackexchange.com/questions/296445/get-closest-road-segment-to-segmentized-linestring-points>
+
 ## Using KNN with JOIN LATERAL
-http://www.postgresonline.com/journal/archives/306-KNN-GIST-with-a-Lateral-twist-Coming-soon-to-a-database-near-you.html
+<http://www.postgresonline.com/journal/archives/306-KNN-GIST-with-a-Lateral-twist-Coming-soon-to-a-database-near-you.html>
 
-https://gis.stackexchange.com/questions/207592/postgis-osm-faster-query-to-find-nearest-line-of-points?rq=
+<https://gis.stackexchange.com/questions/207592/postgis-osm-faster-query-to-find-nearest-line-of-points>
 
-https://gis.stackexchange.com/questions/278357/how-to-update-with-lateral-nearest-neighbour-query
-https://gis.stackexchange.com/questions/338312/find-closest-polygon-from-point-and-get-its-attributes
+<https://gis.stackexchange.com/questions/278357/how-to-update-with-lateral-nearest-neighbour-query>
+<https://gis.stackexchange.com/questions/338312/find-closest-polygon-from-point-and-get-its-attributes>
 
-https://carto.com/blog/lateral-joins/
+<https://carto.com/blog/lateral-joins/>
+
+#### Technical Explanation
+<https://blog.crunchydata.com/blog/a-deep-dive-into-postgis-nearest-neighbor-search>
+
 ## Compute point value as average of N nearest points
-https://gis.stackexchange.com/questions/349754/calculate-average-of-the-temperature-value-from-4-surrounded-points-in-postgis
+<https://gis.stackexchange.com/questions/349754/calculate-average-of-the-temperature-value-from-4-surrounded-points-in-postgis>
 
 #### Solution
 Uses LATERAL and KNN <->
@@ -75,10 +84,10 @@ CROSS JOIN LATERAL
 GROUP BY a.id,a.geom
 ```
 ## Query Nearest Neighbours having record in temporal join table 
-https://gis.stackexchange.com/questions/357237/find-knn-having-reference-in-a-table
+<https://gis.stackexchange.com/questions/357237/find-knn-having-reference-in-a-table>
 
 ## Snapping Points to Nearest Line
-https://gis.stackexchange.com/questions/365070/update-points-geometry-in-postgis-database-snapping-them-to-nearest-line
+<https://gis.stackexchange.com/questions/365070/update-points-geometry-in-postgis-database-snapping-them-to-nearest-line>
 ```sql
 UPDATE points
   SET  geom = (
@@ -90,4 +99,4 @@ UPDATE points
   );
 ```
 ## Find near polygons to line
-https://gis.stackexchange.com/questions/377674/find-nearest-polygons-of-a-multi-line-string
+<https://gis.stackexchange.com/questions/377674/find-nearest-polygons-of-a-multi-line-string>
