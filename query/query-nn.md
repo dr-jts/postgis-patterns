@@ -8,10 +8,12 @@ parent: Querying
 1. TOC
 {:toc}
 
-## Find Nearest Point to Points in same table
+## Point / Point
+
+### Find Nearest Point to Points in same table
 <https://gis.stackexchange.com/questions/287774/nearest-neighbor>
 
-## Nearest Point to Points in different table
+### Nearest Point to Points in different table
 <https://gis.stackexchange.com/questions/340192/calculating-distance-between-every-entry-in-table-a-and-nearest-record-in-table>
 
 <https://gis.stackexchange.com/questions/297208/efficient-way-to-find-nearest-feature-between-huge-postgres-tables>
@@ -42,18 +44,8 @@ ON true;
 <https://gis.stackexchange.com/questions/136403/postgis-nearest-points-with-st-distance-knn>
 Lots of obsolete options, dbastons answer is best
 
-## Snap Points to Nearest Point on Line
-<https://gis.stackexchange.com/questions/279387/automatically-snapping-points-to-closest-part-of-line>
 
-## Find Shortest Line from Points to Roads (KNN, LATERAL)
-<https://gis.stackexchange.com/questions/332019/distinct-st-shortestline>
-
-<https://gis.stackexchange.com/questions/283794/get-barrier-edge-id>
-
-## Matching points to nearest Line Segments
-<https://gis.stackexchange.com/questions/296445/get-closest-road-segment-to-segmentized-linestring-points>
-
-## Using KNN with JOIN LATERAL
+### Using KNN with JOIN LATERAL
 <http://www.postgresonline.com/journal/archives/306-KNN-GIST-with-a-Lateral-twist-Coming-soon-to-a-database-near-you.html>
 
 <https://gis.stackexchange.com/questions/207592/postgis-osm-faster-query-to-find-nearest-line-of-points>
@@ -66,7 +58,7 @@ Lots of obsolete options, dbastons answer is best
 #### Technical Explanation
 <https://blog.crunchydata.com/blog/a-deep-dive-into-postgis-nearest-neighbor-search>
 
-## Compute point value as average of N nearest points
+### Compute point value as average of N nearest points
 <https://gis.stackexchange.com/questions/349754/calculate-average-of-the-temperature-value-from-4-surrounded-points-in-postgis>
 
 #### Solution
@@ -83,10 +75,23 @@ CROSS JOIN LATERAL
    LIMIT 4) AS c
 GROUP BY a.id,a.geom
 ```
-## Find Nearest Neighbours having record in temporal join table 
+### Find Nearest Neighbours having record in temporal join table 
 <https://gis.stackexchange.com/questions/357237/find-knn-having-reference-in-a-table>
 
-## Snapping Points to Nearest Line
+## Point / Line
+
+### Snap Points to Nearest Point on Line
+<https://gis.stackexchange.com/questions/279387/automatically-snapping-points-to-closest-part-of-line>
+
+### Find Shortest Line from Points to Roads (KNN, LATERAL)
+<https://gis.stackexchange.com/questions/332019/distinct-st-shortestline>
+
+<https://gis.stackexchange.com/questions/283794/get-barrier-edge-id>
+
+### Matching points to Nearest Line Segments
+<https://gis.stackexchange.com/questions/296445/get-closest-road-segment-to-segmentized-linestring-points>
+
+### Snapping Points to Nearest Line
 <https://gis.stackexchange.com/questions/365070/update-points-geometry-in-postgis-database-snapping-them-to-nearest-line>
 ```sql
 UPDATE points
@@ -98,5 +103,7 @@ UPDATE points
     LIMIT 1
   );
 ```
-## Find Nearest Polygons to Line
+
+## Polygon / Line
+### Find Nearest Polygons to Line
 <https://gis.stackexchange.com/questions/377674/find-nearest-polygons-of-a-multi-line-string>
