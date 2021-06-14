@@ -90,7 +90,6 @@ GROUP BY a.id,a.geom
 ### Snap Points to Nearest Point on Line
 <https://gis.stackexchange.com/questions/279387/automatically-snapping-points-to-closest-part-of-line>
 
-### Snap Points to Nearest Line
 <https://gis.stackexchange.com/questions/365070/update-points-geometry-in-postgis-database-snapping-them-to-nearest-line>
 ```sql
 UPDATE points
