@@ -80,18 +80,17 @@ GROUP BY a.id,a.geom
 
 ## Point / Line
 
-### Snap Points to Nearest Point on Line
-<https://gis.stackexchange.com/questions/279387/automatically-snapping-points-to-closest-part-of-line>
-
 ### Find Shortest Line from Points to Roads (KNN, LATERAL)
 <https://gis.stackexchange.com/questions/332019/distinct-st-shortestline>
 
 <https://gis.stackexchange.com/questions/283794/get-barrier-edge-id>
 
-### Matching points to Nearest Line Segments
 <https://gis.stackexchange.com/questions/296445/get-closest-road-segment-to-segmentized-linestring-points>
 
-### Snapping Points to Nearest Line
+### Snap Points to Nearest Point on Line
+<https://gis.stackexchange.com/questions/279387/automatically-snapping-points-to-closest-part-of-line>
+
+### Snap Points to Nearest Line
 <https://gis.stackexchange.com/questions/365070/update-points-geometry-in-postgis-database-snapping-them-to-nearest-line>
 ```sql
 UPDATE points
