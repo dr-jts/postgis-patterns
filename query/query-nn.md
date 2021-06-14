@@ -9,12 +9,12 @@ parent: Querying
 {:toc}
 
 ## Nearest Point to each point in same table
-https://gis.stackexchange.com/questions/287774/nearest-neighbor
+<https://gis.stackexchange.com/questions/287774/nearest-neighbor>
 
 ## Nearest Point to each point in different table
-https://gis.stackexchange.com/questions/340192/calculating-distance-between-every-entry-in-table-a-and-nearest-record-in-table
+<https://gis.stackexchange.com/questions/340192/calculating-distance-between-every-entry-in-table-a-and-nearest-record-in-table>
 
-https://gis.stackexchange.com/questions/297208/efficient-way-to-find-nearest-feature-between-huge-postgres-tables
+<https://gis.stackexchange.com/questions/297208/efficient-way-to-find-nearest-feature-between-huge-postgres-tables>
 Very thorough explanation, including difference between geom and geog
 ```sql
 SELECT g1.gid AS gref_gid,
