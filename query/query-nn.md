@@ -8,10 +8,10 @@ parent: Querying
 1. TOC
 {:toc}
 
-## Nearest Point to each point in same table
+## Find Nearest Point to Points in same table
 <https://gis.stackexchange.com/questions/287774/nearest-neighbor>
 
-## Nearest Point to each point in different table
+## Nearest Point to Points in different table
 <https://gis.stackexchange.com/questions/340192/calculating-distance-between-every-entry-in-table-a-and-nearest-record-in-table>
 
 <https://gis.stackexchange.com/questions/297208/efficient-way-to-find-nearest-feature-between-huge-postgres-tables>
@@ -42,7 +42,7 @@ ON true;
 <https://gis.stackexchange.com/questions/136403/postgis-nearest-points-with-st-distance-knn>
 Lots of obsolete options, dbastons answer is best
 
-## Snap Points to closest Point on Line
+## Snap Points to Nearest Point on Line
 <https://gis.stackexchange.com/questions/279387/automatically-snapping-points-to-closest-part-of-line>
 
 ## Find Shortest Line from Points to Roads (KNN, LATERAL)
@@ -83,7 +83,7 @@ CROSS JOIN LATERAL
    LIMIT 4) AS c
 GROUP BY a.id,a.geom
 ```
-## Query Nearest Neighbours having record in temporal join table 
+## Find Nearest Neighbours having record in temporal join table 
 <https://gis.stackexchange.com/questions/357237/find-knn-having-reference-in-a-table>
 
 ## Snapping Points to Nearest Line
@@ -98,5 +98,5 @@ UPDATE points
     LIMIT 1
   );
 ```
-## Find near polygons to line
+## Find Nearest Polygons to Line
 <https://gis.stackexchange.com/questions/377674/find-nearest-polygons-of-a-multi-line-string>
