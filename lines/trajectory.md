@@ -1,5 +1,5 @@
 ---
-parent: Lines
+parent: Lines and Networks
 ---
 
 # Temporal Trajectories
