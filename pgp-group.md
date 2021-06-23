@@ -71,6 +71,13 @@ SELECT col,
        (ARRAY_AGG(geo ORDER BY dt))[1]
 FROM t GROUP BY col
 ```
+### Group points by attribute and compute a representative location
+<https://gis.stackexchange.com/questions/269407/centroid-of-point-cluster-points>
+
+Use `ST_Collect` with `ST_Centroid` or `ST_GeometricMedian`:
+```sql
+SELECT village, ST_Centroid(ST_Collect(geom)) AS geom FROM your_table GROUP BY village;
+```
 
 ## Clustering
 See <https://gis.stackexchange.com/questions/11567/spatial-clustering-with-postgis> 
@@ -132,9 +139,6 @@ Explains how DBSCAN is a superset of `ST_ClusterWithin`, and provides simpler, m
 
 ### Cluster with DBSCAN partitioned by polygons
 <https://gis.stackexchange.com/questions/284190/python-cluster-points-with-dbscan-keeping-into-account-polygon-boundaries>
-
-### Compute centroid of a group of points
-<https://gis.stackexchange.com/questions/269407/centroid-of-point-cluster-points>
 
 ### FInd polygons which are not close to any other polygon
 <https://gis.stackexchange.com/questions/312167/calculating-shortest-distance-between-polygons>
