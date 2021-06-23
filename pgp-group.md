@@ -26,6 +26,8 @@ DBSCAN uses distance. This will also cluster polygons which touch only at a poin
 ### Group connected LineStrings
 <https://gis.stackexchange.com/questions/94203/grouping-connected-linestrings-in-postgis>
 
+![](https://i.stack.imgur.com/WNlxX.png)
+
 Presents a recursive CTE approach, but ultimately recommends using `ST_ClusterDBCSAN` or `ST_ClusterIntersecting`.
 
 ### Group LineStrings via connectivity and attribute
