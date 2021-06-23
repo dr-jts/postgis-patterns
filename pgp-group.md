@@ -51,6 +51,22 @@ Note: posts do not provide a PostGIS solution for this.  Not known if such a sol
 Would need a recursive query to do this.
 How to keep clusters compact?
 
+### Group keeping only one Geometry
+<https://stackoverflow.com/questions/67972764/alternative-first-function-for-geometry-type>
+
+Using `FIRST_VALUE` window function:
+```sql
+SELECT DISTINCT col,
+       FIRSET_VALUE(geom) OVER (PARTITION BY col ORDER BT dt)
+FROM t;
+```
+
+```sql
+SELECT col,
+       (ARRAY_AGG(geo ORDER BY dt))[1]
+FROM t GROUP BY col
+```
+
 ## Clustering
 See <https://gis.stackexchange.com/questions/11567/spatial-clustering-with-postgis> 
 for a variety of approaches that predate a lot of the PostGIS clustering functions.
