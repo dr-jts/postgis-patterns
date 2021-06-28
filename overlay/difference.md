@@ -186,6 +186,44 @@ FROM lines a
   ) AS b;
 ```
 
+### Extract Block faces Lines from Parcel Polygons
+<https://gis.stackexchange.com/questions/402646/get-frontage-parcels-lines-for-polygonal-parcels-in-postgis>
+
+![](https://i.stack.imgur.com/aEXYa.jpg)
+
+#### Solution 1
+Union all polygons to get block polygons, subtract from parcel boundaries
+
+```sql
+SELECT block.id, ST_Intersection(block.geom, boundary.geom) geom
+FROM block
+JOIN (
+SELECT ST_Boundary((ST_Dump(ST_Union(geom))).geom) geom
+FROM block) boundary
+ON ST_Intersects(block.geom, boundary.geom)
+```
+#### Solution 2
+For each parcel, union all adjacent parcels and subtract from parcel boundary.
+
+```sql
+WITH parcels(id, geom) AS (VALUES
+    ( 'a1', 'POLYGON ((10 10, 10 30, 30 30, 30 10, 10 10))'::geometry ),
+    ( 'a2', 'POLYGON ((50 10, 30 10, 30 30, 50 30, 50 10))'::geometry ),
+    ( 'a3', 'POLYGON ((10 50, 30 50, 30 30, 10 30, 10 50))'::geometry ),
+    ( 'a4', 'POLYGON ((50 50, 50 30, 30 30, 30 50, 50 50))'::geometry )
+)
+SELECT p.id, 
+       ST_Difference( ST_Boundary(p.geom), pp.geom ) AS geom
+FROM parcels p
+  JOIN LATERAL (SELECT ST_Collect(ST_Boundary(p2.geom)) AS geom
+              FROM parcels p2 
+              WHERE p.id <> p2.id AND ST_Intersects(p.geom, p2.geom) ) AS pp ON true;
+```
+**Advantages:**
+
+* scales to an unlimited number of parcels
+* may provide better feedback if the parcels are not noded correctly (since more of each parcel's linework is kept)
+
 ## Polygon Symmetric Difference
 
 ### Construct symmetric difference of two tables
