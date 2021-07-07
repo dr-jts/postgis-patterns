@@ -15,7 +15,7 @@ parent: Overlay
 
 
 ### Split rectangles along North-South axis
-https://gis.stackexchange.com/questions/239801/how-can-i-split-a-polygon-into-two-equal-parts-along-a-n-s-axis?rq=1
+<https://gis.stackexchange.com/questions/239801/how-can-i-split-a-polygon-into-two-equal-parts-along-a-n-s-axis?rq=1>
 
 ### Split rotated rectangles into equal parts
 <https://gis.stackexchange.com/questions/286184/splitting-polygon-in-equal-parts-based-on-polygon-area>
