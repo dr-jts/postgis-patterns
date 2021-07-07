@@ -8,7 +8,11 @@ parent: Overlay
 1. TOC
 {:toc}
 
+### Split Polygons by multiple LineStrings
 <https://gis.stackexchange.com/questions/299849/split-polygon-into-separate-polygons-using-a-table-of-individual-lines>
+
+![](https://i.stack.imgur.com/yP0rj.png)
+
 
 ### Split rectangles along North-South axis
 https://gis.stackexchange.com/questions/239801/how-can-i-split-a-polygon-into-two-equal-parts-along-a-n-s-axis?rq=1
