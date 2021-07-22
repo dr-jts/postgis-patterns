@@ -97,6 +97,25 @@ https://gis.stackexchange.com/questions/212543/compare-row-to-all-others-in-post
 #### Solution
 For each polygon, compute union of polygons which intersect it, then test if the union covers the polygon
 
+### Improve performance to find Polygons covered by other Polygons
+<https://gis.stackexchange.com/questions/404461/best-practice-for-counting-polygons-in-polygons>
+
+`pop` represents populated areas and it contains about 30k of polygons. 
+`polys` is smaller polygons with about 120M recors. Want to count how many smaller polygons are within populated areas
+
+Depending on the average shape of those Polygons you may see a boost in performance when pre-filtering by the `ST_Centroid` of the public.polys.wkb_geometry:
+The idea is to limit the containment check to only those Polygons where at least the `ST_Centroid` intersects the larger Polygon.
+Could use `ST_PointOnSurface` too, but this approach only makes sense where the checked polygon is small enough to pass the bbox containment, but outside the actual bounds.
+
+```sql
+SELECT COUNT(ply.*)
+FROM   public.polys AS small
+JOIN   public.pop_area AS big
+  ON   big.geom ~ small.geom 
+ AND   ST_Intersects(big.geom, ST_Centroid( small.geom ))
+WHERE  ST_Contains(big.geom, small.geom);
+```
+
 ### Find Polygons which touch in a line
 ```sql
 WITH 
