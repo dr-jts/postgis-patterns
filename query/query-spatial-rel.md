@@ -186,7 +186,6 @@ ORDER BY a.id, ST_Area(ST_Intersection( a.geom, b.geom )) DESC
 <https://gis.stackexchange.com/questions/224138/postgis-st-intersects-vs-arcgis-select-by-location>
 <https://blog.cleverelephant.ca/2019/11/subdivide.html>
 
-
 Subdividing Polygons into smaller pieces improves the selectivity of indexes, 
 and improves the performance of `ST_Intersects`.
 
@@ -211,7 +210,35 @@ ON ST_Intersects(c.geom, l.geom)
 ### Compute hierarchy of a nested Polygonal Coverage
 <https://gis.stackexchange.com/questions/343100/intersecting-polygons-to-build-boundary-hierearchy-using-postgis>
 
-A table of polygons which form a set of nested hierarchical coverages, but coverage hierarchy is not explicitly represented.
+Given a table of polygons which form a set of nested/hierarchical coverages, compute an explicit hierachy path for each polygon
+
+![](https://i.stack.imgur.com/d8iEG.jpg)
+
+If the source table is:
+```
+geom of A
+geom of AA
+geom of AB
+geom of AC
+geom of AB1
+geom of AB2
+geom of AC1
+geom of AC2
+geom of AC11
+geom of AC12
+geom of AC21
+geom of AC22
+```
+the output will be:
+```
+AA, A, geom of AA
+AB1, AB, A, geom of AB1
+AB2, AB, A, geom of AB2
+AC11, AC1, AC, A, geom of AC11
+AC12, AC1, AC, A, geom of AC12
+AC21, AC2, AC, A, geom of AC21
+AC22, AC2, AC, A, geom of AC21
+```
 
 #### Solution
 Determine contains relationships based on interior points and areas. Can use a recursive query on that to extract paths if needed. 
