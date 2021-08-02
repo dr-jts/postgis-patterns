@@ -294,7 +294,7 @@ SELECT * FROM pcpath;
 ### Find Lines that touch but do not cross Polygons
 
 <https://gis.stackexchange.com/questions/160142/intersection-between-line-polygon-in-postgis>
-![https://i.stack.imgur.com/nkhe3.png]()
+![](https://i.stack.imgur.com/nkhe3.png)
 
 ```sql
 SELECT lines.geom
