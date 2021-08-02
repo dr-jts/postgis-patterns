@@ -25,7 +25,7 @@ WHERE NOT EXISTS (SELECT 1 FROM streets WHERE ST_Intersects(polygons.geom, stree
 * Use a `LEFT JOIN ON ST_Intersects/ST_Equals` with `WHERE right-side = NULL`
 
 ### Test if two 3D geometries are equal
-https://gis.stackexchange.com/questions/373978/how-to-check-two-3d-geometry-are-equal-in-postgis/373980#373980
+<https://gis.stackexchange.com/questions/373978/how-to-check-two-3d-geometry-are-equal-in-postgis>
 
 ## With Tolerance
 
@@ -58,7 +58,7 @@ Actually it doesn’t look like there is a discrepancy now.  But still a case wh
 ## Polygon / Polygon
 
 ### Find Polygons not contained by other Polygons
-https://gis.stackexchange.com/questions/185308/find-polygons-that-does-not-contain-any-polygons-with-postgis
+<https://gis.stackexchange.com/questions/185308/find-polygons-that-does-not-contain-any-polygons-with-postgis>
 
 #### Solution
 Use the LEFT JOIN on `ST_Contains` with NULL result pattern
@@ -89,10 +89,10 @@ WHERE b.geom IS NULL;
 ```
 
 ### Find Polygons NOT covered by union of other Polygons
-https://gis.stackexchange.com/questions/313039/find-what-polygons-are-not-fully-covered-by-union-of-polygons-from-another-layer
+<https://gis.stackexchange.com/questions/313039/find-what-polygons-are-not-fully-covered-by-union-of-polygons-from-another-layer>
 
 ### Find Polygons covered by a set of other polygons
-https://gis.stackexchange.com/questions/212543/compare-row-to-all-others-in-postgis
+<https://gis.stackexchange.com/questions/212543/compare-row-to-all-others-in-postgis>
 
 #### Solution
 For each polygon, compute union of polygons which intersect it, then test if the union covers the polygon
@@ -131,7 +131,7 @@ SELECT a.id, b.id,
 ```
 
 ### Find Polygons in a Coverage NOT fully enclosed by other Polygons
-https://gis.stackexchange.com/questions/291824/determine-if-a-polygon-is-not-enclosed-by-other-polygons
+<https://gis.stackexchange.com/questions/291824/determine-if-a-polygon-is-not-enclosed-by-other-polygons>
 
 ![](https://i.stack.imgur.com/tp5WK.png)
 
@@ -212,6 +212,7 @@ ON ST_Intersects(c.geom, l.geom)
 <https://gis.stackexchange.com/questions/343100/intersecting-polygons-to-build-boundary-hierearchy-using-postgis>
 
 A table of polygons which form a set of nested hierarchical coverages, but coverage hierarchy is not explicitly represented.
+
 #### Solution
 Determine contains relationships based on interior points and areas. Can use a recursive query on that to extract paths if needed. 
 
@@ -254,17 +255,18 @@ SELECT * FROM pcpath;
 ## Polygon / Line
 
 ### Find Start Points of Rivers and Headwater polygons
-https://gis.stackexchange.com/questions/131806/find-start-of-river
-https://gis.stackexchange.com/questions/132266/find-headwater-polygons?noredirect=1&lq=1
+<https://gis.stackexchange.com/questions/131806/find-start-of-river>
+<https://gis.stackexchange.com/questions/132266/find-headwater-polygons>
 
 ### Find routes which terminate in Polygons but do not cross them
-https://gis.stackexchange.com/questions/254051/selecting-lines-with-start-and-end-points-inside-polygons-but-do-not-cross-them
+<https://gis.stackexchange.com/questions/254051/selecting-lines-with-start-and-end-points-inside-polygons-but-do-not-cross-them>
 
 ### Find Lines that touch Polygon at both ends
-https://gis.stackexchange.com/questions/299319/select-only-lines-that-touch-both-sides-of-polygon-postgis
+<https://gis.stackexchange.com/questions/299319/select-only-lines-that-touch-both-sides-of-polygon-postgis>
 
 ### Find Lines that touch but do not cross Polygons
-https://gis.stackexchange.com/questions/160142/intersection-between-line-polygon-in-postgis
+<https://gis.stackexchange.com/questions/160142/intersection-between-line-polygon-in-postgis>
+
 ```sql
 SELECT lines.geom
  FROM lines, polygons
@@ -275,7 +277,8 @@ SELECT lines.geom
 ## Line / Line
 
 ### Find LineStrings with Common Segments
-https://gis.stackexchange.com/questions/268147/find-linestrings-with-common-segments-in-postgis-2-3
+<https://gis.stackexchange.com/questions/268147/find-linestrings-with-common-segments-in-postgis-2-3>
+
 ```sql
 SELECT ST_Relate('LINESTRING(0 0, 2 0)'::geometry,
                  'LINESTRING(1 0, 2 0)'::geometry,
@@ -285,8 +288,7 @@ SELECT ST_Relate('LINESTRING(0 0, 2 0)'::geometry,
 ## Line / Point
 
 ### Test if Point is on a Line
-https://gis.stackexchange.com/questions/11510/st-closestpointline-point-does-not-intersect-line
-
-Also https://gis.stackexchange.com/questions/350461/find-path-containing-point
+<https://gis.stackexchange.com/questions/11510/st-closestpointline-point-does-not-intersect-line>
+<https://gis.stackexchange.com/questions/350461/find-path-containing-point>
 
 
