@@ -110,6 +110,21 @@ WHERE p1.i > p2.i;
 ### Construct longest horizontal line contained in polygon
 <https://gis.stackexchange.com/questions/32552/calculating-maximum-distance-within-polygon-in-x-direction-east-west-direction?noredirect=1&lq=1>
 
+### Construct closest boundary point to a point in a polygon
+<https://gis.stackexchange.com/questions/159318/finding-closest-outside-point-to-point-inside-polygon-in-postgis>
+
+(Code below shows use of `ST_Buffer` to force the constructed point to lie outside the polygon.)
+
+```sql
+ WITH polygons AS(
+    SELECT ST_Buffer(ST_GeomFromText('POINT(0 0)', 4326),2) as geom. -- example polygon
+ )
+ SELECT 
+ ST_AsTEXT(ST_ClosestPoint(ST_ExteriorRing(ST_Buffer(polygons.geom,0.0000001))
+        ,ST_GeomFromText('POINT(1 0)', 4326)))
+FROM polygons;
+```
+
 #### Algorithm
 * For every Y value:
 * Construct horizontal line across bounding box at Y value
