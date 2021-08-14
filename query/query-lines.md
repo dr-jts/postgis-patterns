@@ -9,13 +9,13 @@ parent: Querying
 {:toc}
 
 
-### Find Lines which have a given angle of incidence
+## Find Lines which have a given angle of incidence
 https://gis.stackexchange.com/questions/134244/query-road-shape?noredirect=1&lq=1
 
-### Find Line Intersections
+## Find Line Intersections
 https://gis.stackexchange.com/questions/20835/identifying-road-intersections-using-postgis
 
-### Find Lines which intersect N Polygons
+## Find Lines which intersect N Polygons
 https://gis.stackexchange.com/questions/349994/st-intersects-with-multiple-geometries
 
 #### Solution
@@ -29,16 +29,16 @@ WHERE polygons.id in (1,2)
 GROUP BY lines.id, lines.geom 
 HAVING count(*) = 2;
 ```
-### Count number of intersections between Line Segments
+## Count number of intersections between Line Segments
 https://gis.stackexchange.com/questions/365575/counting-geometry-intersections-between-two-linestrings
 
-### Find Begin and End of circular sublines
+## Find Begin and End of circular sublines
 https://gis.stackexchange.com/questions/206815/seeking-algorithm-to-detect-circling-and-beginning-and-end-of-circle
 
-### Find Longest Line Segment
+## Find Longest Line Segment
 https://gis.stackexchange.com/questions/359825/get-the-maximum-distance-between-two-consecutive-points-in-a-linestring
 
-### Find non-monotonic Z ordinates in a LineString
+## Find non-monotonic Z ordinates in a LineString
 https://gis.stackexchange.com/questions/374459/postgis-validate-the-z-continuity
 
 Assuming the LineStrings are digitized in the correct order (start point is most elevated),
@@ -55,4 +55,34 @@ FROM (SELECT ln.<id> AS ln_id,
          LATERAL ST_DumpPoints(ln.geom) AS dmp
 ) q
 WHERE NOT is_valid;
+```
+## Find Polygons which do not intersect lines but are within a given distance of them
+<https://gis.stackexchange.com/questions/408256/how-to-select-polygons-that-dont-intersect-with-line-but-with-its-buffer>
+
+The following query includes the polygons multiple times if there are multiple lines within the required distance.
+ ```sql
+SELECT p.*
+FROM polygons p 
+  INNER JOIN lines l ON ST_DWithin(p.geom,l.geom, 50)
+WHERE NOT EXISTS (
+      SELECT 1
+      FROM lines l2 
+      WHERE ST_Intersects(p.geom, l2.geom)   
+      );
+```
+
+To include polygons once only, the query is:
+```sql
+SELECT p.*
+FROM polygons p
+WHERE EXISTS (
+      SELECT 1
+      FROM lines l 
+      WHERE ST_DWithin(p.geom,l.geom, 50)  
+      )
+  AND NOT EXISTS (
+      SELECT 1
+      FROM lines l2 
+      WHERE ST_Intersects(p.geom, l2.geom)   
+      );
 ```
