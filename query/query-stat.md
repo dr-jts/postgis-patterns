@@ -86,7 +86,7 @@ From a table containing a group_id, a value and a geometry, find the record in e
 
 NOTE: This is a classic SQL problem, not unique to spatial data.
 
-### Using ROW_NUBER window function
+### Using ROW_NUMBER window function
 ```sql
 SELECT id, val, geom
 FROM   (
