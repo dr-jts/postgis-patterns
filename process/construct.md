@@ -70,6 +70,8 @@ See also note about using a scaling rather than buffer, to preserve shape of pol
 ### Construct Land-Constrained Point Grid
 https://korban.net/posts/postgres/2019-10-17-generating-land-constrained-point-grids/
 
+![](https://korban.net/img/2019-10-16-12-44-48.png)
+
 ### Construct Square Grid
 https://gis.stackexchange.com/questions/16374/creating-regular-polygon-grid-in-postgis
 
