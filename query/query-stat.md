@@ -78,3 +78,27 @@ GROUP BY county;
 See following (but answers are not great)
 <https://gis.stackexchange.com/questions/143438/calculating-total-line-lengths-within-polygon>
 
+
+## Find geometry with maximum value in groups
+<https://gis.stackexchange.com/questions/408162/get-max-value-from-points-based-on-distinct-id-and-keep-geometry-for-the-new-se>
+
+From a table containing a group_id, a value and a geometry, find the record in each group which has the maximum value in the group.
+
+NOTE: This is a classic SQL problem, not unique to spatial data.
+
+### Using ROW_NUBER window function
+```sql
+SELECT id, val, geom
+FROM   (
+  SELECT *, ROW_NUMBER() OVER ( PARTITION BY id ORDER BY val DESC ) AS _rank
+  FROM   tbl
+) q
+WHERE  _rank = 1;
+```
+### Using self-join
+```sql
+SELECT a.id, MAX( a.val ), b.geom
+FROM tbl a 
+GROUP BY id
+LEFT JOIN tbl b ON a.id, b.id;
+```
