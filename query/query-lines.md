@@ -56,14 +56,14 @@ FROM (SELECT ln.<id> AS ln_id,
 ) q
 WHERE NOT is_valid;
 ```
-## Find Polygons which do not intersect lines but are within a given distance of them
+## Find Polygons within a given distance of Lines but do not intersect them 
 <https://gis.stackexchange.com/questions/408256/how-to-select-polygons-that-dont-intersect-with-line-but-with-its-buffer>
 
-The following query includes the polygons multiple times if there are multiple lines within the required distance.
+The following query includes polygons multiple times if there are multiple lines within the distance.
  ```sql
 SELECT p.*
 FROM polygons p 
-  INNER JOIN lines l ON ST_DWithin(p.geom,l.geom, 50)
+  INNER JOIN lines l ON ST_DWithin(p.geom,l.geom, DISTANCE )
 WHERE NOT EXISTS (
       SELECT 1
       FROM lines l2 
@@ -78,7 +78,7 @@ FROM polygons p
 WHERE EXISTS (
       SELECT 1
       FROM lines l 
-      WHERE ST_DWithin(p.geom,l.geom, 50)  
+      WHERE ST_DWithin(p.geom,l.geom, DISTANCE )  
       )
   AND NOT EXISTS (
       SELECT 1
