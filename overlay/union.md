@@ -22,7 +22,7 @@ GROUP BY name;
 ```
 
 ### Union of Massive Number of Point Buffers
-https://gis.stackexchange.com/questions/31880/memory-issue-when-trying-to-buffer-union-large-dataset-using-postgis?noredirect=1&lq=1
+<https://gis.stackexchange.com/questions/31880/memory-issue-when-trying-to-buffer-union-large-dataset-using-postgis>
 
 Union a massive number of buffers around points which have an uneven distribution (points are demographic data in the UK).
 Using straight ST_Union runs out of memory
@@ -33,33 +33,44 @@ union smaller partitions of the data (partition size = 100K)
 union the partitions together 
 
 ### Polygon Coverage Union with slivers removed
-https://gis.stackexchange.com/questions/71809/is-there-a-dissolve-st-union-function-that-will-close-gaps-between-features?rq=1
+<https://gis.stackexchange.com/questions/71809/is-there-a-dissolve-st-union-function-that-will-close-gaps-between-features>
 
 Solution - NOT SURE
 
 ### Polygon Coverage Union with gaps removed
-https://gis.stackexchange.com/questions/356480/is-it-possible-create-a-polygon-from-more-polygons-that-are-not-overlapped-but-c
+<https://gis.stackexchange.com/questions/356480/is-it-possible-create-a-polygon-from-more-polygons-that-are-not-overlapped-but-c>
 
-https://gis.stackexchange.com/questions/316000/using-st-union-to-combine-several-polygons-to-one-multipolygon-using-postgis/31612
+<https://gis.stackexchange.com/questions/316000/using-st-union-to-combine-several-polygons-to-one-multipolygon-using-postgis>
 
 Both of these have answers recommending using a small buffer outwards and then the inverse on the result.
 
 ### Union Intersecting Polygons
-https://gis.stackexchange.com/questions/187728/alternative-to-st-union-st-memunion-for-merging-overlapping-polygons-using-postg?rq=1
+<https://gis.stackexchange.com/questions/187728/alternative-to-st-union-st-memunion-for-merging-overlapping-polygons-using-postg>
 
 ### Union groups of polygons
-https://gis.stackexchange.com/questions/185393/what-is-the-best-way-to-merge-lots-of-small-adjacents-polygons-postgis?noredirect=1&lq=1
+<https://gis.stackexchange.com/questions/185393/what-is-the-best-way-to-merge-lots-of-small-adjacents-polygons-postgis>
 
 ### Union Edge-Adjacent Polygons
+<https://gis.stackexchange.com/questions/54848/building-larger-polygons-from-smaller-ones-without-common-id-in-postgis>
+
+![](https://i.stack.imgur.com/bTRzU.png)
+
+```sql
+SELECT ST_UnaryUnion( unnest( ST_ClusterIntersecting(geom) ) ) FROM pieces;
+```
+
+### Union Edge-Adjacent Polygons, keeping attributes
 Only union polygons which share an edge (not just touch)
-https://gis.stackexchange.com/questions/1387/is-there-a-dissolve-function-in-postgis-other-than-st-union?rq=1
-https://gis.stackexchange.com/questions/24634/merging-polygons-that-intersect-by-more-than-a-specified-amount?rq=1
-https://gis.stackexchange.com/questions/127019/merge-any-and-all-adjacent-polygons?noredirect=1&lq=1
-Problem
+<https://gis.stackexchange.com/questions/1387/is-there-a-dissolve-function-in-postgis-other-than-st-union>
+<https://gis.stackexchange.com/questions/24634/merging-polygons-that-intersect-by-more-than-a-specified-amount>
+<https://gis.stackexchange.com/questions/127019/merge-any-and-all-adjacent-polygons>
+
+
+#### Problem
 Union only polygons which intersect, keep non-intersecting ones unchanged.  Goal is to keep attributes on non-intersecting polygons, and improve performance by unioning only groups of intersecting polygons
-Solution
+
+##### Solution
 Should be able to find equivalence classes of intersecting polygons and union each separately?
-See Also
 
 ### Grouping touching Polygons
 Can use ST_DBSCAN with very small distance to group touching polygons
