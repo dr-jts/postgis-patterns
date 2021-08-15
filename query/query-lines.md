@@ -10,13 +10,13 @@ parent: Querying
 
 
 ## Find Lines which have a given angle of incidence
-https://gis.stackexchange.com/questions/134244/query-road-shape?noredirect=1&lq=1
+<https://gis.stackexchange.com/questions/134244/query-road-shape>
 
 ## Find Line Intersections
-https://gis.stackexchange.com/questions/20835/identifying-road-intersections-using-postgis
+<https://gis.stackexchange.com/questions/20835/identifying-road-intersections-using-postgis>
 
 ## Find Lines which intersect N Polygons
-https://gis.stackexchange.com/questions/349994/st-intersects-with-multiple-geometries
+<https://gis.stackexchange.com/questions/349994/st-intersects-with-multiple-geometries>
 
 #### Solution
 Nice application of counting using `HAVING` clause.
@@ -30,16 +30,16 @@ GROUP BY lines.id, lines.geom
 HAVING count(*) = 2;
 ```
 ## Count number of intersections between Line Segments
-https://gis.stackexchange.com/questions/365575/counting-geometry-intersections-between-two-linestrings
+<https://gis.stackexchange.com/questions/365575/counting-geometry-intersections-between-two-linestrings>
 
 ## Find Begin and End of circular sublines
-https://gis.stackexchange.com/questions/206815/seeking-algorithm-to-detect-circling-and-beginning-and-end-of-circle
+<https://gis.stackexchange.com/questions/206815/seeking-algorithm-to-detect-circling-and-beginning-and-end-of-circle>
 
 ## Find Longest Line Segment
-https://gis.stackexchange.com/questions/359825/get-the-maximum-distance-between-two-consecutive-points-in-a-linestring
+<https://gis.stackexchange.com/questions/359825/get-the-maximum-distance-between-two-consecutive-points-in-a-linestring>
 
 ## Find non-monotonic Z ordinates in a LineString
-https://gis.stackexchange.com/questions/374459/postgis-validate-the-z-continuity
+<https://gis.stackexchange.com/questions/374459/postgis-validate-the-z-continuity>
 
 Assuming the LineStrings are digitized in the correct order (start point is most elevated),
 this returns all vertices geom, their respective line <id>, and their position in the vertices array of that line, 
