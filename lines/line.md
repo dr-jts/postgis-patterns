@@ -34,6 +34,9 @@ Create a new function `ST_LineExtract(line, index1, index2)` to extract a portio
 * use `ST_LineSubstring(my_line.geom, min(fraction), max(fraction))` with a GROUP BY on the line id to get subline
 
 #### Solution 2 - Extract subline with all points added
+
+Comment: this probably only works for a single line and using all points in a table.
+
 ```sql
 SELECT  id, ST_Makeline(geom) AS geom
 FROM   (
