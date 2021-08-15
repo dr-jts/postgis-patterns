@@ -47,8 +47,17 @@ Both of these have answers recommending using a small buffer outwards and then t
 ### Union Intersecting Polygons
 <https://gis.stackexchange.com/questions/187728/alternative-to-st-union-st-memunion-for-merging-overlapping-polygons-using-postg>
 
-### Union groups of polygons
+### Union groups of almost-adjacent polygons
 <https://gis.stackexchange.com/questions/185393/what-is-the-best-way-to-merge-lots-of-small-adjacents-polygons-postgis>
+
+![](https://i.stack.imgur.com/1RCSR.png)
+
+#### Solution (lossy)
+```sql
+SELECT (ST_DUMP(ST_UNION(ST_SNAPTOGRID(the_geom,0.0001)))).geom, color
+FROM my_poly
+GROUP BY color
+```
 
 ### Union Edge-Adjacent Polygons
 <https://gis.stackexchange.com/questions/54848/building-larger-polygons-from-smaller-ones-without-common-id-in-postgis>
