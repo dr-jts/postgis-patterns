@@ -19,7 +19,8 @@ Also: <https://gis.stackexchange.com/questions/367486/how-to-do-small-expansion-
 ![](https://i.stack.imgur.com/FTMi3.png)
 
 #### PostGIS Idea
-`ST_LineInterpolatePoint` could be enhanced to allow fractions outside [0,1].
+`ST_LineSubstring` could be enhanced to allow fractions outside [0,1].  
+Or make a new function `ST_LineExtend` (which should also handle shortening the line).
 
 ## Extend a LineString to the boundary of a polygon
 <https://gis.stackexchange.com/questions/345463/how-can-i-extend-a-linestring-to-the-edge-of-an-enclosing-polygon-in-postgis>
