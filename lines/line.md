@@ -11,8 +11,12 @@ parent: Lines and Networks
 ## Select every Nth point from a LineString
 <https://stackoverflow.com/questions/60319473/postgis-how-do-i-select-every-second-point-from-linestring>
 
-## Extrapolate Lines
+## Extrapolating a Line
 <https://gis.stackexchange.com/questions/33055/extrapolating-a-line-in-postgis>
+
+Also: <https://gis.stackexchange.com/questions/367486/how-to-do-small-expansion-into-linestring-ends>
+
+![](https://i.stack.imgur.com/FTMi3.png)
 
 #### PostGIS Idea
 `ST_LineInterpolatePoint` could be enhanced to allow fractions outside [0,1].
