@@ -9,6 +9,9 @@ parent: Lines and Networks
 {:toc}
 
 ## Find Shortest Path through linear network
+<https://gis.stackexchange.com/questions/295199/how-do-i-select-the-longest-connected-lines-from-postgis-st-approximatemedialaxi>
+
+### PostGIS Idea
 Input Parameters: linear network MultiLineString, start point, end point
 
 Start and End point could be snapped to nearest endpoints if not already in network
@@ -16,7 +19,6 @@ Maybe also function to snap a network?
 
 “Longest Shortest Path” - perhaps: construct Convex Hull, take longest diameter, find shortest path between those points
 
-<https://gis.stackexchange.com/questions/295199/how-do-i-select-the-longest-connected-lines-from-postgis-st-approximatemedialaxi>
 
 ## Seaway Distances & Routes
 <https://www.ausvet.com.au/seaway-distances-with-postgresql>
