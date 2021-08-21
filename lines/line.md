@@ -112,7 +112,7 @@ CROSS JOIN LATERAL (
 <https://gis.stackexchange.com/questions/346196/split-a-linestring-by-distance-every-x-meters-using-postgis>
 
 <https://gis.stackexchange.com/questions/338128/postgis-points-along-a-line-arent-actually-falling-on-the-line>
-This one contains a nice utlity function to segment a line by length, by using ST_LineSubstring.  Possible candidate for inclusion?
+This one contains a utility function to segment a line by **length**, by using `ST_LineSubstring`.  Possible candidate for inclusion?
 
 <https://gis.stackexchange.com/questions/360670/how-to-break-a-linestring-in-n-parts-in-postgis>
 
