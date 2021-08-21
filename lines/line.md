@@ -84,7 +84,7 @@ SELECT
 FROM longest;
 ```
 
-### Split Lines into Equal-length portions
+### Split Lines into sections of given length
 <https://gis.stackexchange.com/questions/97990/break-line-into-100m-segments/334305#334305>
 
 Modern solution using LATERAL:
@@ -96,21 +96,19 @@ WITH data AS (
         ( 'C', 'LINESTRING( 0 200, 50 200)'::geometry )
     ) AS t(id, geom)
 )
-SELECT ST_LineSubstring( d.geom, substart, 
-    CASE WHEN subend > 1 THEN 1 ELSE subend END ) geom
+SELECT id, i, ST_AsText( ST_LineSubstring( d.geom, substart, LEAST(subend, 1) )) AS geom
 FROM (SELECT id, geom, ST_Length(geom) len, 100 sublen FROM data) AS d
 CROSS JOIN LATERAL (
     SELECT i,  
-            (sublen * i)/len AS substart,
-            (sublen * (i+1)) / len AS subend
-        FROM generate_series(0, 
-            floor( d.len / sublen )::integer ) AS t(i)
-        WHERE (sublen * i)/len <> 1.0  
+           (sublen * i)/len AS substart,
+           (sublen * (i+1)) / len AS subend
+    FROM generate_series(0, floor( d.len / sublen )::integer ) AS t(i)
+    -- skip last i if line length is exact multiple of sublen
+    WHERE (sublen * i)/len <> 1.0  
     ) AS d2;
 ```
- Need to update PG doc:  https://postgis.net/docs/ST_LineSubstring.html
 
-See also 
+**See also** 
 <https://gis.stackexchange.com/questions/346196/split-a-linestring-by-distance-every-x-meters-using-postgis>
 
 <https://gis.stackexchange.com/questions/338128/postgis-points-along-a-line-arent-actually-falling-on-the-line>
