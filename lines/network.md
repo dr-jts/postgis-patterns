@@ -23,3 +23,19 @@ Maybe also function to snap a network?
 ## Seaway Distances & Routes
 <https://www.ausvet.com.au/seaway-distances-with-postgresql>
 ![](https://www.ausvet.com.au/wp-content/uploads/Blog_images/seaway_1.png)
+
+## Find disconnected Network edges
+<https://gis.stackexchange.com/questions/408528/finding-isolated-links-in-a-network-of-links-with-postgresql>
+
+![](https://i.stack.imgur.com/jx85n.png)
+
+```sql
+SELECT l1.id
+FROM links l1
+WHERE NOT EXISTS
+ (SELECT 1 
+  FROM links l2
+  WHERE l1.id != l2.id
+  AND ST_INTERSECTS(l1.geom, l2.geom)
+ );
+ ```
