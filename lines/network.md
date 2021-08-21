@@ -24,7 +24,7 @@ Maybe also function to snap a network?
 <https://www.ausvet.com.au/seaway-distances-with-postgresql>
 ![](https://www.ausvet.com.au/wp-content/uploads/Blog_images/seaway_1.png)
 
-## Find disconnected Network edges
+## Find isolated Network edges
 <https://gis.stackexchange.com/questions/408528/finding-isolated-links-in-a-network-of-links-with-postgresql>
 
 ![](https://i.stack.imgur.com/jx85n.png)
