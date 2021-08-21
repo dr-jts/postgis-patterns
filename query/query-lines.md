@@ -12,6 +12,11 @@ parent: Querying
 ## Find Lines which have a given angle of incidence
 <https://gis.stackexchange.com/questions/134244/query-road-shape>
 
+#### See Also
+<https://gis.stackexchange.com/questions/25126/how-to-calculate-the-angle-at-which-two-lines-intersect-in-postgis>
+
+
+
 ## Find Line Intersections
 <https://gis.stackexchange.com/questions/20835/identifying-road-intersections-using-postgis>
 
