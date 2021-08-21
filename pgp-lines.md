@@ -81,19 +81,11 @@ https://gis.stackexchange.com/questions/16698/join-intersecting-lines-with-postg
 Solution
 https://gis.stackexchange.com/a/80105/14766
 
-### Merge lines which do not form a single line
-https://gis.stackexchange.com/questions/83069/cannot-st-linemerge-a-multilinestring-because-its-not-properly-ordered
-Solution
-Not possible with ST_LineMerge
-Error is not obvious from return value though
-
-See Also
-<https://gis.stackexchange.com/questions/139227/st-linemerge-doesnt-return-linestring>
-
 ### Extract Line Segments
 <https://gis.stackexchange.com/questions/174472/in-postgis-how-to-split-linestrings-into-their-individual-segments>
 
-Need an ST_DumpSegments to do this!
+#### PostGIS Idea
+Create an `ST_DumpSegments` to do this.
 
 ### Remove Longest Segment from a LineString
 https://gis.stackexchange.com/questions/372110/postgis-removing-the-longest-segment-of-a-linestring-and-rejoining-segments
