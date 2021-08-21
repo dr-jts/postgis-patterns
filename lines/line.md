@@ -164,7 +164,7 @@ Also: <https://gis.stackexchange.com/questions/367486/how-to-do-small-expansion-
 `ST_LineSubstring` could be enhanced to allow fractions outside [0,1].  
 Or make a new function `ST_LineExtend` (which should also handle shortening the line).
 
-## Extend a LineString to the boundary of a polygon
+### Extend a LineString to the boundary of a polygon
 <https://gis.stackexchange.com/questions/345463/how-can-i-extend-a-linestring-to-the-edge-of-an-enclosing-polygon-in-postgis>
 
 ![](https://i.stack.imgur.com/zvKKx.png)
@@ -264,6 +264,18 @@ Complicated recursive solution using ST_LineMerge!
 ### Querying LineString Vertices by Measures
 <https://gis.stackexchange.com/questions/340689/measuring-4d-relation-querying-within-linestring-using-postgis>
 
-#### Solution
-Uses `ST_DumpPoints`, `ST_M`, and `LAG` window function
+Given a Linestring wit timestamps as measure value, find segments where duration between start and end timestamps is larger than X minutes.
 
+**Solution**
+* extract vertices as geoms with `ST_DumpPoints`
+* compute difference between consecutive M values using `LAG` window function
+* query for the required difference
+
+```sql
+SELECT * FROM 
+(select 
+    ST_M(geom) - LAG( ST_M(geom)) OVER () diff, 
+    path 
+FROM ST_DumpPoints( 'LINESTRING M (0 0 0, 10 0 20, 12 0 40, 20 0 50, 21 0 70)')) p
+WHERE diff > 10;
+```
