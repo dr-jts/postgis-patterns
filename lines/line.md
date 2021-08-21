@@ -83,6 +83,7 @@ SELECT
   )) ELSE null END AS line2
 FROM longest;
 ```
+
 ### Split Lines into Equal-length portions
 <https://gis.stackexchange.com/questions/97990/break-line-into-100m-segments/334305#334305>
 
@@ -125,11 +126,11 @@ This one contains a nice utlity function to segment a line by length, by using S
 
 ![](https://i.stack.imgur.com/LtZM0.png)
 
-#### Solution 1 - Extract subline with new endpoints
+**Solution 1 - Extract subline with new endpoints**
 * use `ST_LineLocatePoint()` on each intersection point to get the fraction of the point on the line
 * use `ST_LineSubstring(my_line.geom, min(fraction), max(fraction))` with a GROUP BY on the line id to get subline
 
-#### Solution 2 - Extract subline with all points added
+**Solution 2 - Extract subline with all points added**
 
 Comment: this probably only works for a single line and using all points in a table.
 
@@ -199,13 +200,13 @@ FROM data;
 ### Merge lines that touch at endpoints 2
 <https://gis.stackexchange.com/questions/16698/join-intersecting-lines-with-postgis>
 
-#### Solution
+**Solution**
 <https://gis.stackexchange.com/a/80105/14766>
 
 ### Merge Lines That Don’t Touch
 <https://gis.stackexchange.com/questions/332780/merging-lines-that-dont-touch-in-postgis>
 
-#### Solution
+**Solution**
 No builtin function to do this, but one can be created in PL/pgSQL.
 
 ## Inserting Vertices
