@@ -1,3 +1,7 @@
+---
+nav_exclude: true
+---
+
 # Lines and Networks
 {: .no_toc }
 
