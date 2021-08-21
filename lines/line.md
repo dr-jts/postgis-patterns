@@ -118,6 +118,12 @@ This one contains a nice utlity function to segment a line by length, by using S
 
 <https://gis.stackexchange.com/questions/360670/how-to-break-a-linestring-in-n-parts-in-postgis>
 
+### Split Lines by a set of Points
+<https://gis.stackexchange.com/questions/112282/splitting-lines-into-non-overlapping-subsets-based-on-points-using-postgis>
+
+**Solutions**
+* Use `ST_Split`
+* Use `ST_Snap`
 
 ## Interpolating
 
