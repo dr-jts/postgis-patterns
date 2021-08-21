@@ -15,7 +15,23 @@ parent: Querying
 #### See Also
 <https://gis.stackexchange.com/questions/25126/how-to-calculate-the-angle-at-which-two-lines-intersect-in-postgis>
 
+## Find lines which are covered by a Line using a tolerance
+<https://gis.stackexchange.com/questions/408581/overlapping-lines-on-vector>
 
+**Solution**
+Use `ST_Snap`:
+```sql
+WITH lines AS (SELECT (ST_Dump(ST_GeomFromText(
+    'GEOMETRYCOLLECTION(
+        LINESTRING(-76.4631041 38.9533412, -76.45514403057082 38.962161103032216),
+        LINESTRING(-76.4631041 38.9533412, -76.45349643519081 38.96398666895439),
+        LINESTRING(-76.45349643519081 38.96398666895439,-76.4525346 38.9650524),
+        LINESTRING(-76.45514403057082 38.962161103032216,-76.45349643519081 38.96398666895439)
+    )'
+))).geom AS geom)
+SELECT ST_Covers(a.geom, ST_Snap(b.geom, a.geom, 0.01))
+FROM lines a, lines b;
+```
 
 ## Find Line Intersections
 <https://gis.stackexchange.com/questions/20835/identifying-road-intersections-using-postgis>
