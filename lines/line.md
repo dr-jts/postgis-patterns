@@ -48,7 +48,7 @@ SELECT i, ST_LineInterpolatePoint(geom, (i-1.0)/40) pt
     JOIN generate_series (1, 40) AS step(i) ON true;
 ```
 
-## Interpolating Lines
+## Splitting Lines
 
 ### Remove Longest Segment from a LineString
 <https://gis.stackexchange.com/questions/372110/postgis-removing-the-longest-segment-of-a-linestring-and-rejoining-segments>
@@ -118,30 +118,9 @@ This one contains a nice utlity function to segment a line by length, by using S
 <https://gis.stackexchange.com/questions/360670/how-to-break-a-linestring-in-n-parts-in-postgis>
 
 
+## Interpolating
 
-
-## Extrapolating Lines
-
-### Extrapolating a Line
-<https://gis.stackexchange.com/questions/33055/extrapolating-a-line-in-postgis>
-
-Also: <https://gis.stackexchange.com/questions/367486/how-to-do-small-expansion-into-linestring-ends>
-
-![](https://i.stack.imgur.com/FTMi3.png)
-
-#### PostGIS Idea
-`ST_LineSubstring` could be enhanced to allow fractions outside [0,1].  
-Or make a new function `ST_LineExtend` (which should also handle shortening the line).
-
-## Extend a LineString to the boundary of a polygon
-<https://gis.stackexchange.com/questions/345463/how-can-i-extend-a-linestring-to-the-edge-of-an-enclosing-polygon-in-postgis>
-
-![](https://i.stack.imgur.com/zvKKx.png)
-
-#### PostGIS Idea
-Create a new function `ST_LineExtract(line, index1, index2)` to extract a portion of a LineString between two vertex indices
-
-## Construct Line substring containing a set of Points
+### Construct Line substring containing a set of Points
 <https://gis.stackexchange.com/questions/408337/get-the-subline-of-a-linestring-consisting-of-all-intersecting-points-without-kn>
 
 ![](https://i.stack.imgur.com/LtZM0.png)
@@ -170,6 +149,29 @@ FROM   (
 WHERE   geom IS NOT NULL
 GROUP BY id;
 ```
+
+
+## Extrapolating
+
+### Extrapolate a Line
+<https://gis.stackexchange.com/questions/33055/extrapolating-a-line-in-postgis>
+
+Also: <https://gis.stackexchange.com/questions/367486/how-to-do-small-expansion-into-linestring-ends>
+
+![](https://i.stack.imgur.com/FTMi3.png)
+
+#### PostGIS Idea
+`ST_LineSubstring` could be enhanced to allow fractions outside [0,1].  
+Or make a new function `ST_LineExtend` (which should also handle shortening the line).
+
+## Extend a LineString to the boundary of a polygon
+<https://gis.stackexchange.com/questions/345463/how-can-i-extend-a-linestring-to-the-edge-of-an-enclosing-polygon-in-postgis>
+
+![](https://i.stack.imgur.com/zvKKx.png)
+
+#### PostGIS Idea
+Create a new function `ST_LineExtract(line, index1, index2)` to extract a portion of a LineString between two vertex indices
+
 
 ## Merging
 
@@ -239,8 +241,6 @@ ST_Snap does this nicely
 SELECT ST_AsText( ST_Snap('LINESTRING (0 0, 9 9, 20 20)',
   'MULTIPOINT( (1 1.1), (12 11.9) )', 0.2));
 ```
-
-## Noding
 
 ### Add intersection points between sets of Lines (AKA Noding)
 <https://gis.stackexchange.com/questions/41162/adding-multiple-points-to-a-linestring-in-postgis>
