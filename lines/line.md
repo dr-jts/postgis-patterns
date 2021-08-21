@@ -253,30 +253,3 @@ One post recommends simply unioning (overlaying) all the linework.  This was acc
 Hard to extract just the road network lines
 If side road falls slightly short will not create a node
 
-
-## Querying
-
-### Find Lines that form Rings
-<https://gis.stackexchange.com/questions/32224/select-the-lines-that-form-a-ring-in-postgis>
-Solutions
-Polygonize all lines, then identify lines which intersect each polygon
-Complicated recursive solution using ST_LineMerge!
-
-### Query LineString Vertices by Measures
-<https://gis.stackexchange.com/questions/340689/measuring-4d-relation-querying-within-linestring-using-postgis>
-
-Given a Linestring wit timestamps as measure value, find segments where duration between start and end timestamps is larger than X minutes.
-
-**Solution**
-* extract vertices as geoms with `ST_DumpPoints`
-* compute difference between consecutive M values using `LAG` window function
-* query for the required difference
-
-```sql
-SELECT * FROM 
-(select 
-    ST_M(geom) - LAG( ST_M(geom)) OVER () diff, 
-    path 
-FROM ST_DumpPoints( 'LINESTRING M (0 0 0, 10 0 20, 12 0 40, 20 0 50, 21 0 70)')) p
-WHERE diff > 10;
-```
