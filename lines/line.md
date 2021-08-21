@@ -262,7 +262,7 @@ Solutions
 Polygonize all lines, then identify lines which intersect each polygon
 Complicated recursive solution using ST_LineMerge!
 
-### Querying LineString Vertices by Measures
+### Query LineString Vertices by Measures
 <https://gis.stackexchange.com/questions/340689/measuring-4d-relation-querying-within-linestring-using-postgis>
 
 Given a Linestring wit timestamps as measure value, find segments where duration between start and end timestamps is larger than X minutes.
