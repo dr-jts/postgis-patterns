@@ -24,7 +24,7 @@ Maybe also function to snap a network?
 <https://www.ausvet.com.au/seaway-distances-with-postgresql>
 ![](https://www.ausvet.com.au/wp-content/uploads/Blog_images/seaway_1.png)
 
-## Find isolated Network edges
+## Find isolated Network edges (1)
 <https://gis.stackexchange.com/questions/408528/finding-isolated-links-in-a-network-of-links-with-postgresql>
 
 ![](https://i.stack.imgur.com/jx85n.png)
@@ -39,3 +39,9 @@ WHERE NOT EXISTS
   AND ST_INTERSECTS(l1.geom, l2.geom)
  );
  ```
+ ## Find isolated Network edges (2)
+ <https://gis.stackexchange.com/questions/408695/compound-contiguous-links-to-lines-in-a-network-and-find-isolated-lines>
+ 
+ ![](https://i.stack.imgur.com/1eoWm.jpg)
+ 
+ 
