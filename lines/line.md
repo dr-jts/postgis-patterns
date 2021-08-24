@@ -207,8 +207,10 @@ FROM data;
 **Solution**
 <https://gis.stackexchange.com/a/80105/14766>
 
-### Merge Lines That Don’t Touch
+### Connect Lines That Do Not Touch
 <https://gis.stackexchange.com/questions/332780/merging-lines-that-dont-touch-in-postgis>
+
+![] (https://i.stack.imgur.com/ng4fX.png)
 
 **Solution**
 No builtin function to do this, but one can be created in PL/pgSQL.
