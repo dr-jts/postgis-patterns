@@ -108,7 +108,7 @@ Idea 2: find line segments for nearest points of each line vertex.  Order by dis
 ### Construct Straight Skeleton
 <https://github.com/twak/campskeleton>
 
-## Polygon Chords / Interior Lines
+## Polygon Diagonal / Radius
 
 ### Construct lines joining every vertex in a polygon
 
