@@ -12,6 +12,7 @@ parent: Processing
 
 ### Construct ellipses in WGS84
 <https://gis.stackexchange.com/questions/218159/postgis-ellipse-issue>
+
 <https://gis.stackexchange.com/questions/409129/making-ellipses-on-a-global-data-set>
 
 ## Extending / Filling Polygons
