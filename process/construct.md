@@ -128,8 +128,14 @@ FROM pts p1, pts p2
 WHERE p1.i > p2.i;
 ```
 
-### Construct longest horizontal line contained in polygon
-<https://gis.stackexchange.com/questions/32552/calculating-maximum-distance-within-polygon-in-x-direction-east-west-direction?noredirect=1&lq=1>
+### Construct longest horizontal line within polygon
+<https://gis.stackexchange.com/questions/32552/calculating-maximum-distance-within-polygon-in-x-direction-east-west-direction>
+
+#### Algorithm
+* For every Y value:
+* Construct horizontal line across bounding box at Y value
+* Intersect with polygon
+* Keep longest result line
 
 ### Construct closest boundary point to a point in a polygon
 <https://gis.stackexchange.com/questions/159318/finding-closest-outside-point-to-point-inside-polygon-in-postgis>
@@ -146,10 +152,5 @@ WHERE p1.i > p2.i;
 FROM polygons;
 ```
 
-#### Algorithm
-* For every Y value:
-* Construct horizontal line across bounding box at Y value
-* Intersect with polygon
-* Keep longest result line
 
 
