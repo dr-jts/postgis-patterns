@@ -82,6 +82,8 @@ See also note about using a scaling rather than buffer, to preserve shape of pol
 ### Construct Square Grid
 <https://gis.stackexchange.com/questions/16374/creating-regular-polygon-grid-in-postgis>
 
+![](https://i.stack.imgur.com/vQY0Z.png)
+
 <https://gis.stackexchange.com/questions/4663/how-to-create-regular-point-grid-inside-a-polygon-in-postgis>
 
 <https://gis.stackexchange.com/questions/271234/creating-a-grid-on-a-polygon-and-find-number-of-points-in-each-grid>
