@@ -8,9 +8,16 @@ parent: Processing
 1. TOC
 {:toc}
 
+## Geodetic Constructions
+
+### Construct ellipses in WGS84
+<https://gis.stackexchange.com/questions/218159/postgis-ellipse-issue>
+<https://gis.stackexchange.com/questions/409129/making-ellipses-on-a-global-data-set>
+
+## Extending / Filling Polygons
 
 ### Construct polygons filling gaps in a coverage
-https://gis.stackexchange.com/questions/368406/postgis-create-new-polygons-in-between-existing
+<https://gis.stackexchange.com/questions/368406/postgis-create-new-polygons-in-between-existing>
 
 ```sql
 SELECT ST_DIFFERENCE(foo.geom, bar.geom)
@@ -19,11 +26,8 @@ FROM (SELECT ST_CONVEXHULL(ST_COLLECT(shape::geometry)) as geom FROM schema.poly
 ```
 To scale this up/out, could process batches of polygons using a rectangular grid defined over the data space. The constructed gap polygons can be clipped to grid cells. and optional unioned afterwards
 
-### Construct ellipses in WGS84
-https://gis.stackexchange.com/questions/218159/postgis-ellipse-issue
-
 ### Construct polygon joining two polygons
-https://gis.stackexchange.com/questions/352884/how-can-i-get-a-polygon-of-everything-between-two-polygons-in-postgis
+<https://gis.stackexchange.com/questions/352884/how-can-i-get-a-polygon-of-everything-between-two-polygons-in-postgis>
 
 ![](https://i.stack.imgur.com/a7idE.png)
 
@@ -47,7 +51,7 @@ FROM data;
 ```
 
 ### Construct expanded polygons to touches a bounding polygon
-https://gis.stackexchange.com/questions/294163/sql-postgis-expanding-polygons-contained-inside-another-polygon-until-one-ver
+<https://gis.stackexchange.com/questions/294163/sql-postgis-expanding-polygons-contained-inside-another-polygon-until-one-ver>
 
 ![Expanding polygons to touch](https://i.stack.imgur.com/VQgHj.png)
 
@@ -67,29 +71,39 @@ SELECT
 ```
 See also note about using a scaling rather than buffer, to preserve shape of polygon
 
+## Grids
+
 ### Construct Land-Constrained Point Grid
-https://korban.net/posts/postgres/2019-10-17-generating-land-constrained-point-grids/
+<https://korban.net/posts/postgres/2019-10-17-generating-land-constrained-point-grids/>
 
 ![](https://korban.net/img/2019-10-16-12-44-48.png)
 
 ### Construct Square Grid
-https://gis.stackexchange.com/questions/16374/creating-regular-polygon-grid-in-postgis
+<https://gis.stackexchange.com/questions/16374/creating-regular-polygon-grid-in-postgis>
 
-https://gis.stackexchange.com/questions/4663/how-to-create-regular-point-grid-inside-a-polygon-in-postgis
+<https://gis.stackexchange.com/questions/4663/how-to-create-regular-point-grid-inside-a-polygon-in-postgis>
 
-https://gis.stackexchange.com/questions/271234/creating-a-grid-on-a-polygon-and-find-number-of-points-in-each-grid
+<https://gis.stackexchange.com/questions/271234/creating-a-grid-on-a-polygon-and-find-number-of-points-in-each-grid>
+
+## Medial Axis / Skeleton
 
 ### Construct Polygon Centrelines
-https://gis.stackexchange.com/questions/322392/average-of-two-lines?noredirect=1&lq=1
+<https://gis.stackexchange.com/questions/322392/average-of-two-lines>
 
-https://gis.stackexchange.com/questions/50668/how-can-i-merge-collapse-nearby-and-parallel-road-lines-eg-a-dual-carriageway
+<https://gis.stackexchange.com/questions/50668/how-can-i-merge-collapse-nearby-and-parallel-road-lines-eg-a-dual-carriageway>
 
-https://github.com/migurski/Skeletron
+<https://github.com/migurski/Skeletron>
 
 
 Idea: triangulate polygon, then connect midpoints of interior lines
 
 Idea 2: find line segments for nearest points of each line vertex.  Order by distance along line (percentage?).  Discard any that have a retrograde direction.  Join centrepoints of segments.
+
+
+### Construct Straight Skeleton
+<https://github.com/twak/campskeleton>
+
+## Polygon Chords / Interior Lines
 
 ### Construct lines joining every vertex in a polygon
 
@@ -134,5 +148,3 @@ FROM polygons;
 * Keep longest result line
 
 
-### Construct Straight Skeleton
-<https://github.com/twak/campskeleton>
