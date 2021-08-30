@@ -8,6 +8,8 @@ parent: Processing
 1. TOC
 {:toc}
 
+## Based on Lines
+
 ### Construct Bounding box of set of MULTILINESTRINGs
 <https://gis.stackexchange.com/questions/115494/bounding-box-of-set-of-multilinestrings-in-postgis>
 ```sql
@@ -25,6 +27,8 @@ GROUP BY type;
 ##### Solution
 Rework given SQL using CROSS JOIN and a self join
 
+## Based on Points
+
 ### Construct Regions from Points
 <https://gis.stackexchange.com/questions/92913/extra-detailed-bounding-polygon-from-many-geometric-points>
 
@@ -35,6 +39,8 @@ Perhaps ST_Voronoi would be better?  How would this work, and what are limits on
 
 ### Construct a Star Polygon from a set of Points
 <https://gis.stackexchange.com/questions/349945/creating-precise-shapes-using-list-of-coordinates>
+
+![](https://i.stack.imgur.com/vUHcU.png)
 
 ```sql
 WITH pts(pt) AS (VALUES
