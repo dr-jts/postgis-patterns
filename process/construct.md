@@ -29,6 +29,15 @@ FROM (SELECT ST_CONVEXHULL(ST_COLLECT(shape::geometry)) as geom FROM schema.poly
 ```
 To scale this up/out, could process batches of polygons using a rectangular grid defined over the data space. The constructed gap polygons can be clipped to grid cells. and optional unioned afterwards
 
+### Remove Gaps between Polygons
+<https://gis.stackexchange.com/questions/356480/enclose-polygons-that-are-not-overlapped-and-remove-gaps-between-them>
+![](https://i.stack.imgur.com/XR8lU.png)
+
+**Suggestions**
+
+* Buffer positively and negatively (see `ST_BufferedUnion`in [PostGIS Addons](https://github.com/pedrogit/postgisaddons/blob/master/postgis_addons.sql) )
+* [Answer](https://gis.stackexchange.com/a/316124/14766) using `ST_Buffer(geom, dist, 'join=mitre mitre_limit=5.0')` with pos/neg distance
+
 ### Construct polygon joining two polygons
 <https://gis.stackexchange.com/questions/352884/how-can-i-get-a-polygon-of-everything-between-two-polygons-in-postgis>
 
