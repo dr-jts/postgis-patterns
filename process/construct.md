@@ -83,6 +83,20 @@ SELECT
 ```
 See also note about using a scaling rather than buffer, to preserve shape of polygon
 
+### Extend Polygon to meet Line
+<https://gis.stackexchange.com/questions/408202/postgis-st-convexhull-but-perpendicular-to-a-line>
+
+![](https://i.stack.imgur.com/DQw7k.png)
+
+**Solution Outline**
+
+* For each vertex in the polygon shell, use `ST_LineLocatePoint` to find its fractional index along the line.
+* Construct the line segments from each vertex to the line, and pick the shortest ones with max and min index
+* Construct the subline along the baseline between the max and min indices
+* Extract all the line segments from the polygon
+* Polygonize the extracted and constructed line segments. This should produce two polygons
+* Union the polygonization results
+
 ## Grids
 
 ### Construct Land-Constrained Point Grid
