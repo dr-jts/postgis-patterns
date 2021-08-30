@@ -20,6 +20,8 @@ parent: Processing
 ### Construct polygons filling gaps in a coverage
 <https://gis.stackexchange.com/questions/368406/postgis-create-new-polygons-in-between-existing>
 
+![](https://i.stack.imgur.com/2LbzB.png)
+
 ```sql
 SELECT ST_DIFFERENCE(foo.geom, bar.geom)
 FROM (SELECT ST_CONVEXHULL(ST_COLLECT(shape::geometry)) as geom FROM schema.polytable) as foo, 
