@@ -9,7 +9,16 @@
 ### Group touching Polygons
 <https://gis.stackexchange.com/questions/343514/postgis-recursively-finding-intersections-of-polygons-to-determine-clusters>
 
-Solution: Use ST_DBSCAN which provides very good performance
+![](https://i.stack.imgur.com/YkIn5.jpg)
+
+**Solution**
+Use `ST_ClusterDBSCAN`, which provides very good performance.
+
+```sql
+SELECT *,
+       ST_ClusterDBSCAN(geom, 0, 1) OVER() AS clst_id
+FROM   poly_tbl
+```
 
 This problem has a similar recommended solution:
 <https://gis.stackexchange.com/questions/265137/postgis-union-geometries-that-intersect-but-keep-their-original-geometries-info>
