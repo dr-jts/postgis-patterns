@@ -17,6 +17,9 @@ This problem has a similar recommended solution:
 A worked example:
 <https://gis.stackexchange.com/questions/366374/how-to-use-dissolve-a-subset-of-a-postgis-table-based-on-a-value-in-a-column>
 
+An alernate solution using recursive CTE and ST_DWithin?:
+<https://stackoverflow.com/questions/27081061/how-to-merge-adjactent-polygons-to-1-polygon-and-keep-min-max-data>
+
 Similar problem in R
 <https://gis.stackexchange.com/questions/254519/group-and-union-polygons-that-share-a-border-in-r>
 
