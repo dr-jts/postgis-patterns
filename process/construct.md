@@ -101,11 +101,12 @@ See also note about using a scaling rather than buffer, to preserve shape of pol
 
 ## Medial Axis / Skeleton
 
-### Construct Polygon Centrelines
+### Construct Average of Two Lines
 <https://gis.stackexchange.com/questions/322392/average-of-two-lines>
 
 ![](https://i.stack.imgur.com/QrEL8.png)
 
+### Construct Polygon Centrelines
 <https://gis.stackexchange.com/questions/50668/how-can-i-merge-collapse-nearby-and-parallel-road-lines-eg-a-dual-carriageway>
 
 <https://github.com/migurski/Skeletron>
