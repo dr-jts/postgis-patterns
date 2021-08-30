@@ -17,7 +17,7 @@ Use `ST_ClusterDBSCAN`, which provides very good performance.
 ```sql
 SELECT *,
        ST_ClusterDBSCAN(geom, 0, 1) OVER() AS clst_id
-FROM   poly_tbl
+FROM   poly_tbl;
 ```
 
 This problem has a similar recommended solution:
