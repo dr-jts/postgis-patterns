@@ -17,6 +17,38 @@ ST_MakePoint is much faster
 ### Collect Lines into a MultiLine in a given order
 <https://gis.stackexchange.com/questions/166701/postgis-merging-linestrings-into-multilinestrings-in-a-particular-order>
 
+Input:
+![](https://i.stack.imgur.com/Oc7AG.png)
+
+Ordering from plain `ST_Collect`:
+![](https://i.stack.imgur.com/mRuXi.png)
+
+**Solution**
+
+Use aggregate `ORDER BY`:
+
+```sql
+SELECT ST_Collect(geom ORDER BY seq_num)) FROM lines;
+```
+
+### Create Line Segments from ordered Point records
+<https://gis.stackexchange.com/questions/411386/how-to-draw-lines-from-point-to-point-in-postgis-postgresql>
+
+**Solution**
+Use `LEAD` window function:
+```sql
+WITH src (id, dtt, geom) AS (VALUES 
+    (1,1,'POINT (1 1)'),
+    (1,2,'POINT (1 2)'),
+    (1,3,'POINT (1 3)'),
+    (2,1,'POINT (2 1)'),
+    (2,2,'POINT (2 2)'),
+    (2,3,'POINT (1 3)'))
+SELECT id, dtt, ST_AsText(
+        ST_MakeLine(geom, LEAD(geom) OVER(PARTITION BY id ORDER BY dtt))) AS geom
+FROM src;
+```
+
 ## Geometry Access
 
 ### Extract shells and holes from MultiPolygons
