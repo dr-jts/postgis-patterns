@@ -11,13 +11,12 @@ parent: Overlay
 ## Polygon Difference
 
 ### Remove large set of polygons from a surrounding box
-https://gis.stackexchange.com/questions/330051/obtaining-the-geospatial-complement-of-a-set-of-polygons-to-a-bounding-box-in-po/333562#333562
+<https://gis.stackexchange.com/questions/330051/obtaining-the-geospatial-complement-of-a-set-of-polygons-to-a-bounding-box-in-po>
 
 #### Issues
 conventional approach is too slow to use  (Note: user never actually completed processing, so might not have encountered geometry size issues, which could also occur)
 
-### Remove polygons from single large polygon
-
+### Remove polygons from a single very large polygon
 <https://gis.stackexchange.com/questions/217337/postgis-erase-logic-and-speed>.  
 
 #### Solution
