@@ -10,8 +10,33 @@ parent: Overlay
 
 ## Polygon Difference
 
-### Remove large set of polygons from a surrounding box
+### Remove polygons from a surrounding box
 <https://gis.stackexchange.com/questions/330051/obtaining-the-geospatial-complement-of-a-set-of-polygons-to-a-bounding-box-in-po>
+
+Basic solution is too slow to use on 100K polygons
+
+**Solution - Basic**
+```sql
+SELECT ST_Difference(
+          ST_MakeEnvelope(-124.7844079, 24.7433195, -66.9513812, 49.3457868, 4326), 
+          ST_UNION(union.geom)) as geom
+FROM polys
+WHERE ST_INTERSECTS(polys.geom, 
+                        ST_MakeEnvelope(-124.7844079, 24.7433195, -66.9513812, 49.3457868, 4326))
+```
+**Solution - reconstruct polygons as holes**
+
+**Solution - subdivide extent with Voronoi diagram
+```sql
+WITH 
+    pts AS (SELECT (ST_DumpPoints(geom)).geom FROM polys),
+    vor AS (SELECT ((ST_Dump(ST_VoronoiPolygons(ST_Collect(geom)))).geom) geom FROM pts),
+    clip AS (SELECT ST_Intersection(v.geom, b.geom) geom FROM vor v JOIN box b ON ST_Intersects(v.geom, b.geom)),
+    diff AS (SELECT ST_Difference(c.geom, p.geom) geom FROM clip c 
+      JOIN polys p ON ST_Intersects(c.geom, p.geom) AND ST_Overlaps(c.geom, p.geom))
+    SELECT ST_Union(geom) geom FROM diff;
+```
+
 
 #### Issues
 conventional approach is too slow to use  (Note: user never actually completed processing, so might not have encountered geometry size issues, which could also occur)
