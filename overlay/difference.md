@@ -40,16 +40,20 @@ WITH
 
 **Solution - subdivide extent as grid**
 
-#### Issues
-conventional approach is too slow to use  (Note: user never actually completed processing, so might not have encountered geometry size issues, which could also occur)
+**Issues**
+Basic approach is too slow to use  (Note: user never actually completed processing, so might not have encountered geometry size issues, which could also occur)
 
-### Remove polygons from a single very large polygon
+### Remove polygon coverage from a single very large polygon
 <https://gis.stackexchange.com/questions/217337/postgis-erase-logic-and-speed>.  
 
-#### Solution
+**Solution**
 * Use `ST_Subdivide` on large polygon
-* Compute difference on subdivided pieces
-* Union remainders
+* Compute difference between subdivided "squares" and `ST_Union` of overlapping coverage polygons
+* Union the remainders
+
+**Notes** 
+* unioning the remainders may produce very narrow gores, if the difference operation used some robustness heuristics
+* the final unioned result is likely to be a very large polygon with many holes.  This is inefficient to perform further processing on.  It may be better to use the remainders directly, depending on the processing required.
 
 ```sql
 -- Turn NJ into a large number of small tractable areas
