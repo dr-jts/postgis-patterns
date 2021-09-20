@@ -125,33 +125,35 @@ CROSS JOIN LATERAL (
 ### Cut Polygons into a Polygon table
 <https://gis.stackexchange.com/questions/71461/using-st-difference-and-preserving-attributes-in-postgis>
 
+Use Case: cut a more detailed and attributed polygon coverage dataset (`detail`) into a less detailed polygon coverage (`base`).
+
 ```sql
-WITH deluxe_cutter AS (
+WITH detail_cutter AS (
   SELECT ST_Union(d.geom) AS geom, b.gid
-  FROM baselevel b JOIN deluxe d ON ST_Intersects(b.geom, d.geom)
+  FROM base b JOIN detail d ON ST_Intersects(b.geom, d.geom)
   GROUP BY b.gid
 ),
-baselevel_cut AS (
+base_rem AS (
   SELECT ST_Difference(b.geom, d.geom) AS geom, b.gid
-  FROM baselevel b JOIN deluxe_cutter d ON b.gid = d.gid
+  FROM base b JOIN detail_cutter d ON b.gid = d.gid
 )
 -- base remainders
-SELECT 'baselevel' AS type, b.geom, b.gid
-  FROM baselevel_cut b
+SELECT 'base' AS type, b.geom, b.gid
+  FROM base_rem b
 UNION ALL
 -- cutter polygons
-SELECT 'deluxe' AS type, d.geom, d.gid
-  FROM deluxe d
+SELECT 'detail' AS type, d.geom, d.gid
+  FROM detail d
 UNION ALL
 -- uncut base polygons
-SELECT 'baselevel' AS type, b.geom, b.gid
-  FROM baselevel b 
-  LEFT JOIN deluxe d ON ST_Intersects(b.geom,d.geom)
+SELECT 'base' AS type, b.geom, b.gid
+  FROM base b 
+  LEFT JOIN detail d ON ST_Intersects(b.geom,d.geom)
   WHERE d.gid is null;
 ```
 
 #### Solution
-* For each base polygon, union all cutter polygons which intersect it
+* For each base polygon, union all detail polygons which intersect it (the "cutters")
 * Difference the cutter union from the base polygon
 * UNION ALL:
   * The base polygon remainders
