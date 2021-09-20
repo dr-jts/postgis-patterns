@@ -13,9 +13,10 @@ parent: Overlay
 ### Remove polygons from a surrounding box
 <https://gis.stackexchange.com/questions/330051/obtaining-the-geospatial-complement-of-a-set-of-polygons-to-a-bounding-box-in-po>
 
+**Solution - Basic**
+
 Basic solution is too slow to use on 100K polygons
 
-**Solution - Basic**
 ```sql
 SELECT ST_Difference(
           ST_MakeEnvelope(-124.7844079, 24.7433195, -66.9513812, 49.3457868, 4326), 
@@ -26,7 +27,7 @@ WHERE ST_INTERSECTS(polys.geom,
 ```
 **Solution - reconstruct polygons as holes**
 
-**Solution - subdivide extent with Voronoi diagram
+**Solution - subdivide extent with Voronoi diagram**
 ```sql
 WITH 
     pts AS (SELECT (ST_DumpPoints(geom)).geom FROM polys),
@@ -37,6 +38,7 @@ WITH
     SELECT ST_Union(geom) geom FROM diff;
 ```
 
+**Solution - subdivide extent as grid**
 
 #### Issues
 conventional approach is too slow to use  (Note: user never actually completed processing, so might not have encountered geometry size issues, which could also occur)
