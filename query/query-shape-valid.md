@@ -12,7 +12,7 @@ parent: Querying
 ## Query Geometric Shape
 
 ### Find narrow Polygons
-https://gis.stackexchange.com/questions/316128/identifying-long-and-narrow-polygons-in-with-postgis
+<https://gis.stackexchange.com/questions/316128/identifying-long-and-narrow-polygons-in-with-postgis>
 
 #### Solution 1 - Radius of Maximum Inscribed Circle
 Use function [`ST_MaximumInscribedCircle`](https://postgis.net/docs/manual-dev/ST_MaximumInscribedCircle.html)
@@ -28,15 +28,49 @@ Use the Thinness Ratio:  `TR(Area,Perimeter) = Area * 4 * pi / (Perimter^2)`.
 
 This is only a heuristic approximation, and it's hard to choose appropriate cut-off for the value of the ratio.
 
-See https://gis.stackexchange.com/questions/151939/explanation-of-the-thinness-ratio-formula
+See <https://gis.stackexchange.com/questions/151939/explanation-of-the-thinness-ratio-formula>
 
 
 
 ## Query Invalid Geometry
 
 ### Skip invalid geometries when querying
-https://gis.stackexchange.com/questions/238748/compare-only-valid-polygon-geometries-in-postgis
+<https://gis.stackexchange.com/questions/238748/compare-only-valid-polygon-geometries-in-postgis>
 
 ## Query Duplicates
+
 ### Find and Remove duplicate geometry rows
-https://gis.stackexchange.com/questions/124583/delete-duplicate-geometry-in-postgis-tables
+<https://gis.stackexchange.com/questions/124583/delete-duplicate-geometry-in-postgis-tables>
+
+### Merge datasets of grid polygons
+<https://gis.stackexchange.com/questions/412911/union-multiple-layers-reduce-rows-if-exactly-same-geometry>
+
+Input: 10 tables of grid cells, with different attributes  Geometry is polygons which are boxes of the grids. 
+Ouput: Table with all attributes, with records of same cell merged into single record
+
+**Solution**
+
+1. Extract unique grid cell geometries:
+```sql
+CREATE tmp_table AS
+SELECT DISTINCT geom FROM
+(
+  SELECT geom from table1
+  UNION
+  SELECT geom from table2
+... 
+) 
+```
+
+2. Extract attributes via LEFT JOINs against the source tables
+```sql
+SELECT a.geom,t1.text1a,t1.text1b,t2.int2a,...
+FROM temp_table a
+LEFT JOIN table1 t1 ON a.geom = t1.geom
+LEFT JOIN table2 t2 ON a.geom = t2.geom
+...
+```
+
+
+
+
