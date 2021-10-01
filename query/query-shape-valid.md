@@ -47,12 +47,12 @@ FROM (SELECT row_number() OVER (PARTITION BY geom) AS row_num, geom, fld1, fld2 
 WHERE row_num = 1;
 ```
 
-### Merge datasets of grid polygons
+### Merge tables of grid cell polygons
 <https://gis.stackexchange.com/questions/412911/union-multiple-layers-reduce-rows-if-exactly-same-geometry>
 
-* **Input:** 10 tables of grid cells, with different attributes  Geometry is polygons which are boxes of the grids. 
-   Grids may have different cell sizes, and be overlapping
-* **Ouput:** Table with all attributes, with records for same cell merged into single record, with null values for missing attributes
+* **Input:** 10 tables of grid cells, with different attributes.  Geometries are the grid cell polygons. 
+   Grids may have different cell sizes, and may be overlapping.
+* **Ouput:** Table with all attributes, with records for same cell merged into single record.  Missing attributes are null.
 
 **Solution**
 
