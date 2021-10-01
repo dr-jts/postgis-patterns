@@ -103,7 +103,7 @@ FROM ST_DumpPoints( 'LINESTRING M (0 0 0, 10 0 20, 12 0 40, 20 0 50, 21 0 70)'))
 WHERE diff > 10;
 ```
 
-## Query Zero-Length LineStrings
+## Query Invalid Zero-Length LineStrings
 <https://gis.stackexchange.com/questions/203125/st-intersects-with-degenerate-linestring?rq=1>
     
 **Problem:** Zero-length LineStrings are invalid, and hence cause spatial predicates such as `ST_Intersects` to return `false`.
