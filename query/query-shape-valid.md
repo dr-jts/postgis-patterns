@@ -46,7 +46,8 @@ See <https://gis.stackexchange.com/questions/151939/explanation-of-the-thinness-
 <https://gis.stackexchange.com/questions/412911/union-multiple-layers-reduce-rows-if-exactly-same-geometry>
 
 * **Input:** 10 tables of grid cells, with different attributes  Geometry is polygons which are boxes of the grids. 
-* **Ouput:** Table with all attributes, with records for same cell merged into single record
+   Grids may have different cell sizes, and be overlapping
+* **Ouput:** Table with all attributes, with records for same cell merged into single record, with null values for missing attributes
 
 **Solution**
 
