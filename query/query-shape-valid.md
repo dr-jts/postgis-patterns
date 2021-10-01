@@ -41,6 +41,10 @@ See <https://gis.stackexchange.com/questions/151939/explanation-of-the-thinness-
 
 ### Find and Remove duplicate geometry rows
 <https://gis.stackexchange.com/questions/124583/delete-duplicate-geometry-in-postgis-tables>
+
+* **Input:** table where some rows have duplicate geometry, and no identifying key
+* **Ouput:** table with duplicate rows removed
+
 ```sql
 SELECT geom, fld1, fld2
 FROM (SELECT row_number() OVER (PARTITION BY geom) AS row_num, geom, fld1, fld2 FROM some_table) AS t
