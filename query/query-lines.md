@@ -103,3 +103,21 @@ FROM ST_DumpPoints( 'LINESTRING M (0 0 0, 10 0 20, 12 0 40, 20 0 50, 21 0 70)'))
 WHERE diff > 10;
 ```
 
+## Query Zero-Length LineStrings
+<https://gis.stackexchange.com/questions/203125/st-intersects-with-degenerate-linestring?rq=1>
+    
+**Problem:** Zero-length LineStrings are invalid, and hence cause spatial predicates such as `ST_Intersects` to return `false`.
+    
+**Solution** 
+    
+The work-around is to run `ST_MakeValid` on the geometry.
+    
+```sql
+SELECT ST_Intersects( 'LINESTRING (544483.525 6849134.28, 544483.525 6849134.28)', 
+    'POLYGON ((543907.636214323 6848710.84802846, 543909.787417164 6849286.92923919, 544869.040437688 6849283.30837091, 544866.842236582 6848707.22673193, 543907.636214323 6848710.84802846))') AS test1,
+    ST_Intersects( ST_MakeValid( 'LINESTRING (544483.525 6849134.28, 544483.525 6849134.28)' ), 
+    'POLYGON ((543907.636214323 6848710.84802846, 543909.787417164 6849286.92923919, 544869.040437688 6849283.30837091, 544866.842236582 6848707.22673193, 543907.636214323 6848710.84802846))') AS test2;
+``
+
+    
+
