@@ -45,8 +45,8 @@ See <https://gis.stackexchange.com/questions/151939/explanation-of-the-thinness-
 ### Merge datasets of grid polygons
 <https://gis.stackexchange.com/questions/412911/union-multiple-layers-reduce-rows-if-exactly-same-geometry>
 
-Input: 10 tables of grid cells, with different attributes  Geometry is polygons which are boxes of the grids. 
-Ouput: Table with all attributes, with records of same cell merged into single record
+* **Input:** 10 tables of grid cells, with different attributes  Geometry is polygons which are boxes of the grids. 
+* **Ouput:** Table with all attributes, with records for same cell merged into single record
 
 **Solution**
 
