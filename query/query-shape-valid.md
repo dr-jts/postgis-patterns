@@ -41,6 +41,11 @@ See <https://gis.stackexchange.com/questions/151939/explanation-of-the-thinness-
 
 ### Find and Remove duplicate geometry rows
 <https://gis.stackexchange.com/questions/124583/delete-duplicate-geometry-in-postgis-tables>
+```sql
+SELECT geom, fld1, fld2
+FROM (SELECT row_number() OVER (PARTITION BY geom) AS row_num, geom, fld1, fld2 FROM some_table) AS t
+WHERE row_num = 1;
+```
 
 ### Merge datasets of grid polygons
 <https://gis.stackexchange.com/questions/412911/union-multiple-layers-reduce-rows-if-exactly-same-geometry>
