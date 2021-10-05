@@ -133,16 +133,18 @@ https://gis.stackexchange.com/questions/379300/how-to-remove-overlaps-and-keep-h
 
 #### Solution
 
+Using `&&` greatly improves query performance.
+
 ```sql
 SELECT ST_Multi(COALESCE(
          ST_Difference(a.geom, blade.geom),
          a.geom
        )) AS geom
-FROM   table1 AS a
+FROM   tbl AS a
 CROSS JOIN LATERAL (
   SELECT ST_Union(geom) AS geom
-  FROM   table1 AS b
-  WHERE  a.prio > b.prio
+  FROM   tbl AS b
+  WHERE  a.geom && b.geom AND a.prio > b.prio
 ) AS blade;
 ```
 
