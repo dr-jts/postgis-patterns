@@ -165,7 +165,7 @@ Also: <https://gis.stackexchange.com/questions/367486/how-to-do-small-expansion-
 
 ![](https://i.stack.imgur.com/FTMi3.png)
 
-#### PostGIS Idea
+**PostGIS Idea**
 `ST_LineSubstring` could be enhanced to allow fractions outside [0,1].  
 Or make a new function `ST_LineExtend` (which should also handle shortening the line).
 
@@ -174,9 +174,31 @@ Or make a new function `ST_LineExtend` (which should also handle shortening the 
 
 ![](https://i.stack.imgur.com/zvKKx.png)
 
-#### PostGIS Idea
+**PostGIS Idea**
 Create a new function `ST_LineExtract(line, index1, index2)` to extract a portion of a LineString between two vertex indices
 
+### Extrapolate a Line to opposite side of Polygon
+<https://gis.stackexchange.com/questions/376274/finding-opposite-side-of-a-polygon>
+
+Given a point in a polygon and a point outside the polygon, find the point on the opposite side of the polygon lying on the line between them.
+
+![](https://i.stack.imgur.com/WyYuO.png)
+
+**Solution**
+
+
+```sql
+WITH
+radius AS (SELECT ST_MakeLine( pt.geom, ST_Centroid(poly.geom) ) AS geom FROM pnt pt, polygon poly),
+asilen AS (SELECT ST_Azimuth(ST_StartPoint(geom), ST_EndPoint(geom)) AS azimuth, 
+                ST_Distance(ST_StartPoint(geom), ST_EndPoint(geom)) + 0.00001 AS length FROM radius),
+tblc AS (SELECT ST_MakeLine(a.geom, ST_Translate(a.geom, sin(azimuth)*length, cos(azimuth)*length)) geom FROM radius a, asilen b),
+tbld AS (SELECT ST_Intersection(a.geom, ST_ExteriorRing(b.geom)) geom FROM tblc a JOIN polygon b ON ST_Intersects(a.geom, b.geom)),
+all_pts AS (SELECT (ST_Dump(geom)).geom geom FROM tbld)
+SELECT (all_pts.geom) geom, ST_Distance(all_pts.geom, radius.geom) dist 
+  FROM all_pts, radius 
+  ORDER BY dist DESC LIMIT 1;
+```
 
 ## Merging
 
