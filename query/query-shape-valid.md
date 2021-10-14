@@ -55,12 +55,12 @@ SELECT id,
 FROM data;
 ```
 
-# Query Invalid Geometry
+# Invalid Geometry
 
 ## Skip invalid geometries when querying
 <https://gis.stackexchange.com/questions/238748/compare-only-valid-polygon-geometries-in-postgis>
 
-# Query Duplicates
+# Duplicate Geometry
 
 ## Find and Remove duplicate geometry rows
 <https://gis.stackexchange.com/questions/124583/delete-duplicate-geometry-in-postgis-tables>
