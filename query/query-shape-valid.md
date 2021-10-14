@@ -10,7 +10,7 @@ parent: Querying
 
 # Geometric Shape
 
-### Find narrow Polygons
+## Find narrow Polygons
 <https://gis.stackexchange.com/questions/316128/identifying-long-and-narrow-polygons-in-with-postgis>
 
 #### Solution 1 - Radius of Maximum Inscribed Circle
@@ -29,7 +29,7 @@ This is only a heuristic approximation, and it's hard to choose appropriate cut-
 
 See <https://gis.stackexchange.com/questions/151939/explanation-of-the-thinness-ratio-formula>
 
-### Query whether Polygons are rectangular
+## Query whether Polygons are rectangular
 <https://gis.stackexchange.com/questions/413944/how-to-check-which-geometry-is-rectangle>
 
 **Solution**
@@ -53,14 +53,14 @@ SELECT id,
 FROM data;
 ```
 
-## Query Invalid Geometry
+# Query Invalid Geometry
 
-### Skip invalid geometries when querying
+## Skip invalid geometries when querying
 <https://gis.stackexchange.com/questions/238748/compare-only-valid-polygon-geometries-in-postgis>
 
-## Query Duplicates
+# Query Duplicates
 
-### Find and Remove duplicate geometry rows
+## Find and Remove duplicate geometry rows
 <https://gis.stackexchange.com/questions/124583/delete-duplicate-geometry-in-postgis-tables>
 
 * **Input:** table where some rows have duplicate geometry, and no identifying key
@@ -72,7 +72,7 @@ FROM (SELECT row_number() OVER (PARTITION BY geom) AS row_num, geom, fld1, fld2 
 WHERE row_num = 1;
 ```
 
-### Merge tables of grid cell polygons
+## Merge tables of grid cell Polygons
 <https://gis.stackexchange.com/questions/412911/union-multiple-layers-reduce-rows-if-exactly-same-geometry>
 
 * **Input:** 10 tables of grid cells, with different attributes.  Geometries are the grid cell polygons. 
