@@ -30,7 +30,29 @@ This is only a heuristic approximation, and it's hard to choose appropriate cut-
 
 See <https://gis.stackexchange.com/questions/151939/explanation-of-the-thinness-ratio-formula>
 
+### Query whether Polygons are rectangular
+<https://gis.stackexchange.com/questions/413944/how-to-check-which-geometry-is-rectangle>
 
+**Solution**
+If rectangles are required to have exactly 4 corners, then only polygons where ST_NPoints(geom) > 5 need to be considered.
+
+To test quadrilaterals for rectangularity, compare the lengths of their diagonals. In a rectangle the diagonal lengths are (almost) equal. Since finite numerical precision means the lengths will rarely be exactly equal, a tolerance factor is needed To use a dimension-free tolerance the lengths can be normalized by the total length to give the **rectangularity ratio**.
+
+A query computing the rectangularity ratio from a dataset of 2 slightly skewed rectangles and a perfect rectangle:
+
+```sql
+WITH data(id, geom) AS (VALUES
+  (1, 'POLYGON((144.78116 -37.824855, 144.780843 -37.826916, 144.782018 -37.827019, 144.78232 -37.82496, 144.78116 -37.824855))')
+ ,(3, 'POLYGON((153.193238 -27.682795, 153.19302 -27.68375, 153.193568 -27.683843, 153.193795 -27.682894,153.193238 -27.682795))')
+ ,(4, 'POLYGON ((153.1931 -27.6828, 153.1937 -27.6828, 153.19370000000004 -27.6838, 153.1931 -27.6838, 153.1931 -27.6828))')
+)
+SELECT id,
+     (ST_Distance( ST_PointN(ST_ExteriorRing(geom), 1), ST_PointN(ST_ExteriorRing(geom), 3))
+   -  ST_Distance( ST_PointN(ST_ExteriorRing(geom), 2), ST_PointN(ST_ExteriorRing(geom), 4)))
+   / (ST_Distance( ST_PointN(ST_ExteriorRing(geom), 1), ST_PointN(ST_ExteriorRing(geom), 3))
+   +  ST_Distance( ST_PointN(ST_ExteriorRing(geom), 2), ST_PointN(ST_ExteriorRing(geom), 4))) AS rect_ratio
+FROM data;
+```
 
 ## Query Invalid Geometry
 
