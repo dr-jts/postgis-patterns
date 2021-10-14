@@ -3,13 +3,12 @@ parent: Querying
 ---
 
 # Shape, Validity, Duplicates
-
 {: .no_toc }
 
 1. TOC
 {:toc}
 
-## Query Geometric Shape
+# Geometric Shape
 
 ### Find narrow Polygons
 <https://gis.stackexchange.com/questions/316128/identifying-long-and-narrow-polygons-in-with-postgis>
