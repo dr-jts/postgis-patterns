@@ -13,6 +13,8 @@ parent: Querying
 ## Find narrow Polygons
 <https://gis.stackexchange.com/questions/316128/identifying-long-and-narrow-polygons-in-with-postgis>
 
+![](https://i.stack.imgur.com/3ATxf.png)
+
 #### Solution 1 - Radius of Maximum Inscribed Circle
 Use function [`ST_MaximumInscribedCircle`](https://postgis.net/docs/manual-dev/ST_MaximumInscribedCircle.html)
 to compute the radius of the Maximum Inscribed Circle of each polygon, and then select using desired cut-off.
