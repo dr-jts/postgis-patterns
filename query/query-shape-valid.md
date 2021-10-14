@@ -31,10 +31,11 @@ This is only a heuristic approximation, and it's hard to choose appropriate cut-
 
 See <https://gis.stackexchange.com/questions/151939/explanation-of-the-thinness-ratio-formula>
 
-## Query whether Polygons are rectangular
+## Find rectangular Polygons
 <https://gis.stackexchange.com/questions/413944/how-to-check-which-geometry-is-rectangle>
 
-**Solution**
+#### Solution 1 - Quadrilaterals only
+
 If rectangles are required to have exactly 4 corners, then only polygons where ST_NPoints(geom) > 5 need to be considered.
 
 To test quadrilaterals for rectangularity, compare the lengths of their diagonals. In a rectangle the diagonal lengths are (almost) equal. Since finite numerical precision means the lengths will rarely be exactly equal, a tolerance factor is needed To use a dimension-free tolerance the lengths can be normalized by the total length to give the **rectangularity ratio**.
@@ -54,6 +55,13 @@ SELECT id,
    +  ST_Distance( ST_PointN(ST_ExteriorRing(geom), 2), ST_PointN(ST_ExteriorRing(geom), 4))) AS rect_ratio
 FROM data;
 ```
+#### Solution 2 - Rectangles with many points
+
+If it is required to test the rectangularity of polygons with more than 4 vertices, then:
+
+* Compute the Minimum Bounding Rectangle using `ST_OrientedEnvelope`
+* Compute the Hausdorff Distance between the MBR and the original polygon using `ST_HausdorffDistance`
+* Test if the HD is less than some required value
 
 # Invalid Geometry
 
