@@ -34,7 +34,7 @@ See <https://gis.stackexchange.com/questions/151939/explanation-of-the-thinness-
 ## Find rectangular Polygons
 <https://gis.stackexchange.com/questions/413944/how-to-check-which-geometry-is-rectangle>
 
-#### Solution 1 - Quadrilaterals only
+#### Solution 1 - Quadrilaterals
 
 If rectangles are required to have exactly 4 corners, then only polygons where ST_NPoints(geom) > 5 need to be considered.
 
@@ -55,7 +55,7 @@ SELECT id,
    +  ST_Distance( ST_PointN(ST_ExteriorRing(geom), 2), ST_PointN(ST_ExteriorRing(geom), 4))) AS rect_ratio
 FROM data;
 ```
-#### Solution 2 - Rectangles with many points
+#### Solution 2 - Rectangles with many vertices
 
 If it is required to test the rectangularity of polygons with more than 4 vertices, then:
 
