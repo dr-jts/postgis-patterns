@@ -36,3 +36,5 @@ This may be due to indexing being used for first ST_Intersects arg, but not seco
 
 ## Use an Index for performance
 <https://gis.stackexchange.com/questions/237709/speeding-up-intersect-query-in-postgis>
+
+Just says: Use a spatial index!
