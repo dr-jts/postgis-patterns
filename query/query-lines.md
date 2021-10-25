@@ -2,7 +2,7 @@
 parent: Querying
 ---
 
-# Query Lines
+# Lines
 {: .no_toc }
 
 1. TOC
