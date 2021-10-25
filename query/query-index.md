@@ -11,6 +11,10 @@ parent: Querying
 ## Kinds of Spatial Indexes
 <https://blog.crunchydata.com/blog/the-many-spatial-indexes-of-postgis>
 
+![](https://blog.crunchydata.com/hs-fs/hubfs/rtree.png?width=543&name=rtree.png)
+
+![](https://blog.crunchydata.com/hs-fs/hubfs/quadtree.png?width=558&name=quadtree.png)
+
 ## Miscellaneous
 
 <https://gis.stackexchange.com/questions/172266/improve-performance-of-a-postgis-st-dwithin-query>
