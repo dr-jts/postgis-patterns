@@ -32,5 +32,7 @@ This may be due to indexing being used for first ST_Intersects arg, but not seco
 ## Clustering on a spatial Index
 <https://gis.stackexchange.com/questions/240721/postgis-performance-increase-with-cluster>
 
+<https://postgis.net/workshops/postgis-intro/clusterindex.html>
+
 ## Use an Index for performance
 <https://gis.stackexchange.com/questions/237709/speeding-up-intersect-query-in-postgis>
