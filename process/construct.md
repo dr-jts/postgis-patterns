@@ -158,6 +158,7 @@ WHERE p1.i > p2.i;
 ![](https://i.stack.imgur.com/TsP6P.png)
 
 **Solution**
+
 Using only polygon shell:
 ```sql
 WITH poly AS 
