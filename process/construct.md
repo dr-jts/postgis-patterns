@@ -152,6 +152,24 @@ FROM pts p1, pts p2
 WHERE p1.i > p2.i;
 ```
 
+### Construct all diagonals in a concave polygon
+<https://gis.stackexchange.com/questions/407946/performant-possible-pairs-in-concave-polygon>
+
+![](https://i.stack.imgur.com/TsP6P.png)
+
+**Solution**
+```sql
+WITH poly AS 
+(SELECT ST_MakePolygon(ST_ExteriorRing((ST_Dump(geom)).geom)) geom FROM
+    (SELECT ST_GeomFromText('POLYGON((25.390624999999982 23.62298461759423,18.183593749999982 19.371888927008566,7.812499999999982 17.87273879517762,5.878906249999982 24.90497143578641,9.570312499999982 25.223427998254586,12.734374999999982 25.064303191014304,15.195312499999982 30.048744443788348,22.578124999999982 30.352588399664125,24.687499999999982 25.857838723065772,25.390624999999982 23.62298461759423))') AS geom
+) boo),
+poly_ext AS (SELECT ST_ExteriorRing((ST_Dump(geom)).geom) geom FROM poly),
+points AS (SELECT (g.gdump).path AS id, (g.gdump).geom AS geom
+    FROM (SELECT ST_DumpPoints(geom) AS gdump FROM poly_ext) AS g)
+SELECT ST_MakeLine(a.geom, b.geom) AS geom FROM points a CROSS JOIN points b
+JOIN poly ON ST_Contains(poly.geom, ST_MakeLine(a.geom, b.geom)) WHERE a.id < b.id;
+```
+
 ### Construct longest horizontal line within polygon
 <https://gis.stackexchange.com/questions/32552/calculating-maximum-distance-within-polygon-in-x-direction-east-west-direction>
 
