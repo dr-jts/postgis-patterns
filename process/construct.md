@@ -158,6 +158,7 @@ WHERE p1.i > p2.i;
 ![](https://i.stack.imgur.com/TsP6P.png)
 
 **Solution**
+Using only polygon shell:
 ```sql
 WITH poly AS 
 (SELECT ST_MakePolygon(ST_ExteriorRing((ST_Dump(geom)).geom)) geom FROM
@@ -165,9 +166,9 @@ WITH poly AS
 ) boo),
 poly_ext AS (SELECT ST_ExteriorRing((ST_Dump(geom)).geom) geom FROM poly),
 points AS (SELECT (g.gdump).path AS id, (g.gdump).geom AS geom
-    FROM (SELECT ST_DumpPoints(geom) AS gdump FROM poly_ext) AS g)
+                  FROM (SELECT ST_DumpPoints(geom) AS gdump FROM poly_ext) AS g)
 SELECT ST_MakeLine(a.geom, b.geom) AS geom FROM points a CROSS JOIN points b
-JOIN poly ON ST_Contains(poly.geom, ST_MakeLine(a.geom, b.geom)) WHERE a.id < b.id;
+       JOIN poly ON ST_Contains(poly.geom, ST_MakeLine(a.geom, b.geom)) WHERE a.id < b.id;
 ```
 
 ### Construct longest horizontal line within polygon
