@@ -68,7 +68,7 @@ Note: posts do not provide a PostGIS solution for this.  Not known if such a sol
 Would need a recursive query to do this.
 How to keep clusters compact?
 
-### Group keeping only one Geometry
+### GROUP BY keeping one Geometry
 <https://stackoverflow.com/questions/67972764/alternative-first-function-for-geometry-type>
 
 Using `FIRST_VALUE` window function:
