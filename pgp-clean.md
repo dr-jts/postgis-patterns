@@ -19,7 +19,7 @@ The question and standard answer (buffer(0) are fairly mundane. But note the ans
 
 Gives outline for function `cleanPolygon` but does not provide source
 
-## Renove Spikes
+## Remove Spikes
 <https://trac.osgeo.org/postgis/wiki/UsersWikiExamplesSpikeRemover>
 
 <https://gasparesganga.com/labs/postgis-normalize-geometry/>
