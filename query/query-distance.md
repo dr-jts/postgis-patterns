@@ -127,10 +127,10 @@ WHERE EXISTS (
 * Loop over rows
   * build a MultiPoint union of the result
   * add result records if they have distance > D to current result MultiPoint
-  * terminate when N records have been found
+  * terminate when N records have been found, or when no further points can be added
    
 This is fairly reasonable in performance.  For a 2M point table finding 100 different points takes ~ 6 secs.
-   
+
 ```sql
 WITH RECURSIVE rand AS (
   SELECT geom, name FROM geonames ORDER BY random()
@@ -150,3 +150,24 @@ SELECT count, geom, name FROM pick;
 -- Use this to visualize result                     
 --SELECT count, ST_AsText(geomAll), ST_AsText(geom), name FROM pick;
 ```
+                      
+**Self-contained example:**
+                      
+```sql
+WITH RECURSIVE rand AS (
+  SELECT geom, 'row' || path[1] AS name
+    FROM ST_Dump( ST_GeneratePoints(ST_MakeEnvelope(0, 0, 100, 100), 10000))
+),
+pick(count, geomAll, geom, name) AS (
+  SELECT 1, geom::geometry AS geomAll, geom::geometry, name
+    FROM (SELECT geom, name FROM rand LIMIT 1) t
+  UNION ALL
+  SELECT count, ST_Union(geomAll, geom), geom, name
+    FROM (SELECT count + 1 AS count, p.geomAll AS geomAll, r.geom, r.name 
+              FROM pick p CROSS JOIN rand r
+              WHERE ST_Distance(p.geomAll, r.geom) > 5
+              LIMIT 1) t
+    WHERE count <= 100
+)
+SELECT count, ST_AsText(geomAll), ST_AsText(geom), name FROM pick;
+```                     
