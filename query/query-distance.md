@@ -121,13 +121,13 @@ WHERE EXISTS (
       );
 ```
 
- ## Find random point records which are at least distance D apart
+## Find random point records which are at least distance D apart
    
- * Randomize input records
- * Loop over all records, building a MultiPoint of the result, and adding new records only if they have distance > D
+* Randomize input records
+* Loop over all records, building a MultiPoint of the result, and adding new records only if they have distance > D
    
- ```sql
- WITH RECURSIVE rand AS (
+```sql
+WITH RECURSIVE rand AS (
   SELECT geom, name, random() rand FROM geonames ORDER BY rand
 ),
 pick(count, geomAll, geom, name) AS (
