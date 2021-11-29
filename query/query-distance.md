@@ -133,7 +133,7 @@ This is fairly reasonable in performance.  For a 2M point table finding 100 diff
    
 ```sql
 WITH RECURSIVE rand AS (
-  SELECT geom, name, random() rand FROM geonames ORDER BY rand
+  SELECT geom, name FROM geonames ORDER BY random()
 ),
 pick(count, geomAll, geom, name) AS (
   SELECT 1, geom::geometry AS geomAll, geom::geometry, name 
