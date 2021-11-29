@@ -121,7 +121,7 @@ WHERE EXISTS (
       );
 ```
 
-## Find random set of Point rows which are at least distance D apart
+## Find random sample of Point features at least distance D apart
    
 * Randomize row order
 * Loop over rows
