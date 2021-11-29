@@ -120,3 +120,28 @@ WHERE EXISTS (
       WHERE ST_Intersects(p.geom, l2.geom)   
       );
 ```
+
+ ## Find random point records which are at least distance D apart
+   
+ * Randomize input records
+ * Loop over all records, building a MultiPoint of the result, and adding new records only if they have distance > D
+   
+ ```sql
+ WITH RECURSIVE rand AS (
+  SELECT geom, name, random() rand FROM geonames ORDER BY rand
+),
+pick(count, geomAll, geom, name) AS (
+  SELECT 1, geom::geometry AS geomAll, geom::geometry, name 
+    FROM (SELECT geom, name FROM rand LIMIT 1) t
+  UNION ALL
+  SELECT count, ST_Union(geomAll, geom), geom, name
+    FROM (SELECT count + 1 AS count, p.geomAll AS geomAll, r.geom, r.name 
+              FROM pick p CROSS JOIN rand r
+              WHERE ST_Distance(p.geomAll, r.geom) > 1   -- PARAMETER: Distance
+              LIMIT 1) t
+    WHERE count <= 100.  -- PARAMETER: Result count
+)
+SELECT count, geom, name FROM pick;
+-- Use this to visualize result                     
+--SELECT count, ST_AsText(geomAll), ST_AsText(geom), name FROM pick;
+```
