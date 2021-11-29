@@ -121,10 +121,15 @@ WHERE EXISTS (
       );
 ```
 
-## Find random point records which are at least distance D apart
+## Find random set of Point rows which are at least distance D apart
    
-* Randomize input records
-* Loop over all records, building a MultiPoint of the result, and adding new records only if they have distance > D
+* Randomize row order
+* Loop over rows
+  * build a MultiPoint union of the result
+  * add result records if they have distance > D to current result MultiPoint
+  * terminate when N records have been found
+   
+This is fairly reasonable in performance.  For a 2M point table finding 100 different points takes ~ 6 secs.
    
 ```sql
 WITH RECURSIVE rand AS (
