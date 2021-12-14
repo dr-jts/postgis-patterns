@@ -19,6 +19,12 @@ Maybe also function to snap a network?
 
 “Longest Shortest Path” - perhaps: construct Convex Hull, take longest diameter, find shortest path between those points
 
+## Minimum Spanning Tree
+
+<https://gis.stackexchange.com/questions/374132/finding-the-minimum-spanning-tree-mst>
+![](https://i.stack.imgur.com/oqALq.png)
+
+SQL [functions](https://gist.github.com/andrewxhill/13de0618d31893cdc4c5) to compute a Minimum Spanning Tree.
 
 ## Seaway Distances & Routes
 <https://www.ausvet.com.au/seaway-distances-with-postgresql>
