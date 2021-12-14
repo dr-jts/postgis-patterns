@@ -64,3 +64,8 @@ poly AS (SELECT ST_MakePolygon( ST_AddPoint( geom, ST_StartPoint( geom ))) AS ge
     FROM line)
 SELECT geom FROM poly;
 ```
+### Construct a Concave Hull of Points as a Buffer of the Minimum Spanning Tree
+<https://gis.stackexchange.com/questions/418840/how-to-create-a-polygon-around-a-set-of-points-without-blank-polygon-spaces-in-b>
+![](https://i.stack.imgur.com/g7rLC.png)
+
+SQL [code](https://gist.github.com/andrewxhill/13de0618d31893cdc4c5) to construct a Minimum Spanning Tree.
