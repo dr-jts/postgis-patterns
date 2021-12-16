@@ -11,13 +11,20 @@ parent: Lines and Networks
 ## Find Shortest Path through linear network
 <https://gis.stackexchange.com/questions/295199/how-do-i-select-the-longest-connected-lines-from-postgis-st-approximatemedialaxi>
 
+![](https://i.stack.imgur.com/lLqqW.jpg)
+
 ### PostGIS Idea
 Input Parameters: linear network MultiLineString, start point, end point
 
 Start and End point could be snapped to nearest endpoints if not already in network
 Maybe also function to snap a network?
 
-“Longest Shortest Path” - perhaps: construct Convex Hull, take longest diameter, find shortest path between those points
+“Longest Shortest Path” - AKA Diameter of a Graph
+
+**Algorithm**
+* Pick an endpoint
+* Find furthest vertex (longest shortest path over all other vertices)
+* Take that vertex, and find longest shortest path to all other vertices)
 
 ## Minimum Spanning Tree of a set of Points
 <https://gis.stackexchange.com/questions/418840/creating-polygon-around-set-of-points-without-blank-polygon-spaces-in-between-in>
