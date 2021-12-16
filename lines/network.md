@@ -8,13 +8,13 @@ parent: Lines and Networks
 1. TOC
 {:toc}
 
-## Find Shortest Path through linear network
+## Find Diameter (Longest Path) of Network
 <https://gis.stackexchange.com/questions/295199/how-do-i-select-the-longest-connected-lines-from-postgis-st-approximatemedialaxi>
 
 ![](https://i.stack.imgur.com/lLqqW.jpg)
 
 ### PostGIS Idea
-Input Parameters: linear network MultiLineString, start point, end point
+Input Parameters: MultiLineString
 
 Start and End point could be snapped to nearest endpoints if not already in network
 Maybe also function to snap a network?
