@@ -42,16 +42,13 @@ SELECT ST_UnaryUnion( UNNEST( ST_ClusterIntersecting(geom) ) ) FROM polys;
 
 ### Union Edge-Adjacent Polygons, keeping attributes
 Only union polygons which share an edge (not just touch).
-Union only polygons which intersect, keep non-intersecting ones unchanged.  
-Allows keeping attributes on isolated (non-intersecting) polygons, 
-and improves performance by unioning smaller groups of intersecting polygons
 
-* <https://gis.stackexchange.com/questions/1387/is-there-a-dissolve-function-in-postgis-other-than-st-union>
 * <https://gis.stackexchange.com/questions/24634/merging-polygons-that-intersect-by-more-than-a-specified-amount>
 * <https://gis.stackexchange.com/questions/127019/merge-any-and-all-adjacent-polygons>
 
 #### Solution
-Should be able to find equivalence classes of intersecting polygons and union each separately?
+No good solution so far.  
+What is needed is a function similar to `ST_ClusterIntersecting` but which does not group polygons which touch only at points.
 
 ### Boundary of Coverage of Polygons
 <https://gis.stackexchange.com/questions/324736/extracting-single-boundary-from-multipolygon-in-postgis>
@@ -203,7 +200,11 @@ SELECT ST_Union(geom) AS geom
 ```
 
 ### Union Large Datasets (Questions only)
+
+These questions are looking for union of large sets of polygons.
+
 * <https://gis.stackexchange.com/questions/78630/postgis-union-multiple-tables-big-dataset-faster-approach>
 * <https://gis.stackexchange.com/questions/187728/alternative-to-st-union-st-memunion-for-merging-overlapping-polygons-using-postg>
+* <https://gis.stackexchange.com/questions/1387/is-there-a-dissolve-function-in-postgis-other-than-st-union>
 
 
