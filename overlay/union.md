@@ -36,50 +36,47 @@ SELECT ST_UnaryUnion( unnest( ST_ClusterIntersecting(geom) ) ) FROM pieces;
 ```
 
 ### Union Edge-Adjacent Polygons, keeping attributes
-Only union polygons which share an edge (not just touch)
-<https://gis.stackexchange.com/questions/1387/is-there-a-dissolve-function-in-postgis-other-than-st-union>
-<https://gis.stackexchange.com/questions/24634/merging-polygons-that-intersect-by-more-than-a-specified-amount>
-<https://gis.stackexchange.com/questions/127019/merge-any-and-all-adjacent-polygons>
-
-
-#### Problem
+Only union polygons which share an edge (not just touch).
 Union only polygons which intersect, keep non-intersecting ones unchanged.  Goal is to keep attributes on non-intersecting polygons, and improve performance by unioning only groups of intersecting polygons
 
-##### Solution
+* <https://gis.stackexchange.com/questions/1387/is-there-a-dissolve-function-in-postgis-other-than-st-union>
+* <https://gis.stackexchange.com/questions/24634/merging-polygons-that-intersect-by-more-than-a-specified-amount>
+* <https://gis.stackexchange.com/questions/127019/merge-any-and-all-adjacent-polygons>
+
+#### Solution
 Should be able to find equivalence classes of intersecting polygons and union each separately?
 
 ### Grouping touching Polygons
-Can use ST_DBSCAN with very small distance to group touching polygons
-
-### Enlarge Polygons to Fill Boundary
-https://gis.stackexchange.com/questions/91889/adjusting-polygons-to-boundary-and-filling-holes?rq=1
+Use `ST_ClusterDBSCAN` with very small or zero distance to group touching polygons
 
 ### Boundary of Coverage of Polygons
-https://gis.stackexchange.com/questions/324736/extracting-single-boundary-from-multipolygon-in-postgis
+<https://gis.stackexchange.com/questions/324736/extracting-single-boundary-from-multipolygon-in-postgis>
 
-Solution
-The obvious: Union, then extract boundary
+#### Solution
+Union, then extract boundary
 
 ### Union of cells grouped by ID
-https://gis.stackexchange.com/questions/288880/finding-geometry-of-cluster-from-points-collection-using-postgis
+<https://gis.stackexchange.com/questions/288880/finding-geometry-of-cluster-from-points-collection-using-postgis>
 
 ### Union of set of geometry specified by IDs
 SELECT ST_Union(geo)) FROM ( SELECT geom FROM table WHERE id IN ( … ) ) as foo;
 
 ### Union of polygons with equal or lower value
-https://gis.stackexchange.com/questions/161849/postgis-sql-request-with-aggregating-st-union?rq=1
-Solution
-Nice use of window functions with PARTITION BY and ORDER BY.
-Not sure what happens if there are two polygons with same value though.  Worth finding out
+<https://gis.stackexchange.com/questions/161849/postgis-sql-request-with-aggregating-st-union>
+
+#### Solution
+Use of window functions with `PARTITION BY` and `ORDER BY`.
+
+Not sure what happens if there are two polygons with same value though?
 
 ### Union Groups of Adjacent Polygon, keeping attribution for singletons
-https://gis.stackexchange.com/questions/366374/how-to-use-dissolve-a-subset-of-a-postgis-table-based-on-a-value-in-a-column
+<https://gis.stackexchange.com/questions/366374/how-to-use-dissolve-a-subset-of-a-postgis-table-based-on-a-value-in-a-column>
 
-Solution
-Use ST_ClusterDBSCAN
+#### Solution
+Use `ST_ClusterDBSCAN`
 
 ### Union Non-clean Polygons
-https://gis.stackexchange.com/questions/31895/joining-lots-of-small-polygons-to-form-larger-polygon-using-postgis
+<https://gis.stackexchange.com/questions/31895/joining-lots-of-small-polygons-to-form-larger-polygon-using-postgis>
 
 ![](https://i.stack.imgur.com/5P53M.png)
 
@@ -116,8 +113,11 @@ FROM my_poly
 GROUP BY color
 ```
 
+### Enlarge Polygons to Fill Boundary
+<https://gis.stackexchange.com/questions/91889/adjusting-polygons-to-boundary-and-filling-holes>
+
 ### Create polygons that fill gaps
-https://gis.stackexchange.com/questions/60655/creating-polygons-from-gaps-in-postgis
+<https://gis.stackexchange.com/questions/60655/creating-polygons-from-gaps-in-postgis>
 
 ![](https://i.stack.imgur.com/PjcTl.png)
 
@@ -174,7 +174,7 @@ groupedfinal AS (
 SELECT * FROM groupedfinal;
 ```
 ### Union Large Datasets (Questions only)
-<https://gis.stackexchange.com/questions/78630/postgis-union-multiple-tables-big-dataset-faster-approach>
-<https://gis.stackexchange.com/questions/187728/alternative-to-st-union-st-memunion-for-merging-overlapping-polygons-using-postg>
+* <https://gis.stackexchange.com/questions/78630/postgis-union-multiple-tables-big-dataset-faster-approach>
+* <https://gis.stackexchange.com/questions/187728/alternative-to-st-union-st-memunion-for-merging-overlapping-polygons-using-postg>
 
 
