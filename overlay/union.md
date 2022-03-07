@@ -46,9 +46,6 @@ Union only polygons which intersect, keep non-intersecting ones unchanged.  Goal
 #### Solution
 Should be able to find equivalence classes of intersecting polygons and union each separately?
 
-### Grouping touching Polygons
-Use `ST_ClusterDBSCAN` with very small or zero distance to group touching polygons
-
 ### Boundary of Coverage of Polygons
 <https://gis.stackexchange.com/questions/324736/extracting-single-boundary-from-multipolygon-in-postgis>
 
@@ -73,7 +70,7 @@ Not sure what happens if there are two polygons with same value though?
 <https://gis.stackexchange.com/questions/366374/how-to-use-dissolve-a-subset-of-a-postgis-table-based-on-a-value-in-a-column>
 
 #### Solution
-Use `ST_ClusterDBSCAN`
+Use `ST_ClusterDBSCAN` with a zero (or very small) distance
 
 ### Union Non-clean Polygons
 <https://gis.stackexchange.com/questions/31895/joining-lots-of-small-polygons-to-form-larger-polygon-using-postgis>
@@ -148,7 +145,8 @@ Using plain `ST_Union` runs out of memory.
 
 ![](https://i.stack.imgur.com/BFQ5w.jpg)
 
-#### Solution
+**Solution**
+
 Implement a “SQL-level” **cascaded union**:
 * spatially sort data based on `ST_GeoHash`
 * union smaller partitions of the data (e.g. partition size = 100K)
@@ -173,6 +171,30 @@ groupedfinal AS (
 )
 SELECT * FROM groupedfinal;
 ```
+
+### Union by Spatial Partition via Intersection
+<https://gis.stackexchange.com/a/424958/14766>
+
+If a dataset is fairly sparse, it may provide a performance and memory advantage to union
+by groups of geometries partitioned by a "touches" relation.  
+This can be done by using grouping the geometries via `ST_ClusterDBSCAN` with a zero or small distance,
+and then unioning the groups. 
+
+If needed the result could then be unioned once again to create a single result geometry.
+In theory the partitions should be disjoint, so potentially just collecting them should be faster
+and produce a valid MultiPolygon.
+
+![](https://i.stack.imgur.com/yN31B.png)
+
+**Solution**
+```sql
+SELECT ST_Union(geom) AS geom
+  FROM ( SELECT geom,
+           ST_ClusterDBSCAN(geom, 0, 1) OVER () AS _id
+         FROM input
+         GROUP BY _id);
+```
+
 ### Union Large Datasets (Questions only)
 * <https://gis.stackexchange.com/questions/78630/postgis-union-multiple-tables-big-dataset-faster-approach>
 * <https://gis.stackexchange.com/questions/187728/alternative-to-st-union-st-memunion-for-merging-overlapping-polygons-using-postg>
