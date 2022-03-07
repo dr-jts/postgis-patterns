@@ -24,7 +24,44 @@ FROM (
 GROUP BY name;
 ```
 
+### Boundary of Coverage of Polygons
+<https://gis.stackexchange.com/questions/324736/extracting-single-boundary-from-multipolygon-in-postgis>
 
+**Solution**
+Union, then extract boundary
+
+
+
+
+### Union of cells grouped by ID
+<https://gis.stackexchange.com/questions/288880/finding-geometry-of-cluster-from-points-collection-using-postgis>
+
+### Union of set of geometry specified by IDs
+SELECT ST_Union(geo)) FROM ( SELECT geom FROM table WHERE id IN ( … ) ) as foo;
+
+### Union of polygons with equal or lower value
+<https://gis.stackexchange.com/questions/161849/postgis-sql-request-with-aggregating-st-union>
+
+**Solution**
+Use of window functions with `PARTITION BY` and `ORDER BY`.
+
+Not sure what happens if there are two polygons with same value though?
+
+
+### Union Non-clean Polygons
+<https://gis.stackexchange.com/questions/31895/joining-lots-of-small-polygons-to-form-larger-polygon-using-postgis>
+
+![](https://i.stack.imgur.com/5P53M.png)
+
+**Solution**
+Snap Polygons to grid to help clean invalid polygons 
+```sql
+ SELECT ST_Union(ST_SnapToGrid(the_geom,0.0001)) 
+ FROM parishes
+ GROUP BY county_name;
+```
+
+## Union Edge-Adjacent Groups
 
 ### Union Edge-Adjacent Polygons
 <https://gis.stackexchange.com/questions/54848/building-larger-polygons-from-smaller-ones-without-common-id-in-postgis>
@@ -50,44 +87,11 @@ Only union polygons which share an edge (not just touch).
 No good solution so far.  
 What is needed is a function similar to `ST_ClusterIntersecting` but which does not group polygons which touch only at points.
 
-### Boundary of Coverage of Polygons
-<https://gis.stackexchange.com/questions/324736/extracting-single-boundary-from-multipolygon-in-postgis>
-
-**Solution**
-Union, then extract boundary
-
-### Union of cells grouped by ID
-<https://gis.stackexchange.com/questions/288880/finding-geometry-of-cluster-from-points-collection-using-postgis>
-
-### Union of set of geometry specified by IDs
-SELECT ST_Union(geo)) FROM ( SELECT geom FROM table WHERE id IN ( … ) ) as foo;
-
-### Union of polygons with equal or lower value
-<https://gis.stackexchange.com/questions/161849/postgis-sql-request-with-aggregating-st-union>
-
-**Solution**
-Use of window functions with `PARTITION BY` and `ORDER BY`.
-
-Not sure what happens if there are two polygons with same value though?
-
 ### Union Groups of Adjacent Polygon, keeping attribution for singletons
 <https://gis.stackexchange.com/questions/366374/how-to-use-dissolve-a-subset-of-a-postgis-table-based-on-a-value-in-a-column>
 
 **Solution**
 Use `ST_ClusterDBSCAN` with a zero (or very small) distance
-
-### Union Non-clean Polygons
-<https://gis.stackexchange.com/questions/31895/joining-lots-of-small-polygons-to-form-larger-polygon-using-postgis>
-
-![](https://i.stack.imgur.com/5P53M.png)
-
-**Solution**
-Snap Polygons to grid to help clean invalid polygons 
-```sql
- SELECT ST_Union(ST_SnapToGrid(the_geom,0.0001)) 
- FROM parishes
- GROUP BY county_name;
-```
 
 ## Union with Gap Removal
 
