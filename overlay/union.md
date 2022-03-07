@@ -11,7 +11,10 @@ parent: Overlay
 ## Polygon Union
 
 ### Union Polygons from two tables, grouped by name
-https://gis.stackexchange.com/questions/378699/merging-two-multipolygon-tables-into-one-and-afterwards-dissolve-boundaries
+<https://gis.stackexchange.com/questions/378699/merging-two-multipolygon-tables-into-one-and-afterwards-dissolve-boundaries>
+
+![](https://i.stack.imgur.com/AUz4x.png)
+
 ```sql
 SELECT name, ST_Multi(ST_Union(geom)) AS geom
 FROM ( 
@@ -21,32 +24,7 @@ FROM (
 GROUP BY name;
 ```
 
-### Polygon Coverage Union with slivers removed
-<https://gis.stackexchange.com/questions/71809/is-there-a-dissolve-st-union-function-that-will-close-gaps-between-features>
 
-Solution - NOT SURE
-
-### Polygon Coverage Union with gaps removed
-<https://gis.stackexchange.com/questions/356480/is-it-possible-create-a-polygon-from-more-polygons-that-are-not-overlapped-but-c>
-
-<https://gis.stackexchange.com/questions/316000/using-st-union-to-combine-several-polygons-to-one-multipolygon-using-postgis>
-
-Both of these have answers recommending using a small buffer outwards and then the inverse on the result.
-
-### Union Intersecting Polygons
-<https://gis.stackexchange.com/questions/187728/alternative-to-st-union-st-memunion-for-merging-overlapping-polygons-using-postg>
-
-### Union groups of almost-adjacent polygons
-<https://gis.stackexchange.com/questions/185393/what-is-the-best-way-to-merge-lots-of-small-adjacents-polygons-postgis>
-
-![](https://i.stack.imgur.com/1RCSR.png)
-
-#### Solution (lossy)
-```sql
-SELECT (ST_DUMP(ST_UNION(ST_SNAPTOGRID(the_geom,0.0001)))).geom, color
-FROM my_poly
-GROUP BY color
-```
 
 ### Union Edge-Adjacent Polygons
 <https://gis.stackexchange.com/questions/54848/building-larger-polygons-from-smaller-ones-without-common-id-in-postgis>
@@ -111,6 +89,33 @@ https://gis.stackexchange.com/questions/31895/joining-lots-of-small-polygons-to-
  FROM parishes
  GROUP BY county_name;
 ```
+
+## Union with Gap Removal
+
+### Polygon Coverage Union with slivers removed
+<https://gis.stackexchange.com/questions/71809/is-there-a-dissolve-st-union-function-that-will-close-gaps-between-features>
+
+Solution - NOT SURE
+
+### Polygon Coverage Union with gaps removed
+<https://gis.stackexchange.com/questions/356480/is-it-possible-create-a-polygon-from-more-polygons-that-are-not-overlapped-but-c>
+
+<https://gis.stackexchange.com/questions/316000/using-st-union-to-combine-several-polygons-to-one-multipolygon-using-postgis>
+
+Both of these have answers recommending using a small buffer outwards and then the inverse on the result.
+
+### Union groups of almost-adjacent polygons
+<https://gis.stackexchange.com/questions/185393/what-is-the-best-way-to-merge-lots-of-small-adjacents-polygons-postgis>
+
+![](https://i.stack.imgur.com/1RCSR.png)
+
+#### Solution (lossy)
+```sql
+SELECT (ST_DUMP(ST_UNION(ST_SNAPTOGRID(the_geom,0.0001)))).geom, color
+FROM my_poly
+GROUP BY color
+```
+
 ### Create polygons that fill gaps
 https://gis.stackexchange.com/questions/60655/creating-polygons-from-gaps-in-postgis
 
@@ -131,6 +136,7 @@ SELECT ST_BuildArea(ST_InteriorRingN(geom,i))
 FROM bigpoly
 CROSS JOIN generate_series(1,(SELECT ST_NumInteriorRings(geom) FROM bigpoly)) as i;
 ```
+
 
 ## Union of Large datasets
 
