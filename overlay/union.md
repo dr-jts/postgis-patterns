@@ -21,16 +21,40 @@ FROM (
 GROUP BY name;
 ```
 
-### Union of Massive Number of Point Buffers
+### Union of Massive Number of Point Buffers using GeoHash spatial partitioning
 <https://gis.stackexchange.com/questions/31880/memory-issue-when-trying-to-buffer-union-large-dataset-using-postgis>
 
+![](https://i.stack.imgur.com/BFQ5w.jpg)
+
 Union a massive number of buffers around points which have an uneven distribution (points are demographic data in the UK).
-Using straight ST_Union runs out of memory
-Solution
-Implement a “SQL-level” cascaded union as follows:
-Spatially sort data based on ST_GeoHash
-union smaller partitions of the data (partition size = 100K)
-union the partitions together 
+Using plain `ST_Union` runs out of memory.
+
+#### Solution
+Implement a “SQL-level” **cascaded union**:
+* spatially sort data based on `ST_GeoHash`
+* union smaller partitions of the data (e.g. partition size = 100K)
+* union the partitions together 
+
+```sql
+CREATE SEQUENCE bseq;
+
+WITH ordered AS (
+  SELECT ST_Buffer(geom, 10) AS geom
+  FROM points
+  ORDER BY ST_GeoHash(geom)
+),
+grouped AS (
+  SELECT nextval('bseq') / 100000 AS id, ST_Union(geom) AS geom
+  FROM ordered
+  GROUP BY id
+)
+groupedfinal AS (
+  SELECT ST_Union(geom) AS geom
+  FROM grouped
+)
+SELECT * FROM groupedfinal;
+```
+
 
 ### Polygon Coverage Union with slivers removed
 <https://gis.stackexchange.com/questions/71809/is-there-a-dissolve-st-union-function-that-will-close-gaps-between-features>
