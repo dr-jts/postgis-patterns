@@ -167,4 +167,8 @@ groupedfinal AS (
 )
 SELECT * FROM groupedfinal;
 ```
+### Union Large Datasets (Questions only)
+<https://gis.stackexchange.com/questions/78630/postgis-union-multiple-tables-big-dataset-faster-approach>
+<https://gis.stackexchange.com/questions/187728/alternative-to-st-union-st-memunion-for-merging-overlapping-polygons-using-postg>
+
 
