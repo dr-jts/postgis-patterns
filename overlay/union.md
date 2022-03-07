@@ -46,14 +46,14 @@ Only union polygons which share an edge (not just touch).
 * <https://gis.stackexchange.com/questions/24634/merging-polygons-that-intersect-by-more-than-a-specified-amount>
 * <https://gis.stackexchange.com/questions/127019/merge-any-and-all-adjacent-polygons>
 
-#### Solution
+**Solution**
 No good solution so far.  
 What is needed is a function similar to `ST_ClusterIntersecting` but which does not group polygons which touch only at points.
 
 ### Boundary of Coverage of Polygons
 <https://gis.stackexchange.com/questions/324736/extracting-single-boundary-from-multipolygon-in-postgis>
 
-#### Solution
+**Solution**
 Union, then extract boundary
 
 ### Union of cells grouped by ID
@@ -65,7 +65,7 @@ SELECT ST_Union(geo)) FROM ( SELECT geom FROM table WHERE id IN ( … ) ) as foo
 ### Union of polygons with equal or lower value
 <https://gis.stackexchange.com/questions/161849/postgis-sql-request-with-aggregating-st-union>
 
-#### Solution
+**Solution**
 Use of window functions with `PARTITION BY` and `ORDER BY`.
 
 Not sure what happens if there are two polygons with same value though?
@@ -73,7 +73,7 @@ Not sure what happens if there are two polygons with same value though?
 ### Union Groups of Adjacent Polygon, keeping attribution for singletons
 <https://gis.stackexchange.com/questions/366374/how-to-use-dissolve-a-subset-of-a-postgis-table-based-on-a-value-in-a-column>
 
-#### Solution
+**Solution**
 Use `ST_ClusterDBSCAN` with a zero (or very small) distance
 
 ### Union Non-clean Polygons
@@ -81,7 +81,8 @@ Use `ST_ClusterDBSCAN` with a zero (or very small) distance
 
 ![](https://i.stack.imgur.com/5P53M.png)
 
-#### Solution - Snap Polygons to grid to help clean invalid polygons 
+**Solution**
+Snap Polygons to grid to help clean invalid polygons 
 ```sql
  SELECT ST_Union(ST_SnapToGrid(the_geom,0.0001)) 
  FROM parishes
@@ -107,7 +108,8 @@ Both of these have answers recommending using a small buffer outwards and then t
 
 ![](https://i.stack.imgur.com/1RCSR.png)
 
-#### Solution (lossy)
+**Solution** 
+(lossy)
 ```sql
 SELECT (ST_DUMP(ST_UNION(ST_SNAPTOGRID(the_geom,0.0001)))).geom, color
 FROM my_poly
