@@ -24,10 +24,10 @@ GROUP BY name;
 ### Union of Massive Number of Point Buffers using GeoHash spatial partitioning
 <https://gis.stackexchange.com/questions/31880/memory-issue-when-trying-to-buffer-union-large-dataset-using-postgis>
 
-![](https://i.stack.imgur.com/BFQ5w.jpg)
-
 Union a massive number of buffers around points which have an uneven distribution (points are demographic data in the UK).
 Using plain `ST_Union` runs out of memory.
+
+![](https://i.stack.imgur.com/BFQ5w.jpg)
 
 #### Solution
 Implement a “SQL-level” **cascaded union**:
