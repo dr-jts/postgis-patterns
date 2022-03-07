@@ -31,13 +31,20 @@ GROUP BY name;
 
 ![](https://i.stack.imgur.com/bTRzU.png)
 
+**Solution**
+
+Group the polygons via an intersects relationship and union the partitions.
+This can be done in-memory using `ST_ClusterIntersecting`, or non-memory bound by using `ST_ClusterDBSCAN`.
+
 ```sql
-SELECT ST_UnaryUnion( unnest( ST_ClusterIntersecting(geom) ) ) FROM pieces;
+SELECT ST_UnaryUnion( UNNEST( ST_ClusterIntersecting(geom) ) ) FROM polys;
 ```
 
 ### Union Edge-Adjacent Polygons, keeping attributes
 Only union polygons which share an edge (not just touch).
-Union only polygons which intersect, keep non-intersecting ones unchanged.  Goal is to keep attributes on non-intersecting polygons, and improve performance by unioning only groups of intersecting polygons
+Union only polygons which intersect, keep non-intersecting ones unchanged.  
+Allows keeping attributes on isolated (non-intersecting) polygons, 
+and improves performance by unioning smaller groups of intersecting polygons
 
 * <https://gis.stackexchange.com/questions/1387/is-there-a-dissolve-function-in-postgis-other-than-st-union>
 * <https://gis.stackexchange.com/questions/24634/merging-polygons-that-intersect-by-more-than-a-specified-amount>
