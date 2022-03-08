@@ -36,7 +36,7 @@ SELECT ST_Union(geom))
   FROM ( SELECT geom FROM table WHERE id IN ( … ) ) as t;
 ```
 
-### Union of cells grouped by ID
+### Union of Point cells grouped by ID
 <https://gis.stackexchange.com/questions/288880/finding-geometry-of-cluster-from-points-collection-using-postgis>
 
 ![](https://i.stack.imgur.com/UioAZ.png)
@@ -61,7 +61,6 @@ BEGIN
 END
 $$
 ```
-
 
 ### Union of polygons with equal or lower value
 <https://gis.stackexchange.com/questions/161849/postgis-sql-request-with-aggregating-st-union>
