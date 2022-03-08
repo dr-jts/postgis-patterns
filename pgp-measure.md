@@ -17,6 +17,28 @@ Also: <https://gis.stackexchange.com/questions/20279/calculating-average-width-o
 ### Compute Length and Width of an arbitrary rectangle
 <https://gis.stackexchange.com/questions/366832/get-dimension-of-rectangular-polygon-postgis>
 
+### Convert bearing to Cardinal Direction
+* <https://gis.stackexchange.com/a/425534/14766>
+* <https://trac.osgeo.org/postgis/wiki/UsersWikiCardinalDirection>
+
+Converts a bearing from `ST_Azimuth` to a cardinal direction (N, NW, W, SW, S, SE, E, or NE).
+
+```sql
+CREATE OR REPLACE FUNCTION ST_CardinalDirection(azimuth float8) RETURNS character varying AS
+$BODY$SELECT CASE
+  WHEN $1 < 0.0 THEN 'less than 0'
+  WHEN degrees($1) < 22.5 THEN 'N'
+  WHEN degrees($1) < 67.5 THEN 'NE'
+  WHEN degrees($1) < 112.5 THEN 'E'
+  WHEN degrees($1) < 157.5 THEN 'SE'
+  WHEN degrees($1) < 202.5 THEN 'S'
+  WHEN degrees($1) < 247.5 THEN 'SW'
+  WHEN degrees($1) < 292.5 THEN 'W'
+  WHEN degrees($1) < 337.5 THEN 'NW'
+  WHEN degrees($1) <= 360.0 THEN 'N'
+END;$BODY$ LANGUAGE sql IMMUTABLE COST 100;
+COMMENT ON FUNCTION ST_CardinalDirection(float8) IS 'input azimuth in radians; returns N, NW, W, SW, S, SE, E, or NE';
+```
 
 ## Ordering Geometry
 
