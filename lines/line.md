@@ -221,6 +221,40 @@ SELECT (all_pts.geom) geom, ST_Distance(all_pts.geom, radius.geom) dist
   ORDER BY dist DESC LIMIT 1;
 ```
 
+### Find Intersection point of disjoint Lines
+<https://gis.stackexchange.com/questions/424682/intersection-of-lines-passing-from-two-line-segments-in-postgis>
+
+![](https://i.stack.imgur.com/DEUn7.png)
+
+**Solution**
+Exrend both lines so that they intersect, then compute intersection point.
+
+```sql
+WITH segments AS ( 
+    SELECT ST_StartPoint('LINESTRING (4.505476754241158 51.92221504789901, 4.505379267847784 51.92221833721103)') AS s1_a, 
+           ST_EndPoint(  'LINESTRING (4.505476754241158 51.92221504789901, 4.505379267847784 51.92221833721103)') AS s1_b,
+           
+           ST_StartPoint('LINESTRING (4.50554487780521 51.922119943633575, 4.504656820078167 51.92231795217855)') AS s2_a, 
+           ST_EndPoint(. 'LINESTRING (4.50554487780521 51.922119943633575, 4.504656820078167 51.92231795217855)') AS s2_b
+)
+,azimuths AS ( SELECT 
+    *,
+    ST_Azimuth(s1_a, s1_b) AS s1_az1,
+    ST_Azimuth(s1_b, s1_a) AS s1_az2,
+    1 AS s1_len,
+    ST_Azimuth(s2_a, s2_b) AS s2_az1,
+    ST_Azimuth(s2_b, s2_a) AS s2_az2,
+    1 AS s2_len 
+  FROM segments
+)
+SELECT ST_Intersection(
+  ST_MakeLine( ST_Translate(s1_b, sin(s1_az1) * s1_len, cos(s1_az1) * s1_len), 
+               ST_Translate(s1_a, sin(s1_az2) * s1_len, cos(s1_az2) * s1_len) ),
+  ST_MakeLine( ST_Translate(s2_b, sin(s2_az1) * s2_len, cos(s2_az1) * s2_len), 
+               ST_Translate(s2_a, sin(s2_az2) * s2_len, cos(s2_az2) * s2_len) )
+)
+FROM azimuths;
+```
 ## Merging
 
 ### Merge lines that touch at endpoints
