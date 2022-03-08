@@ -23,7 +23,9 @@ Uses the so-called Meandering Triangles method for isolines.
 ## Surface Interpolation
 
 ### IDW Interpolation over a grid of points
-https://gis.stackexchange.com/questions/373153/spatial-interpolation-in-postgis-without-outputting-raster
+<https://gis.stackexchange.com/questions/373153/spatial-interpolation-in-postgis-without-outputting-raster>
+
+Use Inverse-Distance-Weighting interpolation on a sample of the point elevation dataset.
 
 ```sql
 UPDATE <points> AS itp
