@@ -39,6 +39,29 @@ SELECT ST_Union(geom))
 ### Union of cells grouped by ID
 <https://gis.stackexchange.com/questions/288880/finding-geometry-of-cluster-from-points-collection-using-postgis>
 
+![](https://i.stack.imgur.com/UioAZ.png)
+
+```sql
+DO
+$$
+DECLARE
+  _cluster_id UUID;
+  _cluster_geometry GEOMETRY;
+BEGIN
+  FOR _cluster_id IN SELECT id FROM ds_forecast_objects.clusters
+  LOOP
+    SELECT st_union(st_expand(gn.geom, 0.0041, 0.0023)) INTO _cluster_geometry
+    FROM grid_nodes as gn
+      JOIN grid_node_clusters as gnc
+          ON gn.id = gnc.grid_node_id AND gnc.cluster_id = _cluster_id;
+
+    INSERT INTO clusters_geometry(cluster_id, geom)
+      VALUES (_cluster_id, _cluster_geometry);
+  END LOOP;
+END
+$$
+```
+
 
 ### Union of polygons with equal or lower value
 <https://gis.stackexchange.com/questions/161849/postgis-sql-request-with-aggregating-st-union>
