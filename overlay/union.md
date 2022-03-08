@@ -85,7 +85,7 @@ Snap Polygons to grid to help clean invalid polygons
  GROUP BY county_name;
 ```
 
-## Union Edge-Adjacent Groups
+## Union Groups of Edge-Adjacent Polygons 
 
 ### Union Edge-Adjacent Polygons
 <https://gis.stackexchange.com/questions/54848/building-larger-polygons-from-smaller-ones-without-common-id-in-postgis>
