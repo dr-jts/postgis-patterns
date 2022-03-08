@@ -25,6 +25,23 @@ Uses the so-called Meandering Triangles method for isolines.
 ### IDW Interpolation over a grid of points
 https://gis.stackexchange.com/questions/373153/spatial-interpolation-in-postgis-without-outputting-raster
 
+```sql
+UPDATE <points> AS itp
+  SET  "Z" = (
+    SELECT SUM(z/d)/SUM(1/d)
+    FROM   (
+      SELECT smpl."Z" as z,
+             ST_Distance(itp.geom, smpl.geom)^<P-value> AS d
+      FROM   <point> AS smpl
+      ORDER BY
+             itp.geom <-> smpl.geom
+      WHERE  smpl."Z" IS NOT NULL
+      LIMIT  <sample_size>
+    ) sq
+    WHERE  ipt."Z" IS NULL
+  ) q;
+```
+
 ### Compute Z value of a TIN at a Point
 <https://gis.stackexchange.com/questions/237506/query-z-at-intersecting-point-locations-from-a-multipolygonz>
 
