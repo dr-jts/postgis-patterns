@@ -30,14 +30,15 @@ GROUP BY name;
 **Solution**
 Union, then extract boundary
 
-
-
+### Union of set of geometry specified by IDs
+```sql
+SELECT ST_Union(geom)) 
+  FROM ( SELECT geom FROM table WHERE id IN ( … ) ) as t;
+```
 
 ### Union of cells grouped by ID
 <https://gis.stackexchange.com/questions/288880/finding-geometry-of-cluster-from-points-collection-using-postgis>
 
-### Union of set of geometry specified by IDs
-SELECT ST_Union(geo)) FROM ( SELECT geom FROM table WHERE id IN ( … ) ) as foo;
 
 ### Union of polygons with equal or lower value
 <https://gis.stackexchange.com/questions/161849/postgis-sql-request-with-aggregating-st-union>
