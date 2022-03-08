@@ -165,7 +165,28 @@ Also: <https://gis.stackexchange.com/questions/367486/how-to-do-small-expansion-
 
 ![](https://i.stack.imgur.com/FTMi3.png)
 
-**PostGIS Idea**
+### Extending a straight Line
+<https://gis.stackexchange.com/questions/104439/how-to-extend-a-straight-line-in-postgis>
+
+Extend a line between two points by a given amount (1 m) at both ends.
+
+**Solution**
+```sql
+WITH data AS ( SELECT ST_MakeLine(ST_Point(1,2), ST_Point(3,4)) AS geom )
+SELECT ST_MakeLine( ST_Translate(a, sin(az1) * len, cos(az1) * len),
+                    ST_Translate(b, sin(az2) * len, cos(az2) * len))
+  FROM (
+    SELECT a, b, 
+           ST_Azimuth(a, b) AS az1, ST_Azimuth(b, a) AS az2, 
+           ST_Distance(a, b) + 1 AS len
+      FROM (
+        SELECT ST_StartPoint(geom) AS a, ST_EndPoint(geom) AS b
+          FROM data
+    ) AS sub
+) AS sub2;
+```
+
+### PostGIS Ideas
 `ST_LineSubstring` could be enhanced to allow fractions outside [0,1].  
 Or make a new function `ST_LineExtend` (which should also handle shortening the line).
 
@@ -229,13 +250,43 @@ FROM data;
 **Solution**
 <https://gis.stackexchange.com/a/80105/14766>
 
-### Connect Lines That Do Not Touch
+### Connect Lines that do not touch
 <https://gis.stackexchange.com/questions/332780/merging-lines-that-dont-touch-in-postgis>
 
-![] (https://i.stack.imgur.com/ng4fX.png)
+![](https://i.stack.imgur.com/ng4fX.png)
 
 **Solution**
-No builtin function to do this, but one can be created in PL/pgSQL.
+No built-in function to do this, but post provides a custom function.
+
+```sql
+CREATE OR REPLACE FUNCTION public.st_mergecloselines(
+    geometry, geometry)
+    RETURNS geometry
+    LANGUAGE 'sql'
+-- This function merge two lines that don't within (dont touching) returing a single multiline. By Emilson Ribeiro Neto - emilsonribeiro@hotmail.com
+AS $BODY$
+
+select ST_LineMerge(st_union(st_union($1,       
+    (case
+            WHEN (st_distanceSphere(ST_StartPoint($1),ST_StartPoint($2)) < st_distanceSphere(ST_StartPoint($1),ST_EndPoint($2))
+                and (st_distanceSphere(ST_StartPoint($1),ST_StartPoint($2)) < st_distanceSphere(ST_EndPoint($1),ST_StartPoint($2)))
+                and (st_distanceSphere(ST_StartPoint($1),ST_StartPoint($2)) < st_distanceSphere(ST_EndPoint($1),ST_EndPoint($2)))
+              ) THEN st_makeLine(ST_StartPoint($1),ST_StartPoint($2))
+
+            WHEN   (st_distanceSphere(ST_EndPoint($1),ST_StartPoint($2)) < st_distanceSphere(ST_StartPoint($1),ST_EndPoint($2))
+                and (st_distanceSphere(ST_EndPoint($1),ST_StartPoint($2)) < st_distanceSphere(ST_StartPoint($1),ST_StartPoint($2)))
+                and (st_distanceSphere(ST_EndPoint($1),ST_StartPoint($2)) < st_distanceSphere(ST_EndPoint($1),ST_EndPoint($2)))
+              ) THEN st_makeLine(ST_EndPoint($1),ST_StartPoint($2)) 
+
+            WHEN   (st_distanceSphere(ST_StartPoint($1),ST_EndPoint($2)) < st_distanceSphere(ST_StartPoint($1),ST_StartPoint($2))
+                and (st_distanceSphere(ST_StartPoint($1),ST_EndPoint($2)) < st_distanceSphere(ST_EndPoint($1),ST_StartPoint($2)))
+                and (st_distanceSphere(ST_StartPoint($1),ST_EndPoint($2)) < st_distanceSphere(ST_EndPoint($1),ST_EndPoint($2)))
+              ) THEN st_makeLine(ST_StartPoint($1),ST_EndPoint($2))
+            else  st_makeLine(ST_EndPoint($1),ST_EndPoint($2))
+            end)),$2))
+
+$BODY$ 
+```
 
 ## Inserting Vertices
 
