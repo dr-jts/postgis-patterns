@@ -48,6 +48,24 @@ SELECT i, ST_LineInterpolatePoint(geom, (i-1.0)/40) pt
     JOIN generate_series (1, 40) AS step(i) ON true;
 ```
 
+## Extracting Segments
+
+### Extract Segments from MultiLineString
+
+In current PostGIS this can be done with `ST_DumpSegments`.
+
+This can also be done in SQL:
+```sql
+WITH data(geom) AS (VALUES
+  ('MULTILINESTRING ((1 1, 3 1, 5 2, 7 1, 9 1, 9 3), (1 3, 3 3, 5 4, 7 3))'::geometry),
+  ('MULTILINESTRING ((1 5, 5 6, 9 5), (1 6, 5 7, 9 6))'::geometry)
+)
+SELECT ST_MakeLine(ST_PointN(line, j-1), ST_PointN(line, j)) AS seg
+  FROM (SELECT ST_GeometryN(geom, i) AS line
+          FROM data, generate_series(1, ST_NumGeometries(data.geom)) AS i) AS t,
+      generate_series(2, ST_NumPoints(t.line)) AS j;
+```
+
 ## Splitting Lines
 
 ### Remove Longest Segment from a LineString
