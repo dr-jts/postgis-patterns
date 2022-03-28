@@ -196,5 +196,66 @@ SELECT ST_MakeLine(a.geom, b.geom) AS geom FROM points a CROSS JOIN points b
 FROM polygons;
 ```
 
+## Geometric Shapes
+
+### Construct regular N-gons
+<https://gis.stackexchange.com/questions/426933/buffer-with-postgis-in-the-form-of-a-pentagon-or-hexagon>
+
+**Solution 1: SQL**
+Consruct a pentagon (5 sides) of radius 2 centred at (10,10). Those values can be changed to whatever is needed.
+
+```sql
+SELECT ST_MakePolygon( ST_MakeLine( ARRAY_AGG( 
+    ST_Point( 10 + 2 * COSD(90 + i * 360 / 5 ), 
+              10 + 2 * SIND(90 + i * 360 / 5 )  ))))
+  FROM generate_series(0, 5) AS s(i);
+```
+
+**Solution 2 - Function ST_MAkeAGon**
+<https://gist.github.com/geozelot/ddf88a9ae0438d7a46f176e9555ce7a1>
+```sql
+/*
+ * @in_params
+ * center - center POINT geometry
+ * radius - circumradius [in CRS units] (cirlce that inscribes the *gon)
+ * sides  - desired side count (e.g. 6 for Hexagon)
+ * skew   - rotation offset, clockwise [in degree]; DEFAULT 0.0 (corresponds to planar NORTH)
+ *
+ * @out_params
+ * agon   - resulting *gon POLYGON geometry
+ *
+ *
+ * The function will create a @sides sided regular, equilateral & equiangular Polygon
+ * from a given @center and @radius and optional @skew offset from NORTH
+ */
+ 
+CREATE OR REPLACE FUNCTION ST_MakeAGon(
+  IN  center   GEOMETRY(POINT),
+  IN  radius   FLOAT8,
+  IN  sides    INT,
+  IN  skew     FLOAT8 DEFAULT 0.0,
+  OUT agon     GEOMETRY(POLYGON)
+) LANGUAGE 'plpgsql' IMMUTABLE STRICT PARALLEL SAFE AS
+  $$
+  DECLARE
+    _x FLOAT8  := ST_X($1);
+    _y FLOAT8  := ST_Y($1);
+	
+    _cr FLOAT8 := 360.0/$3;
+		
+    __v GEOMETRY(POINT)[];
+	
+  BEGIN
+    FOR i IN 0..$3 LOOP
+      __v[i] := ST_MakePoint(_x + $2*SIND(i*_cr + $4), _y + $2*COSD(i*_cr + $4));
+    END LOOP;
+		
+    agon := ST_MakePolygon(ST_MakeLine(__v));
+  END;
+  $$
+;
+```
+
+
 
 
