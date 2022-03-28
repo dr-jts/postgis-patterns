@@ -212,7 +212,7 @@ SELECT ST_MakePolygon( ST_MakeLine( ARRAY_AGG(
   FROM generate_series(0, 5) AS s(i);
 ```
 
-**Solution 2 - Function ST_MAkeAGon**
+**Solution 2 - Function ST_MakeAGon**
 
 <https://gist.github.com/geozelot/ddf88a9ae0438d7a46f176e9555ce7a1>
 ```sql
