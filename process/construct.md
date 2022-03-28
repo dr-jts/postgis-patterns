@@ -202,7 +202,8 @@ FROM polygons;
 <https://gis.stackexchange.com/questions/426933/buffer-with-postgis-in-the-form-of-a-pentagon-or-hexagon>
 
 **Solution 1: SQL**
-Consruct a pentagon (5 sides) of radius 2 centred at (10,10). Those values can be changed to whatever is needed.
+
+Construct a pentagon (5 sides) of radius 2 centred at (10,10). Those values can be changed to whatever is needed.
 
 ```sql
 SELECT ST_MakePolygon( ST_MakeLine( ARRAY_AGG( 
@@ -212,6 +213,7 @@ SELECT ST_MakePolygon( ST_MakeLine( ARRAY_AGG(
 ```
 
 **Solution 2 - Function ST_MAkeAGon**
+
 <https://gist.github.com/geozelot/ddf88a9ae0438d7a46f176e9555ce7a1>
 ```sql
 /*
