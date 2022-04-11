@@ -26,11 +26,10 @@ To evaluate this over groups requires using one of the standard SQL patterns to 
 WITH pairs AS (
   SELECT
     loc.district,
-    loc.postcode,
-    loc2.postcode AS other_postcode,
-    ST_DistanceSphere( ST_Point(loc.lat,loc.long),
-                       ST_Point( loc2.lat,loc2.long)) 
-                AS distance
+    loc.postcode AS postcode1,
+    loc2.postcode AS postcode2,
+    ST_DistanceSphere( ST_Point( loc.lat, loc.long),
+                       ST_Point( loc2.lat,loc2.long) ) AS distance
   FROM locations loc
   LEFT JOIN locations loc2
     ON loc.district = loc2.district
@@ -39,14 +38,25 @@ WITH pairs AS (
 )
 SELECT DISTINCT ON (p.district)
     p.district,
-    p.postcode,
-    p.other_postcode,
+    p.postcode1,
+    p.postcode2,
     p.distance
 FROM pairs p
 ORDER BY p.district, p.distance DESC;
 ```
+#### Solution 2: ROW_NUMBER
+```sql
+SELECT * 
+FROM ( SELECT t1.district, t1.postcode AS postcode1, t2.postcode AS postcode2,
+        , row_number() OVER( PARTITION BY t1.district 
+                             ORDER BY ST_DistanceSphere(ST_Point(t1.lat, t1.long), ST_Point(t2.lat, t2.long)) desc) rn
+       FROM locations t1
+       JOIN locations t2 ON t1.district = t2.district AND t1.postcode > t2.postcode
+) t
+WHERE rn = 1;
+```
 
-#### Solution 2: LATERAL
+#### Solution 3: LATERAL
 
 TBD
 
