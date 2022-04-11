@@ -1,4 +1,8 @@
 ## Update, Delete
+{: .no_toc }
+
+1. TOC
+{:toc}
 
 ## Update
 ### Update a column by a spatial condition
