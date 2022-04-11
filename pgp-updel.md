@@ -50,19 +50,13 @@ Use `EXISTS` subqueries.
 ```sql
 DELETE 
   FROM <table_a> a
- WHERE EXISTS
-     ( SELECT 1
-         FROM <table_b> b
-        WHERE ST_Intersects(a.geom, b.geom)
-     )
-    OR EXISTS
-     ( SELECT 1
-         FROM <table_c> c
-        WHERE ST_Intersects(a.geom, c.geom)
-     )
-    OR EXISTS
-     ( SELECT 1
-         FROM <table_d> d
-        WHERE ST_Intersects(a.geom, d.geom)
-     );
+ WHERE EXISTS ( SELECT 1
+                FROM <table_b> b
+                WHERE ST_Intersects(a.geom, b.geom) )
+    OR EXISTS ( SELECT 1
+                FROM <table_c> c
+                WHERE ST_Intersects(a.geom, c.geom) )
+    OR EXISTS ( SELECT 1
+                FROM <table_d> d
+                WHERE ST_Intersects(a.geom, d.geom) );
 ```
