@@ -8,6 +8,44 @@ parent: Querying
 1. TOC
 {:toc}
 
+## Find furthest pair of locations over groups
+<https://stackoverflow.com/questions/70906625/find-the-two-postcodes-furthest-apart-by-district>
+
+Given a set of locations in multiple groups (e.g. postcodes in districts), 
+find the pair of locations furthest apart in each group.
+
+Finding the further apart pair of locations essentially requires testing each pair of locations
+and selecting the furthest apart. This can be slightly optimized by using a "triangle join",
+which tests only half the possible pairs by restricting them to ones where the first item is less than the second item.
+
+To evaluate this over groups requires using one of the standard SQL patterns to select the first row in a group.
+(See <https://stackoverflow.com/questions/3800551/select-first-row-in-each-group-by-group>).
+
+#### Solution 1: DISTINCT ON
+```sql
+WITH pairs AS (
+  SELECT
+    loc.district,
+    loc.postcode,
+    loc2.postcode AS other_postcode,
+    ST_DistanceSphere( ST_Point(loc.lat,loc.long),
+                       ST_Point( loc2.lat,loc2.long)) 
+                AS distance
+  FROM locations loc
+  LEFT JOIN locations loc2
+    ON loc.district = loc2.district
+    AND loc.postcode < loc2.postcode  
+         -- triangle join compares each pair only once
+)
+SELECT DISTINCT ON (p.district)
+    p.district,
+    p.postcode,
+    p.other_postcode,
+    p.distance
+FROM pairs p
+ORDER BY p.district, p.distance DESC;
+```
+
 
 ## Find points NOT within distance of lines
 <https://gis.stackexchange.com/questions/356497/select-points-falling-outside-of-buffer-and-count>
