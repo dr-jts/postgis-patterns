@@ -19,10 +19,15 @@ UPDATE table1
 Is LIMIT 1 needed?
 
 ## Delete
+
 ### Delete Lines Contained in Polygons
 <https://gis.stackexchange.com/questions/372549/delete-lines-within-polygon>
 
-Use an `EXISTS` expression:
+Use an `EXISTS` expression.
+`EXISTS` terminates the subquery as soon as a single row satisfying the `ST_Within` condition is found.
+This is an efficient way when traversing a table by row (as in an `UPDATE`/`DELETE`), 
+or otherwise comparing against a pre-selection (e.g. of ids).
+
 ```sql
 DELETE
 FROM   <lines> AS ln
@@ -32,6 +37,28 @@ WHERE  EXISTS (
   WHERE  ST_Within(ln.geom, pl.geom)
 );
 ```
-If the `ST_Within` check hits the first TRUE (selecting a truthy 1), the sub-query terminates for the current row (no matter if there were more than one hit).
 
-This is among the most efficient ways for when a table has to be traversed by row (as in an `UPDATE`/`DELETE`), or otherwise compared against a pre-selection (of e.g. ids).
+### Delete Polygons intersecting Polygons in other tables
+<https://stackoverflow.com/questions/71814571/postgis-delete-polygons-that-overlap>
+
+Use `EXISTS` subqueries.
+
+```sql
+DELETE 
+  FROM <table_a> a
+ WHERE EXISTS
+     ( SELECT 1
+         FROM <table_b> b
+        WHERE ST_Intersects(a.geom, b.geom)
+     )
+    OR EXISTS
+     ( SELECT 1
+         FROM <table_c> c
+        WHERE ST_Intersects(a.geom, c.geom)
+     )
+    OR EXISTS
+     ( SELECT 1
+         FROM <table_d> d
+        WHERE ST_Intersects(a.geom, d.geom)
+     );
+```
