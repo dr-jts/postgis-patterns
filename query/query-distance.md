@@ -8,7 +8,7 @@ parent: Querying
 1. TOC
 {:toc}
 
-## Find furthest pair of locations over groups
+## Find furthest pair of locations in groups
 <https://stackoverflow.com/questions/70906625/find-the-two-postcodes-furthest-apart-by-district>
 
 Given a set of locations in multiple groups (e.g. postcodes in districts), 
@@ -46,6 +46,9 @@ FROM pairs p
 ORDER BY p.district, p.distance DESC;
 ```
 
+#### Solution 2: LATERAL
+
+TBD
 
 ## Find points NOT within distance of lines
 <https://gis.stackexchange.com/questions/356497/select-points-falling-outside-of-buffer-and-count>
