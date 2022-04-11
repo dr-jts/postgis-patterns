@@ -33,8 +33,7 @@ This is an efficient way when traversing a table by row (as in an `UPDATE`/`DELE
 or otherwise comparing against a pre-selection (e.g. of ids).
 
 ```sql
-DELETE
-FROM   <lines> AS ln
+DELETE FROM <lines> AS ln
 WHERE  EXISTS (
   SELECT 1
   FROM   <poly> AS pl
@@ -48,8 +47,7 @@ WHERE  EXISTS (
 Use `EXISTS` subqueries.
 
 ```sql
-DELETE 
-  FROM <table_a> a
+DELETE FROM <table_a> a
  WHERE EXISTS ( SELECT 1
                 FROM <table_b> b
                 WHERE ST_Intersects(a.geom, b.geom) )
