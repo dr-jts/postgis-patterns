@@ -90,6 +90,7 @@ Buffer line, union, then find all point not in buffer polygon
 Solution
 Best way is to use NOT EXISTS.
 To select only records that have no other point with the same value within <threshold> distance:
+  
 ```sql
 SELECT  *
 FROM    points AS a
@@ -106,6 +107,12 @@ WHERE   NOT EXISTS (
 ## Find Farthest Point from a Polygon
 <https://gis.stackexchange.com/questions/332073/is-there-any-function-that-can-calculate-the-maximum-minimum-distance-from-a-geo>
 
+```sql
+SELECT ST_Distance((st_dumppoints(pts_geom),
+    poly.geom) dist
+  ) ORDR BY dist desc LIMIT 1
+```
+  
 ## Find farthest vertex from polygon centroid
 <https://stackoverflow.com/questions/31497071/farthest-distance-of-a-polygon-point-from-its-centroid>
    
