@@ -93,13 +93,28 @@ WHERE ST_DWithin(br.geom, inj.geom, 15);
 #### Solution 3: Buffer (Slow)
 Buffer line, union, then find all point not in buffer polygon
 
-## Find Points which have no point within distance
+## Find locations which are beyond a given distance from multiple features in other table
+
+<https://gis.stackexchange.com/questions/428963/points-which-are-beyond-certain-distance-from-multiple-points>
+Find locations beyond a given distance from multiple cities.
+  
+```sql
+SELECT *
+FROM   points AS p
+WHERE NOT EXISTS (
+  SELECT 1
+  FROM   cities AS c
+  WHERE  ST_DWithin(c.geom, p.geom, <distance>)
+    AND  city IN ('New York', 'Washington')
+);
+```
+
+## Find Points having no other points in table with same value and within distance
 <https://gis.stackexchange.com/questions/356663/postgis-finding-duplicate-label-within-a-radius>
 
-(Note: question title is misleading, question is actually asking for points which do NOT have a nearby point)
-Solution
-Best way is to use NOT EXISTS.
-To select only records that have no other point with the same value within <threshold> distance:
+**Solution**
+Use `NOT EXISTS`.
+Select only records that have no different point within <threshold> distance:
   
 ```sql
 SELECT  *
@@ -107,10 +122,10 @@ FROM    points AS a
 WHERE   NOT EXISTS (
     SELECT  1
     FROM    points
-    WHERE   a.cat = cat AND a.id <> id AND ST_DWithin(a.geom, geom, <threshold_in_CRS_units>)
+    WHERE   a.val = val AND a.id <> id AND ST_DWithin(a.geom, geom, <threshold_in_CRS_units>)
 );
 ```
-
+  
 ## Find geometries close to centre of an extent
 <https://stackoverflow.com/questions/60218993/postgis-how-do-i-find-results-within-a-given-bounding-box-that-are-close-to-the>
    
