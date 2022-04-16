@@ -58,3 +58,17 @@ DELETE FROM <table_a> a
                 FROM <table_d> d
                 WHERE ST_Intersects(a.geom, d.geom) );
 ```
+
+### Delete features which have duplicates within distance
+https://gis.stackexchange.com/questions/356663/postgis-finding-duplicate-label-within-a-radius
+
+Features are duplicate if they have the same `value` column.
+
+```sql
+DELETE FROM features f
+WHERE EXISTS (
+    SELECT  1
+    FROM    features
+    WHERE   f.val = val AND f.id <> id AND ST_DWithin(f.geom, geom, <distance_in_CRS_units>)
+);
+```
