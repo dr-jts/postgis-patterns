@@ -93,8 +93,7 @@ WHERE ST_DWithin(br.geom, inj.geom, 15);
 #### Solution 3: Buffer (Slow)
 Buffer line, union, then find all point not in buffer polygon
 
-## Find locations which are beyond a given distance from multiple features in other table
-
+## Find locations NOT within a distance of multiple features in other table
 <https://gis.stackexchange.com/questions/428963/points-which-are-beyond-certain-distance-from-multiple-points>
 Find locations beyond a given distance from multiple cities.
   
@@ -114,7 +113,7 @@ WHERE NOT EXISTS (
 
 **Solution**
 Use `NOT EXISTS`.
-Select only records that have no different point within <threshold> distance:
+Select features that do not have a duplicate feature within distance:
   
 ```sql
 SELECT  *
@@ -122,7 +121,7 @@ FROM    points AS a
 WHERE   NOT EXISTS (
     SELECT  1
     FROM    points
-    WHERE   a.val = val AND a.id <> id AND ST_DWithin(a.geom, geom, <threshold_in_CRS_units>)
+    WHERE   a.val = val AND a.id <> id AND ST_DWithin(a.geom, geom, <distance_in_CRS_units>)
 );
 ```
   
