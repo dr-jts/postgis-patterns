@@ -8,26 +8,6 @@ parent: Querying
 1. TOC
 {:toc}
 
-## Group locations by distance to points in another set
-
-<https://gis.stackexchange.com/questions/360282/find-all-closest-points-to-unique-point-in-postgis>
-**Use Case:** Given a set of collision locations and a set of intersections, assign collisions to the nearest intersection.
-
-**Solution**
-
-This is efficiently computed using a KNN query.
-
-```sql
-SELECT  pt.geom, pt.id,  SUM(VC.PERSONS) AS PEOPLE_INJ,  SUM(VC.MOTORIST) AS MOTOR_INJ,  COUNT(*) AS INCIDENT_CT        
-FROM  (SELECT * FROM collisions) c 
-CROSS JOIN LATERAL 
-    (SELECT id, geom     
-       FROM intersections     
-       ORDER BY c.geom <-> pt.geom     
-       LIMIT 1) intersection
-GROUP BY pid, intersections.geom 
-ORDER BY incident_ct DESC); 
-```
 
 ## Find furthest pair of locations in groups
 <https://stackoverflow.com/questions/70906625/find-the-two-postcodes-furthest-apart-by-district>
