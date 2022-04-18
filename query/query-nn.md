@@ -29,8 +29,13 @@ PostGIS workshop - [Nearest Neighbour Searching](https://postgis.net/workshops/p
 
 ## Point / Point
 
-### Find Nearest Point to Points in same table
+### Find Nearest Point to Points in same table of geodetic points
 <https://gis.stackexchange.com/questions/287774/nearest-neighbor>
+
+**Solution**
+
+Note casts to `geography` to compute correct geodetic distance.
+
 ```sql
 SELECT p1.id AS id1,
        p2.id AS id2,
@@ -85,7 +90,7 @@ Lots of obsolete options, dbastons answer is best
 
 **Solution**
 
-This is efficiently computed using a KNN query.
+This is efficiently computed using a KNN query, iterating over each collision to find the nearest intersection.
 
 ```sql
 SELECT c.*, i.id, i.geom
@@ -93,7 +98,7 @@ FROM collisions c
 CROSS JOIN LATERAL 
     (SELECT id, geom     
        FROM intersections    
-       ORDER BY c.geom <-> geom     
+       ORDER BY c.geom <-> geom 
        LIMIT 1) i;
 ```
 
