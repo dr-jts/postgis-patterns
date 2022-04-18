@@ -31,6 +31,21 @@ PostGIS workshop - [Nearest Neighbour Searching](https://postgis.net/workshops/p
 
 ### Find Nearest Point to Points in same table
 <https://gis.stackexchange.com/questions/287774/nearest-neighbor>
+```sql
+SELECT p1.id AS id1,
+       p2.id AS id2,
+       ST_Distance(p1.geom::geography, p2.geom::geography) AS dist
+FROM   points AS p1
+CROSS JOIN LATERAL (
+  SELECT id,
+         geom
+  FROM   points
+  WHERE  p1.id <> id
+ -- AND  ST_DWithin(p1.geom::geography, geom::geography, 10000)
+  ORDER BY p1.geom::geography <-> geom::geography
+  LIMIT  1
+) AS p2;
+```
 
 ### Nearest Point to Points in different table
 <https://gis.stackexchange.com/questions/340192/calculating-distance-between-every-entry-in-table-a-and-nearest-record-in-table>
