@@ -63,24 +63,41 @@ ON true;
 <https://gis.stackexchange.com/questions/136403/postgis-nearest-points-with-st-distance-knn>
 Lots of obsolete options, dbastons answer is best
 
+## Match locations to nearest points in another set
+
+<https://gis.stackexchange.com/questions/360282/find-all-closest-points-to-unique-point-in-postgis>
+**Use Case:** Given a set of collision locations and a set of intersections, match collisions to the nearest intersection.
+
+**Solution**
+
+This is efficiently computed using a KNN query.
+
+```sql
+SELECT c.*, i.id, i.geom
+FROM collisions c 
+CROSS JOIN LATERAL 
+    (SELECT id, geom     
+       FROM intersections    
+       ORDER BY c.geom <-> geom     
+       LIMIT 1) i;
+```
 
 ### Compute point value as average of N nearest points
 <https://gis.stackexchange.com/questions/349754/calculate-average-of-the-temperature-value-from-4-surrounded-points-in-postgis>
 
 #### Solution
-Uses LATERAL and KNN <->
+Use `JOIN LATERAL` and KNN `<->`:
 ```sql
-SELECT a.id,
-       a.geom,
-       avg(c.temp_val) temp_val
+SELECT a.id, a.geom, AVG(c.temp_val) temp_val
 FROM tablea a
 CROSS JOIN LATERAL
   (SELECT temp_val
    FROM tableb b
    ORDER BY b.geom <-> a.geom
    LIMIT 4) AS c
-GROUP BY a.id,a.geom
+GROUP BY id, geom
 ```
+
 ### Find Nearest Neighbours having record in temporal join table 
 <https://gis.stackexchange.com/questions/357237/find-knn-having-reference-in-a-table>
 
