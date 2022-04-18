@@ -60,7 +60,7 @@ DELETE FROM <table_a> a
 ```
 
 ### Delete features which have duplicates within distance
-https://gis.stackexchange.com/questions/356663/postgis-finding-duplicate-label-within-a-radius
+<https://gis.stackexchange.com/questions/356663/postgis-finding-duplicate-label-within-a-radius>
 
 Features are duplicate if they have the same `value` column.
 
