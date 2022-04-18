@@ -14,11 +14,12 @@ parent: Querying
 Given a set of locations in multiple groups (e.g. postcodes in districts), 
 find the pair of locations furthest apart in each group.
 
-Finding the further apart pair of locations essentially requires testing each pair of locations
+Finding the furthest pair of locations requires testing each pair of locations
 and selecting the furthest apart. This can be slightly optimized by using a "triangle join",
-which tests only half the possible pairs by restricting them to ones where the first item is less than the second item.
+which evaluates half the total number of pairs by evaluating only pairs where the first item is less than the second item
+(assuming the items have an ordered id).
 
-To evaluate this over groups requires using one of the standard SQL patterns to select the first row in a group.
+Evaluating this over groups requires using one of the standard SQL patterns to select the first row in a group.
 (See <https://stackoverflow.com/questions/3800551/select-first-row-in-each-group-by-group>).
 
 #### Solution 1: DISTINCT ON
@@ -44,6 +45,7 @@ SELECT DISTINCT ON (p.district)
 FROM pairs p
 ORDER BY p.district, p.distance DESC;
 ```
+
 #### Solution 2: ROW_NUMBER
 ```sql
 SELECT * 
