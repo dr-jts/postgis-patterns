@@ -145,6 +145,9 @@ SELECT ST_Distance((st_dumppoints(pts_geom),
    
 ## Remove Duplicate Points within given Distance
 <https://gis.stackexchange.com/questions/24818/remove-duplicate-points-based-on-a-specified-distance>
+<https://gis.stackexchange.com/questions/159600/find-all-points-within-5m-with-same-name-on-large-dataset>
+
+No good solutions provided.
    
 ## Find Distance and Bearing from Point to Polygon
 https://gis.stackexchange.com/questions/27564/how-to-get-distance-bearing-between-a-point-and-the-nearest-part-of-a-polygon
