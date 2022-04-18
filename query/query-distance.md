@@ -18,14 +18,13 @@ parent: Querying
 This is efficiently computed using a KNN query.
 
 ```sql
-SELECT  pt.geom, pt.id,  SUM(VC.PERSONS) AS PEOPLE_INJ,  SUM(VC.MOTORIST) AS MOTOR_INJ,  COUNT(*) AS INCIDENT_CT 
-FROM  intersections.geom        
-FROM  (SELECT * FROM 	public.valid_collisions  ) vc 
+SELECT  pt.geom, pt.id,  SUM(VC.PERSONS) AS PEOPLE_INJ,  SUM(VC.MOTORIST) AS MOTOR_INJ,  COUNT(*) AS INCIDENT_CT        
+FROM  (SELECT * FROM collisions) c 
 CROSS JOIN LATERAL 
-    (SELECT pt.id, pt.geom     
-       FROM public.intrsct_pts as pt     
-       ORDER BY vc.geom <-> pt.geom     
-       LIMIT 1) intersections 
+    (SELECT id, geom     
+       FROM intersections     
+       ORDER BY c.geom <-> pt.geom     
+       LIMIT 1) intersection
 GROUP BY pid, intersections.geom 
 ORDER BY incident_ct DESC); 
 ```
