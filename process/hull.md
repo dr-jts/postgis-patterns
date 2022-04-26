@@ -22,7 +22,8 @@ GROUP BY type;
 <https://gis.stackexchange.com/questions/238/find-polygon-that-contains-all-linestring-records-in-postgis-table>
 
 **Solution**
-* Use `ST_Extent`, or `ST_ConvexHull` on `ST_Collect` of input set.
+* Use `ST_Extent` aggregate function on input set.
+* Use `ST_ConvexHull` on `ST_Collect` aggregate of input set.
 
 ### Construct lines between all points of a Polygon
 <https://gis.stackexchange.com/questions/58534/get-the-lines-between-all-points-of-a-polygon-in-postgis-avoid-nested-loop>
