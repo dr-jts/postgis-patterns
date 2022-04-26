@@ -2,7 +2,7 @@
 parent: Processing
 ---
 
-# Hulls and Covers
+# Hulls and Covering Polygons
 {: .no_toc }
 
 1. TOC
@@ -20,6 +20,9 @@ GROUP BY type;
 
 ### Construct polygon containing lines
 <https://gis.stackexchange.com/questions/238/find-polygon-that-contains-all-linestring-records-in-postgis-table>
+
+**Solution**
+* Use `ST_Extent`, or `ST_ConvexHull` on `ST_Collect` of input set.
 
 ### Construct lines between all points of a Polygon
 <https://gis.stackexchange.com/questions/58534/get-the-lines-between-all-points-of-a-polygon-in-postgis-avoid-nested-loop>
