@@ -17,12 +17,12 @@ Also: <https://gis.stackexchange.com/questions/20279/calculating-average-width-o
 ### Compute Length and Width of an arbitrary rectangle
 <https://gis.stackexchange.com/questions/366832/get-dimension-of-rectangular-polygon-postgis>
 
-### Convert one meter to degrees
+### Convert distance to geodetic degrees
 <https://gis.stackexchange.com/questions/430023/converting-1-meter-to-degrees-at-specific-location-using-postgis>
 
 **Solution**
 
-In general geodetic distance depends on the azimuth (bearing), so that needs to be specified in the calculation.
+Geodetic distance depends on the latitude of the initial point and the azimuth (bearing).
 
 ```sql
 WITH pt AS (SELECT 5 AS long, 40 AS lat)
@@ -36,6 +36,37 @@ SELECT
         ST_Point(pt.long + 1, pt.lat)::geography
     ) AS one_meter_long_east
 FROM pt;
+```
+
+**Solution 2**
+<https://gist.github.com/geozelot/5cf8425160b98394d0f9ba50ce76917e>
+```sql
+/*
+ * Returns a close approximation of distance in degrees of a sphere at given @latitude that corresponds to
+ * @distance meter surface distance, in the direction of north based @angle in degree, from the center of the ellipse.
+ * Angularity defaults to 90.0 (eastward) and shortcuts execution - corresponds to the simple factor of
+ * reduced surface distance per degree of longitude at increasing latitudes.
+ */
+
+CREATE OR REPLACE FUNCTION ST_ToGeodeticDegrees(
+  latitude FLOAT,
+  distance FLOAT,
+  angle    FLOAT DEFAULT 90.0
+) RETURNS FLOAT IMMUTABLE STRICT PARALLEL SAFE
+  LANGUAGE 'plpgsql' AS
+  $BODY$
+  DECLARE
+    ld FLOAT := $2 / DEGREE(6371000.0 * COS(RADIANS($1)))
+
+  BEGIN
+    IF $3 IN (90.0, 180.0) THEN
+      RETURN ld;
+    END IF;
+	
+    RETURN SQRT(POW(ld, 2) * POW(COS(RADIANS($3)), 2) + POW(SIN(RADIANS($3)), 2));
+  END;
+  $BODY$
+;
 ```
 
 ### Convert bearing to Cardinal Direction
