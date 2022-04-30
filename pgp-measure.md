@@ -17,6 +17,27 @@ Also: <https://gis.stackexchange.com/questions/20279/calculating-average-width-o
 ### Compute Length and Width of an arbitrary rectangle
 <https://gis.stackexchange.com/questions/366832/get-dimension-of-rectangular-polygon-postgis>
 
+### Convert one meter to degrees
+<https://gis.stackexchange.com/questions/430023/converting-1-meter-to-degrees-at-specific-location-using-postgis>
+
+**Solution**
+
+In general geodetic distance depends on the azimuth (bearing), so that needs to be specified in the calculation.
+
+```sql
+WITH pt AS (SELECT 5 AS long, 40 AS lat)
+SELECT 
+    1 / ST_Distance(
+        ST_Point(pt.long, pt.lat)::geography,
+        ST_Point(pt.long, pt.lat + 1)::geography
+    ) AS one_meter_lat_north,
+    1 / ST_Distance(
+        ST_Point(pt.long, pt.lat)::geography,
+        ST_Point(pt.long + 1, pt.lat)::geography
+    ) AS one_meter_long_east
+FROM pt;
+```
+
 ### Convert bearing to Cardinal Direction
 * <https://gis.stackexchange.com/a/425534/14766>
 * <https://trac.osgeo.org/postgis/wiki/UsersWikiCardinalDirection>
