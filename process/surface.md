@@ -25,23 +25,20 @@ Uses the so-called Meandering Triangles method for isolines.
 ### IDW Interpolation over a grid of points
 <https://gis.stackexchange.com/questions/373153/spatial-interpolation-in-postgis-without-outputting-raster>
 
-Use Inverse-Distance-Weighting interpolation on a sample of the point elevation dataset.
+Use [Inverse-Distance-Weighting](https://en.wikipedia.org/wiki/Inverse_distance_weighting) (IDW) interpolation on a subset of nearby points.
+The **power parameter** `POWER` is chosen according to the weighting desired.. 
 
 ```sql
-UPDATE <points> AS itp
-  SET  "Z" = (
-    SELECT SUM(z/d)/SUM(1/d)
-    FROM   (
-      SELECT smpl."Z" as z,
-             ST_Distance(itp.geom, smpl.geom)^<P-value> AS d
-      FROM   <point> AS smpl
-      ORDER BY
-             itp.geom <-> smpl.geom
-      WHERE  smpl."Z" IS NOT NULL
-      LIMIT  <sample_size>
-    ) sq
-    WHERE  ipt."Z" IS NULL
-  ) q;
+SELECT SUM( z/d ) / SUM( 1/d ) AS z
+FROM (
+  SELECT smpl.z as z,
+         ST_Distance(itp.geom, smpl.geom) ^ POWER AS d
+  FROM   <point> AS smpl
+  ORDER BY
+         itp.geom <-> smpl.geom
+  WHERE  smpl.Z IS NOT NULL
+  LIMIT  <sample_size>
+) t;
 ```
 
 ### Compute Z value of a TIN at a Point
