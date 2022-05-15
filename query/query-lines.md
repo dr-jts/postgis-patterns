@@ -32,9 +32,31 @@ WITH lines AS (SELECT (ST_Dump(ST_GeomFromText(
 SELECT ST_Covers(a.geom, ST_Snap(b.geom, a.geom, 0.01))
 FROM lines a, lines b;
 ```
-
-## Find Line Intersections
+## Find Line Intersections at endpoints
 <https://gis.stackexchange.com/questions/20835/identifying-road-intersections-using-postgis>
+```sql
+SELECT a.id AS aid, b.id AS bid,
+    ST_Force2D( ST_Intersection(a.geom, b.geom)) AS geom 
+FROM paths AS a 
+JOIN paths AS b ON ST_Intersects(a.geom, b.geom) 
+WHERE a.id < b.id AND ST_Touches(a.geom, b.geom);
+```
+
+## Find Line Intersections NOT at endpoints
+<https://gis.stackexchange.com/questions/431246/in-postgis-how-to-select-intersecting-line-segments-but-not-matching-start-and/431247#431247>
+
+**Solution**
+Query lines which intersect but which do **not** just touch (at endpoints).
+
+```sql
+SELECT a.id AS aid, b.id AS bid,
+    ST_Force2D( ST_Intersection(a.geom, b.geom)) AS geom 
+FROM paths AS a 
+JOIN paths AS b ON ST_Intersects(a.geom, b.geom) 
+WHERE a.id < b.id AND NOT ST_Touches(a.geom, b.geom);
+```
+## Count number of intersections between Line Segments
+<https://gis.stackexchange.com/questions/365575/counting-geometry-intersections-between-two-linestrings>
 
 ## Find Lines which intersect N Polygons
 <https://gis.stackexchange.com/questions/349994/st-intersects-with-multiple-geometries>
@@ -50,8 +72,6 @@ WHERE polygons.id in (1,2)
 GROUP BY lines.id, lines.geom 
 HAVING count(*) = 2;
 ```
-## Count number of intersections between Line Segments
-<https://gis.stackexchange.com/questions/365575/counting-geometry-intersections-between-two-linestrings>
 
 ## Find Begin and End of circular sublines
 <https://gis.stackexchange.com/questions/206815/seeking-algorithm-to-detect-circling-and-beginning-and-end-of-circle>
