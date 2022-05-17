@@ -33,6 +33,8 @@ To scale this up/out, could process batches of polygons using a rectangular grid
 <https://gis.stackexchange.com/questions/356480/enclose-polygons-that-are-not-overlapped-and-remove-gaps-between-them>
 ![](https://i.stack.imgur.com/XR8lU.png)
 
+Also: <https://gis.stackexchange.com/questions/316000/using-st-union-to-combine-several-polygons-to-one-multipolygon-using-postgis>
+
 **Suggestions**
 
 * Buffer positively and negatively (see `ST_BufferedUnion`in [PostGIS Addons](https://github.com/pedrogit/postgisaddons/blob/master/postgis_addons.sql) )
