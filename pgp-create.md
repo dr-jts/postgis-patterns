@@ -83,6 +83,14 @@ FROM rings;
 
 ### Drop Holes from Polygons
 <https://gis.stackexchange.com/questions/278154/polygons-have-holes-after-pgr-pointsaspolygon>
+```sql
+SELECT CASE
+         WHEN ST_NRings(geom) > 1
+         THEN ST_MakePolygon(ST_ExteriorRing(geom))
+         ELSE geom
+       END AS geom
+FROM polys;
+```
 
 ### Drop Holes from MultiPolygons
 <https://gis.stackexchange.com/questions/348943/simplifying-a-multipolygon-into-one-polygon-respecting-its-outer-boundaries>
