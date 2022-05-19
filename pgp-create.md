@@ -101,3 +101,31 @@ FROM polys;
 **Similar**
 <https://gis.stackexchange.com/questions/291374/cut-out-polygons-that-at-least-partially-fall-in-another-polygon>
 
+### Drop Small Holes from MultiPolygons
+<https://gis.stackexchange.com/questions/431664/delete-small-holes-in-polygons-with-postgis/431682#431682>
+
+Drop holes of below a give size from a table of MultiPolygons.
+
+**Solution**
+In this example the size limit is 100.  Note that it works for Polygons as well.
+
+```sql
+WITH data(id, geom) AS (VALUES
+   (1, 'MULTIPOLYGON (((100 100, 100 0, 0 0, 0 100, 100 100), (10 10, 10 70, 60 10, 10 10), (30 90, 90 90, 90 30, 30 90), (20 80, 10 80, 10 90, 20 80), (90 10, 80 10, 80 20, 90 10)), ((0 170, 100 170, 100 120, 0 120, 0 170), (10 130, 10 140, 20 130, 10 130)))'::geometry)
+  ,(2, 'MULTIPOLYGON (((200 100, 300 100, 300 0, 200 0, 200 100), (210 10, 210 70, 260 10, 210 10), (280 80, 280 90, 290 80, 280 80)), ((200 160, 260 160, 260 120, 200 120, 200 160)))'::geometry)
+  ,(3, 'POLYGON ((110 90, 190 90, 190 10, 110 10, 110 90), (120 20, 120 80, 180 20, 120 20), (170 70, 170 80, 180 70, 170 70))'::geometry)
+)
+select geom from data;
+SELECT ST_AsText( ST_Collect( 
+    ARRAY( SELECT ST_MakePolygon( 
+              ST_ExteriorRing(geom),
+              ARRAY( SELECT ST_ExteriorRing( rings.geom )
+                      FROM ST_DumpRings(geom) AS rings
+                      WHERE rings.path[1] > 0 AND ST_Area( rings.geom ) >= 100
+            )
+    )
+    FROM ST_Dump(geom) AS poly ) 
+  ))
+FROM data;
+```
+
