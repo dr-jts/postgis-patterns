@@ -115,7 +115,7 @@ WITH data(id, geom) AS (VALUES
   ,(2, 'MULTIPOLYGON (((200 100, 300 100, 300 0, 200 0, 200 100), (210 10, 210 70, 260 10, 210 10), (280 80, 280 90, 290 80, 280 80)), ((200 160, 260 160, 260 120, 200 120, 200 160)))'::geometry)
   ,(3, 'POLYGON ((110 90, 190 90, 190 10, 110 10, 110 90), (120 20, 120 80, 180 20, 120 20), (170 70, 170 80, 180 70, 170 70))'::geometry)
 )
-SELECT ST_AsText( ST_Collect(
+SELECT id, ST_Collect(
     ARRAY( SELECT ST_MakePolygon(
                     ST_ExteriorRing(geom),
                     ARRAY( SELECT ST_ExteriorRing( rings.geom )
@@ -124,7 +124,7 @@ SELECT ST_AsText( ST_Collect(
                       AND ST_Area( rings.geom ) >= 100 )
                   )
             FROM ST_Dump(geom) AS poly )
-    ))
+    ) AS geom
 FROM data;
 ```
 
