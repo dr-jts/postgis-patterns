@@ -81,7 +81,7 @@ FROM rings;
 
 ## Geometry Editing
 
-### Drop Holes from Polygons
+### Remove Holes from Polygons
 <https://gis.stackexchange.com/questions/278154/polygons-have-holes-after-pgr-pointsaspolygon>
 ```sql
 SELECT CASE
@@ -92,7 +92,7 @@ SELECT CASE
 FROM polys;
 ```
 
-### Drop Holes from MultiPolygons
+### Remove Holes from MultiPolygons
 <https://gis.stackexchange.com/questions/348943/simplifying-a-multipolygon-into-one-polygon-respecting-its-outer-boundaries>
 
 **Solution**
@@ -101,10 +101,10 @@ FROM polys;
 **Similar**
 <https://gis.stackexchange.com/questions/291374/cut-out-polygons-that-at-least-partially-fall-in-another-polygon>
 
-### Drop Small Holes from MultiPolygons
+### Remove Small Holes from MultiPolygons
 <https://gis.stackexchange.com/questions/431664/delete-small-holes-in-polygons-with-postgis/431682#431682>
 
-Drop holes of below a give size from a table of MultiPolygons.
+Remove holes below a given area from a table of MultiPolygons.
 
 **Solution**
 In this example the size limit is 100.  Note that it works for Polygons as well.
@@ -127,4 +127,19 @@ SELECT id, ST_Collect(
     ) AS geom
 FROM data;
 ```
-
+As a function:
+```sql
+CREATE OR REPLACE FUNCTION ST_RemoveHolesByArea(
+    geom GEOMETRY,
+    area real)
+RETURNS GEOMETRY AS
+$BODY$
+WITH
+   tbla AS (SELECT ST_Dump(geom))
+  SELECT ST_Collect(ARRAY(SELECT ST_MakePolygon(ST_ExteriorRing(geom),
+            ARRAY(SELECT ST_ExteriorRing(rings.geom) FROM ST_DumpRings(geom) AS rings
+      WHERE rings.path[1]>0 AND ST_Area(rings.geom)>=area))
+      FROM ST_Dump(geom))) AS geom FROM tbla;
+$BODY$
+LANGUAGE SQL;
+```
