@@ -43,7 +43,7 @@ WHERE a.id < b.id AND ST_Touches(a.geom, b.geom);
 ```
 
 ## Find Line Intersections NOT at endpoints
-<https://gis.stackexchange.com/questions/431246/in-postgis-how-to-select-intersecting-line-segments-but-not-matching-start-and/431247#431247>
+<https://gis.stackexchange.com/questions/431246/in-postgis-how-to-select-intersecting-line-segments-but-not-matching-start-and>
 
 **Solution**
 Query lines which intersect but which do **not** just touch (at endpoints).
