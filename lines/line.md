@@ -191,17 +191,18 @@ Extend a line between two points by a given amount (1 m) at both ends.
 **Solution**
 ```sql
 WITH data AS ( SELECT ST_MakeLine(ST_Point(1,2), ST_Point(3,4)) AS geom )
-SELECT ST_MakeLine( ST_Translate(a, sin(az1) * len, cos(az1) * len),
-                    ST_Translate(b, sin(az2) * len, cos(az2) * len))
+SELECT ST_AsText( ST_MakeLine(  
+                    ST_Translate(b, sin(azBA) * len, cos(azBA) * len),
+                    ST_Translate(a, sin(azAB) * len, cos(azAB) * len)) )
   FROM (
     SELECT a, b, 
-           ST_Azimuth(a, b) AS az1, ST_Azimuth(b, a) AS az2, 
-           ST_Distance(a, b) + 1 AS len
-      FROM (
-        SELECT ST_StartPoint(geom) AS a, ST_EndPoint(geom) AS b
-          FROM data
-    ) AS sub
-) AS sub2;
+           ST_Azimuth(a, b) AS azAB, ST_Azimuth(b, a) AS azBA, 
+           ST_Distance(a, b) + len_extend AS len
+    FROM (
+        SELECT ST_StartPoint(geom) AS a, ST_EndPoint(geom) AS b, 1.0 as len_extend
+        FROM data
+        ) AS sub
+    ) AS sub2;
 ```
 
 ### PostGIS Ideas
