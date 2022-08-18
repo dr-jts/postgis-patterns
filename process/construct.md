@@ -118,6 +118,43 @@ See also note about using a scaling rather than buffer, to preserve shape of pol
 
 <https://gis.stackexchange.com/questions/271234/creating-a-grid-on-a-polygon-and-find-number-of-points-in-each-grid>
 
+### Construct Quadrilateral Grid
+Construct a regularly spaced grid in an arbitrary quadrilateral.
+
+<https://gis.stackexchange.com/questions/437745/creating-an-irregular-point-grid-with-provided-row-and-column-numbers-in-postgis>
+
+![](https://i.stack.imgur.com/vwqg0.png)
+
+**Solution**
+Use a pseudo-projective transformation of a grid on a unit square to the quadrilateral.
+Transformation is a simple non-linear combination of three basis vectors.
+Formula and explanation are [here](https://math.stackexchange.com/a/863702).
+
+![](https://i.stack.imgur.com/fTMhb.png)
+
+```sql
+WITH quad AS (SELECT 
+  5 AS LLx, 5 AS LLy,
+  10 AS ULx, 30 AS ULy,
+  25 AS URx, 25 AS URy,
+  30 AS LRx, 0 AS LRy
+),
+vec AS (
+  SELECT  LLx AS ox, LLy AS oy,
+          ULx - LLx AS ux, ULy - LLy AS uy, 
+          LRx - LLx AS vx, LRy - LLy As vy, 
+          URx - LLx - ((ULX - LLx) + (LRx - LLx)) AS wx, 
+          URy - LLy - ((ULy - LLy) + (LRy - LLy)) AS wy 
+  FROM quad
+),
+grid AS (SELECT x / 10.0 AS x, y / 10.0 AS y 
+  FROM        generate_series(0, 10) AS sx(x)
+  CROSS JOIN  generate_series(0, 10) AS sy(y)
+)
+SELECT ST_Point(ox + ux * x + vx * y + wx * x * y, 
+                oy + uy * x + vy * y + wy * x * y) AS geom
+  FROM vec CROSS JOIN grid;
+  ```
 ## Medial Axis / Skeleton
 
 ### Construct Average / Centrelines between Lines
