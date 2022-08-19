@@ -63,7 +63,7 @@ SELECT ST_AsText( (ST_DumpSegments( data.geom )).geom ) AS seg
   FROM data;
 ```
 
-### Using LATERAL JOIN with `generate_series`
+#### Using LATERAL JOIN with `generate_series`
 This can be done in SQL using an implicit `LATERAL JOIN` against two `generate_series` calls 
 on the number of line elements and the number of vertices in each line:
 ```sql
@@ -103,7 +103,7 @@ SELECT ST_AsText( (ST_DumpSegments( data.geom )).geom ) AS seg
   FROM data;
 ```
 
-### Using LATERAL JOIN with `generate_series`
+#### Using LATERAL JOIN with `generate_series`
 This can be done in SQL using an implicit `LATERAL JOIN` against two `generate_series` calls 
 on the number of line elements and the number of vertices in each line:
 ```sql
