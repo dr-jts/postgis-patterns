@@ -51,6 +51,7 @@ SELECT i, ST_LineInterpolatePoint(geom, (i-1.0)/40) pt
 ## Extracting Segments
 
 ### Extract Segments from LineStrings
+<http://blog.cleverelephant.ca/2015/02/breaking-linestring-into-segments.html>
 
 #### Using `ST_DumpSegents`
 In PostGIS 3.2 this can be done with `ST_DumpSegments`:
@@ -67,27 +68,26 @@ SELECT ST_AsText( (ST_DumpSegments( data.geom )).geom ) AS seg
 This can be done in SQL using an implicit `LATERAL JOIN` against two `generate_series` calls 
 on the number of line elements and the number of vertices in each line:
 ```sql
-WITH data(geom) AS (VALUES
-  ('LINESTRING (1 1, 3 1, 5 2, 7 1, 9 1, 9 3)'::geometry),
-  ('LINESTRING (1 5, 5 6, 9 5)'::geometry)
+WITH data(id, geom) AS (VALUES
+  (1, 'LINESTRING (1 1, 2 2, 3 3, 4 4)'::geometry),
+  (2, 'LINESTRING (0 1, 0 2, 0 3, 0 4)'::geometry)
 )
-SELECT ST_MakeLine(ST_PointN(line, j-1), ST_PointN(line, j)) AS seg
-  FROM (SELECT ST_GeometryN(geom, i) AS line
-          FROM data, 
-               generate_series(2, ST_NumPoints(data.geom)) AS j;
+SELECT id, ST_AsText( ST_MakeLine(ST_PointN(geom, i-1), ST_PointN(geom, i))) AS seg
+  FROM data 
+       CROSS JOIN generate_series(2, ST_NumPoints(data.geom)) AS i;
 ```
 
-#### Using LEAD window function
+#### Using `ST_Dump` and `LEAD` window function
 
-**Doesn't work - creates NULL results**
 ```sql
 WITH data(id, geom) AS (VALUES
-  (1, 'LINESTRING (1 1, 2 2, 3 3, 4 4, 5 5, 6 6)'::geometry),
-  (2, 'LINESTRING (1 5, 1 6, 1 7)'::geometry)
+  (1, 'LINESTRING (1 1, 2 2, 3 3, 4 4)'::geometry),
+  (2, 'LINESTRING (0 1, 0 2, 0 3, 0 4)'::geometry)
 )
-SELECT ST_AsText( ST_MakeLine(dmp.geom, LEAD(dmp.geom) OVER(PARTITION BY id ORDER BY dmp.path))) AS geom
-    FROM data
-    CROSS JOIN LATERAL ST_DumpPoints(geom) AS dmp;
+SELECT * FROM (SELECT id, ST_AsText( ST_MakeLine(dmp.geom, LEAD(dmp.geom) OVER(PARTITION BY id ORDER BY dmp.path))) AS seg
+                 FROM data
+                 CROSS JOIN LATERAL ST_DumpPoints(geom) AS dmp) AS t
+    WHERE seg IS NOT NULL;
 ```
 
 ### Extract Segments from MultiLineStrings
