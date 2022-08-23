@@ -97,6 +97,11 @@ FROM polys;
 
 **Solution**
 <https://gis.stackexchange.com/a/349016/14766>
+
+* Use `ST_Dump` to explode the MultiPolygon into separate Polygons
+* use `ST_MakePolygon(ST_ExteriorRing(poly))` to remove the holes from each element Polygon
+* Use `ST_Collect` to recombine the hole-free elements 
+
 ```sql
 WITH data AS (
   SELECT 'MULTIPOLYGON (((90 240, 260 240, 260 100, 90 100, 90 240), (130 200, 200 200, 200 140, 130 140, 130 200)), ((290 240, 380 240, 380 170, 290 170, 290 240), (324 216, 360 216, 360 180, 324 180, 324 216)), ((310 140, 375 140, 375 91, 310 91, 310 140)))'::geometry AS geom
