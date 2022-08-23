@@ -10,19 +10,22 @@ parent: Querying
 
 ## General
 
-### Find geometries which do NOT intersect/equal another table's
+### Find geometries which do NOT intersect/equal another set
 <https://gis.stackexchange.com/questions/162651/looking-for-boolean-intersection-of-small-table-with-huge-table>
 
-Do not use a `JOIN` with `ST_Disjoint` or `NOT ST_Equals`, since that does not use the spatial index.
+**Solution**
 
-* Use `NOT EXISTS`:
+Do not use a `JOIN` with `ST_Disjoint` or `NOT ST_Equals`, since that does not use the spatial index.
+Use an **anti-join** with `NOT EXISTS` or `LEFT JOIN / null`
+
+* Anti-join with `NOT EXISTS`:
 
 ```sql
 SELECT * FROM polygons
 WHERE NOT EXISTS (SELECT 1 FROM streets WHERE ST_Intersects(polygons.geom, streets.geom))
 ```
 
-* Use a `LEFT JOIN ON ST_Intersects/ST_Equals` with `WHERE right-side = NULL`
+* Anti-join with `LEFT JOIN ON ST_Intersects/ST_Equals` with `WHERE right-side = NULL`
 
 ### Test if two 3D geometries are equal
 <https://gis.stackexchange.com/questions/373978/how-to-check-two-3d-geometry-are-equal-in-postgis>
