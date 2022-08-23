@@ -97,6 +97,18 @@ FROM polys;
 
 **Solution**
 <https://gis.stackexchange.com/a/349016/14766>
+```sql
+WITH data AS (
+  SELECT 'MULTIPOLYGON (((90 240, 260 240, 260 100, 90 100, 90 240), (130 200, 200 200, 200 140, 130 140, 130 200)), ((290 240, 380 240, 380 170, 290 170, 290 240), (324 216, 360 216, 360 180, 324 180, 324 216)), ((310 140, 375 140, 375 91, 310 91, 310 140)))'::geometry AS geom
+),
+polys AS (
+  SELECT (ST_Dump( geom )).geom FROM data
+),
+polynoholes AS (
+  SELECT ST_Collect( ST_MakePolygon( ST_ExteriorRing( geom ))) FROM polys
+)
+SELECT * FROM polynoholes
+```
 
 **Similar**
 <https://gis.stackexchange.com/questions/291374/cut-out-polygons-that-at-least-partially-fall-in-another-polygon>
