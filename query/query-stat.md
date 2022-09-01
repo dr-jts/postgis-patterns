@@ -111,7 +111,7 @@ to extract points with maximmal/minimal X and Y.
 
 **Note:** it might be more efficient to use the `path` information from `ST_DumpPoints` to eliminate the duplicate start and end point.
 
-```
+```sql
 WITH data(id, geom) AS (VALUES
    (1, 'POLYGON((-71.1776585052917 42.3902909739571,-71.1776820268866 42.3903701743239, -71.1776063012595 42.3903825660754,-71.1775826583081 42.3903033653531,-71.1776585052917 42.3902909739571))'::geometry)
   ,(2, 'POLYGON ((-71.1775 42.3902, -71.1773 42.3908, -71.1769 42.3905, -71.177 42.39, -71.1775 42.3902))'::geometry)
