@@ -102,3 +102,28 @@ FROM tbl a
 GROUP BY id
 LEFT JOIN tbl b ON a.id, b.id;
 ```
+
+## Find extremal points of Polygons
+<https://gis.stackexchange.com/questions/323289/how-to-calculate-extreme-point-most-north-or-east-etc-of-geographypolygon-ty>
+
+Extract unique points of polygons using `ST_DumpPoints(ST_RemoveRepeatedPoints(ST_Points`, then use `RANK` window functions 
+to extract points with maximmal/minimal X and Y.
+
+**Note:** it might be more efficient to use the `path` information from `ST_DumpPoints` to eliminate the duplicate start and end point.
+
+```
+WITH data(id, geom) AS (VALUES
+   (1, 'POLYGON((-71.1776585052917 42.3902909739571,-71.1776820268866 42.3903701743239, -71.1776063012595 42.3903825660754,-71.1775826583081 42.3903033653531,-71.1776585052917 42.3902909739571))'::geometry)
+  ,(2, 'POLYGON ((-71.1775 42.3902, -71.1773 42.3908, -71.1769 42.3905, -71.177 42.39, -71.1775 42.3902))'::geometry)
+),
+pts AS (SELECT id, (ST_DumpPoints(ST_RemoveRepeatedPoints(ST_Points(geom)))).geom FROM data),
+rank AS (SELECT id, ST_AsText(geom), 
+  RANK() OVER (PARTITION BY id ORDER BY ST_X(geom) DESC) AS rank_max_x,
+  RANK() OVER (PARTITION BY id ORDER BY ST_X(geom) ASC)  AS rank_min_x,
+  RANK() OVER (PARTITION BY id ORDER BY ST_Y(geom) DESC) AS rank_max_y,
+  RANK() OVER (PARTITION BY id ORDER BY ST_Y(geom) ASC)  AS rank_min_y
+  FROM pts
+)
+SELECT * FROM rank 
+  WHERE rank_max_x = 1 OR rank_min_x = 1 OR rank_max_y = 1 OR rank_min_y = 1;
+```
