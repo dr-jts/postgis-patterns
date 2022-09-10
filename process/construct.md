@@ -217,7 +217,7 @@ SELECT ST_MakeLine(a.geom, b.geom) AS geom FROM points a CROSS JOIN points b
 ### Construct longest horizontal line within polygon
 <https://gis.stackexchange.com/questions/32552/calculating-maximum-distance-within-polygon-in-x-direction-east-west-direction>
 
-#### Algorithm
+**Algorithm**
 * For every Y value:
 * Construct horizontal line across bounding box at Y value
 * Intersect with polygon
