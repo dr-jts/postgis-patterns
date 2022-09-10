@@ -48,7 +48,7 @@ Also: <https://gis.stackexchange.com/questions/316000/using-st-union-to-combine-
 **See Also**
 <https://gis.stackexchange.com/questions/49726/postgis-algorithm-to-unite-points-of-two-geometries-that-are-within-specified-ra>
 
-#### Solution
+**Solution**
 * construct convex hull of both polygons together
 * subtract convex hull of each polygon
 * union with original polygons
