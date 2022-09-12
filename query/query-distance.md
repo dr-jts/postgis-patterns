@@ -59,7 +59,7 @@ WHERE NOT EXISTS (
 );
 ```
 
-## Find Points having no other points in table with same value and within distance
+### Find Points having no other points in table with same value and within distance
 <https://gis.stackexchange.com/questions/356663/postgis-finding-duplicate-label-within-a-radius>
 
 **Solution**
