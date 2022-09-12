@@ -8,62 +8,10 @@ parent: Querying
 1. TOC
 {:toc}
 
+## Nearest queries
 
-## Find furthest pair of locations in groups
-<https://stackoverflow.com/questions/70906625/find-the-two-postcodes-furthest-apart-by-district>
 
-Given a set of locations in multiple groups (e.g. postcodes in districts), 
-find the pair of locations furthest apart in each group.
-
-Finding the furthest pair of locations requires testing each pair of locations
-and selecting the furthest apart. This can be slightly optimized by using a "triangle join",
-which evaluates half the total number of pairs by evaluating only pairs where the first item is less than the second item
-(assuming the items have an ordered id).
-
-Evaluating this over groups requires using one of the standard SQL patterns to select the first row in a group.
-(See <https://stackoverflow.com/questions/3800551/select-first-row-in-each-group-by-group>).
-
-#### Solution 1: DISTINCT ON
-```sql
-WITH pairs AS (
-  SELECT
-    loc.district,
-    loc.postcode AS postcode1,
-    loc2.postcode AS postcode2,
-    ST_DistanceSphere( ST_Point( loc.lat, loc.long),
-                       ST_Point( loc2.lat,loc2.long) ) AS distance
-  FROM locations loc
-  LEFT JOIN locations loc2
-    ON loc.district = loc2.district
-    AND loc.postcode < loc2.postcode  
-         -- triangle join compares each pair only once
-)
-SELECT DISTINCT ON (p.district)
-    p.district,
-    p.postcode1,
-    p.postcode2,
-    p.distance
-FROM pairs p
-ORDER BY p.district, p.distance DESC;
-```
-
-#### Solution 2: ROW_NUMBER
-```sql
-SELECT * 
-FROM ( SELECT t1.district, t1.postcode AS postcode1, t2.postcode AS postcode2,
-        , row_number() OVER( PARTITION BY t1.district 
-                             ORDER BY ST_DistanceSphere(ST_Point(t1.lat, t1.long), ST_Point(t2.lat, t2.long)) desc) rn
-       FROM locations t1
-       JOIN locations t2 ON t1.district = t2.district AND t1.postcode > t2.postcode
-) t
-WHERE rn = 1;
-```
-
-#### Solution 3: LATERAL
-
-TBD
-
-## Find points NOT within distance of lines
+### Find points NOT within distance of lines
 <https://gis.stackexchange.com/questions/356497/select-points-falling-outside-of-buffer-and-count>
 <https://gis.stackexchange.com/questions/367594/get-all-geom-points-that-are-more-than-3-meters-from-the-linestring-at-big-scal>
 
@@ -96,7 +44,7 @@ WHERE ST_DWithin(br.geom, inj.geom, 15);
 #### Solution 3: Buffer (Slow)
 Buffer line, union, then find all point not in buffer polygon
 
-## Find locations NOT within a distance of multiple features in other table
+### Find locations NOT within a distance of multiple features in other table
 <https://gis.stackexchange.com/questions/428963/points-which-are-beyond-certain-distance-from-multiple-points>
 Find locations beyond a given distance from multiple cities.
   
@@ -128,47 +76,36 @@ WHERE   NOT EXISTS (
 );
 ```
   
-## Find geometries close to centre of an extent
+### Find geometries close to centre of an extent
 <https://stackoverflow.com/questions/60218993/postgis-how-do-i-find-results-within-a-given-bounding-box-that-are-close-to-the>
-   
-## Find Farthest Point from a Polygon
-<https://gis.stackexchange.com/questions/332073/is-there-any-function-that-can-calculate-the-maximum-minimum-distance-from-a-geo>
-
-```sql
-SELECT ST_Distance((st_dumppoints(pts_geom),
-    poly.geom) dist
-  ) ORDR BY dist desc LIMIT 1
-```
   
-## Find farthest vertex from polygon centroid
-<https://stackoverflow.com/questions/31497071/farthest-distance-of-a-polygon-point-from-its-centroid>
    
-## Remove Duplicate Points within given Distance
+### Remove Duplicate Points within given Distance
 <https://gis.stackexchange.com/questions/24818/remove-duplicate-points-based-on-a-specified-distance>
 <https://gis.stackexchange.com/questions/159600/find-all-points-within-5m-with-same-name-on-large-dataset>
 
 No good solutions provided.
    
-## Find Distance and Bearing from Point to Polygon
+### Find Distance and Bearing from Point to Polygon
 https://gis.stackexchange.com/questions/27564/how-to-get-distance-bearing-between-a-point-and-the-nearest-part-of-a-polygon
 
 
-## Use DWithin instead of Buffer
+### Use DWithin instead of Buffer
 <https://gis.stackexchange.com/questions/297317/st-intersects-returns-true-while-st-contains-returns-false-for-a-point-located-o>
 
-## Find closest point on boundary of a union of polygons
+### Find nearest point on boundary of a union of polygons
 <https://gis.stackexchange.com/questions/124158/finding-outermost-border-of-set-of-geomertries-circles-using-postgis>
 
-## Find points returned by function within elliptical area
+### Find points returned by function within elliptical area
 <https://gis.stackexchange.com/questions/17857/finding-points-within-elliptical-area-using-postgis>
 
-## Query Point with highest elevation along a transect through a point cloud
+### Query Point with highest elevation along a transect through a point cloud
 <https://gis.stackexchange.com/questions/223154/find-highest-elevation-along-path>
    
-## Query a single point within a given distance of a road
+### Query a single point within a given distance of a road
 <https://gis.stackexchange.com/questions/361179/postgres-remove-duplicate-rows-returned-by-st-dwithin-query>
 
-## Find Polygons near Lines but not intersecting them
+### Find Polygons near Lines but not intersecting them
 <https://gis.stackexchange.com/questions/408256/how-to-select-polygons-that-dont-intersect-with-line-but-with-its-buffer>
 
 Following query includes polygons multiple times if there are multiple lines within distance.
@@ -199,7 +136,74 @@ WHERE EXISTS (
       );
 ```
 
-## Find random sample of Point features at least distance D apart
+## Farthest queries
+
+### Find furthest pair of locations in groups
+<https://stackoverflow.com/questions/70906625/find-the-two-postcodes-furthest-apart-by-district>
+
+Given a set of locations in multiple groups (e.g. postcodes in districts), 
+find the pair of locations furthest apart in each group.
+
+Finding the furthest pair of locations requires testing each pair of locations
+and selecting the furthest apart. This can be slightly optimized by using a "triangle join",
+which evaluates half the total number of pairs by evaluating only pairs where the first item is less than the second item
+(assuming the items have an ordered id).
+
+Evaluating this over groups requires using one of the standard SQL patterns to select the first row in a group.
+(See <https://stackoverflow.com/questions/3800551/select-first-row-in-each-group-by-group>).
+
+**Solution 1: DISTINCT ON**
+```sql
+WITH pairs AS (
+  SELECT
+    loc.district,
+    loc.postcode AS postcode1,
+    loc2.postcode AS postcode2,
+    ST_DistanceSphere( ST_Point( loc.lat, loc.long),
+                       ST_Point( loc2.lat,loc2.long) ) AS distance
+  FROM locations loc
+  LEFT JOIN locations loc2
+    ON loc.district = loc2.district
+    AND loc.postcode < loc2.postcode  
+         -- triangle join compares each pair only once
+)
+SELECT DISTINCT ON (p.district)
+    p.district,
+    p.postcode1,
+    p.postcode2,
+    p.distance
+FROM pairs p
+ORDER BY p.district, p.distance DESC;
+```
+
+**Solution 2: ROW_NUMBER**
+```sql
+SELECT * 
+FROM ( SELECT t1.district, t1.postcode AS postcode1, t2.postcode AS postcode2,
+        , row_number() OVER( PARTITION BY t1.district 
+                             ORDER BY ST_DistanceSphere(ST_Point(t1.lat, t1.long), ST_Point(t2.lat, t2.long)) desc) rn
+       FROM locations t1
+       JOIN locations t2 ON t1.district = t2.district AND t1.postcode > t2.postcode
+) t
+WHERE rn = 1;
+```
+
+**Solution 3: LATERAL**
+
+TBD
+
+### Find Farthest Point from a Polygon
+<https://gis.stackexchange.com/questions/332073/is-there-any-function-that-can-calculate-the-maximum-minimum-distance-from-a-geo>
+
+```sql
+SELECT ST_Distance((st_dumppoints(pts_geom),
+    poly.geom) dist
+  ) ORDR BY dist desc LIMIT 1
+```
+  
+### Find farthest vertex from polygon centroid
+<https://stackoverflow.com/questions/31497071/farthest-distance-of-a-polygon-point-from-its-centroid>
+### Find random sample of Point features at least distance D apart
    
 * Randomize row order
 * Loop over rows
