@@ -10,6 +10,17 @@ parent: Querying
 
 ## Nearest queries
 
+### Find Polygons within distance of a Line
+<https://gis.stackexchange.com/questions/377674/find-nearest-polygons-of-a-multi-line-string>
+
+Solution also shows ordering result by distance.
+```sql
+SELECT *
+FROM line AS l 
+LEFT JOIN polygons AS p 
+  ON ST_DWithin(l.geom, p.geom, 200) 
+ORDER BY l.geom <-> p.geom;
+```
 
 ### Find points NOT within distance of lines
 <https://gis.stackexchange.com/questions/356497/select-points-falling-outside-of-buffer-and-count>
