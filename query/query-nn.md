@@ -145,6 +145,3 @@ UPDATE points
   );
 ```
 
-## Polygon / Line
-### Find Nearest Polygons to Line
-<https://gis.stackexchange.com/questions/377674/find-nearest-polygons-of-a-multi-line-string>
