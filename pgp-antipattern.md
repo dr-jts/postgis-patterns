@@ -6,7 +6,7 @@
 
 ## Using `ST_Intersects/ST_Buffer` for proximity queries
 
-Use `ST_DWithin` instead, since it is automatically indexed and is much faster.
+Use `ST_DWithin` instead, since it is automatically indexed and is faster to compute.
 
 ## Using `ST_Contains/ST_Within` instead of`ST_Covers/ST_CoveredBy`
 
