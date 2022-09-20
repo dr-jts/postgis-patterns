@@ -92,7 +92,7 @@ END;$BODY$ LANGUAGE sql IMMUTABLE COST 100;
 COMMENT ON FUNCTION ST_CardinalDirection(float8) IS 'input azimuth in radians; returns N, NW, W, SW, S, SE, E, or NE';
 ```
 
-## Ordering Geometry
+## Ordering Polygons
 
 ### Ordering a Square Grid
 <https://gis.stackexchange.com/questions/346519/sorting-polygons-into-a-n-x-n-spatial-array>
@@ -107,6 +107,8 @@ No solution in the post
 Also
 <https://gis.stackexchange.com/questions/73978/numbering-polygons-according-to-their-spatial-relationships>
 
+## Ordering Polygons Along Lines
+
 ### Ordering Polygons along a line
 <https://gis.stackexchange.com/questions/201306/numbering-adjacent-polygons-in-sequential-order>
 
@@ -120,6 +122,22 @@ No explicit solution given, but suggestion is to compute adjacency graph and the
 
 ### Ordered list of polygons intersecting a line
 <https://gis.stackexchange.com/questions/179061/find-all-intersections-of-a-linestring-and-a-polygon-and-the-order-in-which-it-i>
+
+## Ordering Lines Along a Path
+
+### Ordering Connected Lines Along a Path
+
+If lines are known to be connected, then:
+* use `ST_LineMerge` to produce a single continguous line
+* use `ST_LineLocatePoint` to produce fractional distance of midpoint of each line
+* order lines by fractional distance
+
+### Ordering Disconnected Lines Along a Path
+
+Would be useful to have a window function `ST_LineOrder` to produce a ordering index of a set of disconnected lines.
+
+
+## Ordering Points along Lines
 
 ### Ordering points along lines
 
