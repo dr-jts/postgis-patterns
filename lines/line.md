@@ -186,12 +186,37 @@ This one contains a utility function to segment a line by **length**, by using `
 
 <https://gis.stackexchange.com/questions/360670/how-to-break-a-linestring-in-n-parts-in-postgis>
 
-### Split Lines by a set of Points
+### Split Lines by Points
+<https://gis.stackexchange.com/questions/441177/st-split-not-split-line-by-point>
 <https://gis.stackexchange.com/questions/112282/splitting-lines-into-non-overlapping-subsets-based-on-points-using-postgis>
 
-**Solutions**
-* Use `ST_Split`
-* Use `ST_Snap`
+**Solution 1 - `ST_Snap` and `ST_Split`**
+* Use `ST_Snap` to snap line to point(s) to ensure points are in line
+* Use `ST_Split` to split line at points
+
+```sql
+WITH data AS (SELECT
+  'LINESTRING(0 0, 100 100)'::geometry AS line,
+  'POINT(51 50)':: geometry AS point
+)
+SELECT ST_AsText( ST_Split( ST_Snap(line, point, 1), point)) AS split
+       FROM data;
+```
+
+**Solution 2 - `ST_LineLocatePoint` and `ST_LineSubstring`**
+```sql
+WITH
+  data(_input, _blade) AS (
+    VALUES (
+      'SRID=3857;LINESTRING(6050668.141401841 3747562.695792065, 6050847.281693009 3748099.9265132365, 6051307.630580775 3747871.7845201474)'::GEOMETRY,
+      'SRID=3857;POINT(6050714.928364518 3747735.4091125955)'::GEOMETRY
+    )
+  )
+SELECT
+  ST_LineSubstring(_input, 0, ST_LineLocatePoint(_input, _blade)) AS part1,
+  ST_LineSubstring(_input, ST_LineLocatePoint(_input, _blade), 1) AS part2
+  FROM data;
+```
 
 ## Interpolating
 
