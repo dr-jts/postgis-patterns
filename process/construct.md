@@ -24,7 +24,7 @@ SELECT ST_MakePolygon( ST_MakeLine( ARRAY_AGG(
   FROM generate_series(0, 5) AS s(i);
 ```
 
-**Solution 2 - Function ST_MakeAGon**
+**Solution 2 - Function `ST_MakeNGon`**
 
 <https://gist.github.com/geozelot/ddf88a9ae0438d7a46f176e9555ce7a1>
 ```sql
@@ -33,22 +33,22 @@ SELECT ST_MakePolygon( ST_MakeLine( ARRAY_AGG(
  * center - center POINT geometry
  * radius - circumradius [in CRS units] (cirlce that inscribes the *gon)
  * sides  - desired side count (e.g. 6 for Hexagon)
- * skew   - rotation offset, clockwise [in degree]; DEFAULT 0.0 (corresponds to planar NORTH)
+ * rot    - rotation offset, clockwise [in degree]; DEFAULT 0.0 (corresponds to planar NORTH)
  *
  * @out_params
- * agon   - resulting *gon POLYGON geometry
+ * ngon   - resulting N-gon POLYGON geometry
  *
  *
  * The function will create a @sides sided regular, equilateral & equiangular Polygon
- * from a given @center and @radius and optional @skew offset from NORTH
+ * from a given @center and @radius and optional @rot rotation from NORTH
  */
  
-CREATE OR REPLACE FUNCTION ST_MakeAGon(
+CREATE OR REPLACE FUNCTION ST_MakeNGon(
   IN  center   GEOMETRY(POINT),
   IN  radius   FLOAT8,
   IN  sides    INT,
-  IN  skew     FLOAT8 DEFAULT 0.0,
-  OUT agon     GEOMETRY(POLYGON)
+  IN  rot      FLOAT8 DEFAULT 0.0,
+  OUT ngon     GEOMETRY(POLYGON)
 ) LANGUAGE 'plpgsql' IMMUTABLE STRICT PARALLEL SAFE AS
   $$
   DECLARE
@@ -64,10 +64,30 @@ CREATE OR REPLACE FUNCTION ST_MakeAGon(
       __v[i] := ST_MakePoint(_x + $2*SIND(i*_cr + $4), _y + $2*COSD(i*_cr + $4));
     END LOOP;
 		
-    agon := ST_MakePolygon(ST_MakeLine(__v));
+    ngon := ST_MakePolygon(ST_MakeLine(__v));
   END;
   $$
 ;
+```
+
+### Construct an envelope for a Geometry at an Angle
+<https://gis.stackexchange.com/questions/443727/how-to-control-the-angle-of-st-orientedenvelope-postgis>
+
+**Solution**
+* Rotate the geometry CW to the desired angle
+* Compute the envelope
+* Rotate the envelope CCW by the desired angle
+
+```sql
+WITH data(geom) AS (VALUES
+   ('POLYGON ((10 60, 10 20, 50 30, 70 10, 90 60, 60 80, 40 60, 30 90, 10 60))'::geometry)
+),
+input AS (
+    SELECT geom, ST_Centroid(geom) AS anchor, 0.2 AS rot
+     FROM data
+)
+SELECT ST_Rotate( ST_Envelope( ST_Rotate(geom, -rot, anchor)), rot, anchor) AS envRot
+    FROM input;
 ```
 
 ## Geodetic Shapes
