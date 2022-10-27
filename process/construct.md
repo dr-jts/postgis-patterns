@@ -79,15 +79,13 @@ CREATE OR REPLACE FUNCTION ST_MakeNGon(
 * Rotate the envelope CCW by the desired angle
 
 ```sql
-WITH data(geom) AS (VALUES
-   ('POLYGON ((10 60, 10 20, 50 30, 70 10, 90 60, 60 80, 40 60, 30 90, 10 60))'::geometry)
-),
-input AS (
-    SELECT geom, ST_Centroid(geom) AS anchor, 0.2 AS rot
-     FROM data
+WITH data(angle, geom) AS (VALUES
+   (0.2, 'POLYGON ((10 60, 10 20, 50 30, 70 10, 90 60, 60 80, 40 60, 30 90, 10 60))'::geometry)
 )
-SELECT ST_Rotate( ST_Envelope( ST_Rotate(geom, -rot, anchor)), rot, anchor) AS envRot
-    FROM input;
+SELECT ST_Rotate( ST_Envelope(
+            ST_Rotate(geom, -angle, ST_Centroid(geom))),
+        angle, ST_Centroid(geom)) AS envRot
+    FROM data;
 ```
 
 ## Geodetic Shapes
