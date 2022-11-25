@@ -129,7 +129,7 @@ Similar: Find portions of countries not covered by administrative areas.
 ![](https://i.stack.imgur.com/0kFJj.png)
 
 ### Remove overlaps in a Polygon table by lower-priority polygons
-https://gis.stackexchange.com/questions/379300/how-to-remove-overlaps-and-keep-highest-priority-polygon
+<https://gis.stackexchange.com/questions/379300/how-to-remove-overlaps-and-keep-highest-priority-polygon>
 
 #### Solution
 
