@@ -10,7 +10,7 @@ parent: Querying
 
 ## Non-Intersection
 
-### Find geometries which do NOT intersect/equal another set
+### Find geometries which do NOT intersect/equal geometries in another set
 <https://gis.stackexchange.com/questions/162651/looking-for-boolean-intersection-of-small-table-with-huge-table>
 
 **Solution**
@@ -29,7 +29,7 @@ WHERE NOT EXISTS (SELECT 1 FROM streets WHERE ST_Intersects(polygons.geom, stree
 
 * Anti-join with `LEFT JOIN ON ST_Intersects/ST_Equals` with `WHERE right-side = NULL`
 
-### Find geometries which do not intersect any other geometry in a table
+### Find geometries which do not intersect other geometries in same set
 <https://gis.stackexchange.com/questions/448440/finding-all-isolated-buffer-points-using-postgis>
 
 **Solution - Anti-Join**
