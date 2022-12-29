@@ -15,8 +15,10 @@ parent: Querying
 
 **Solution**
 
-Do not use a `JOIN` with `ST_Disjoint` or `NOT ST_Equals`, since that does not use the spatial index.
-Use an **anti-join** with `NOT EXISTS` or `LEFT JOIN / null`
+Do NOT use a `JOIN` with `ST_Disjoint` or `NOT ST_Equals`, since that does not use the spatial index.
+
+Use an [**anti-join**](https://www.crunchydata.com/blog/rise-of-the-anti-join) 
+with `NOT EXISTS` or `LEFT JOIN / null`
 
 * Anti-join with `NOT EXISTS`:
 
@@ -27,12 +29,33 @@ WHERE NOT EXISTS (SELECT 1 FROM streets WHERE ST_Intersects(polygons.geom, stree
 
 * Anti-join with `LEFT JOIN ON ST_Intersects/ST_Equals` with `WHERE right-side = NULL`
 
+### Find geometries which do not intersect any other geometry in a table
+<https://gis.stackexchange.com/questions/448440/finding-all-isolated-buffer-points-using-postgis>
+
+**Solution - Anti-Join**
+
+Use `NOT EXISTS` against a sub-query testing for intersection with *another* geometry. 
+Avoid reporting self-intersection by checking if ids are different
+
+**Solution - `ST_ClusterDBSCAN`**
+
+Use DBSCAN clustering with tolerance = 0 and a minimum cluster size of 2:
+```
+SELECT id, geom 
+FROM (SELECT id, geom,
+             ST_ClusterDBSCAN(geom, eps := 0, minpoints := 2) OVER () AS cluster_id
+      FROM data) t 
+WHERE cluster_id IS NULL
+```
+
+
+## Geometric Equality
+
 ### Test if two 3D geometries are equal
 <https://gis.stackexchange.com/questions/373978/how-to-check-two-3d-geometry-are-equal-in-postgis>
 
-## With Tolerance
 
-### Spatial Equality with Tolerance
+### Geometry Equality with Tolerance
 Example: <https://gis.stackexchange.com/questions/176359/tolerance-in-postgis>
 
 This post is about needing `ST_Equals` to have a tolerance to accommodate small differences caused by reprojection
