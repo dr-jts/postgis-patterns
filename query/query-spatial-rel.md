@@ -8,7 +8,7 @@ parent: Querying
 1. TOC
 {:toc}
 
-## General
+## Non-Intersection
 
 ### Find geometries which do NOT intersect/equal another set
 <https://gis.stackexchange.com/questions/162651/looking-for-boolean-intersection-of-small-table-with-huge-table>
@@ -48,8 +48,7 @@ FROM (SELECT id, geom,
 WHERE cluster_id IS NULL
 ```
 
-
-## Geometric Equality
+## Spatial Relationships with a Tolerance
 
 ### Test if two 3D geometries are equal
 <https://gis.stackexchange.com/questions/373978/how-to-check-two-3d-geometry-are-equal-in-postgis>
