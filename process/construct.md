@@ -95,6 +95,34 @@ SELECT ST_Rotate( ST_Envelope(
 
 <https://gis.stackexchange.com/questions/409129/making-ellipses-on-a-global-data-set>
 
+## 3D Shapes
+
+### 3D Centroid
+<https://gis.stackexchange.com/questions/449451/3d-centroid-in-postgis>
+
+```
+WITH pts AS
+(SELECT 
+  geom(
+    ST_DumpPoints(
+      ST_RemovePoint(
+        ST_ExteriorRing(
+          ST_GeomFromText('POLYGON Z ((0 0 0, 1 0 0, 1 0 1, 1 1 1, 0 1 1, 0 0 1, 0 0 0 ))')
+        ), 0 -- remove first point because, for a polygon, first point = last point by definition
+      )
+    )
+  )
+)
+SELECT 
+  ST_AsText(
+    ST_MakePoint(
+      AVG(ST_X(geom)),
+      AVG(ST_Y(geom)),
+      AVG(ST_Z(geom))
+    )
+  ) geom
+FROM pts;
+```
 ## Extending / Filling Polygons
 
 ### Construct polygons filling gaps in a coverage
