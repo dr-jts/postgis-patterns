@@ -35,8 +35,11 @@ Equivalent to finding all crossing pairs of lines.
 ![](https://i.stack.imgur.com/8d2Ab.png)
 
 **Solution**
+
 Use`ST_Crosses` on all intersecting pairs of lines.
 Use a [triangle join](https://www.sqlservercentral.com/articles/hidden-rbar-triangular-joins) to ensure checking each pair only once.
+Indexes on `id` and geometry` should be used.
+
 ```
 WITH data(id, geom) AS (VALUES
   (1,ST_GeomFromText('MULTILINESTRING((136.63964778201967 36.58031552554121,136.64078637948796 36.57968013023401,136.6414207216891 36.579313967665655,136.64203092428795 36.578959650067986,136.6428838673968 36.57843301697034,136.6438347098042 36.577844992552514))', 4326)),
