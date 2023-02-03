@@ -26,6 +26,36 @@ Maybe also function to snap a network?
 * Find furthest vertex (longest shortest path over all other vertices)
 * Take that vertex, and find longest shortest path to all other vertices)
 
+## Find overshoots in Network
+<https://gis.stackexchange.com/questions/433140/detecting-overshoot-lines-in-road-network-flyovers-over-underpasses-in-postgi>
+
+Find overshoots in a set of LineStrings forming a network.  
+Equivalent to finding all crossing pairs of lines.
+
+![](https://i.stack.imgur.com/8d2Ab.png)
+
+**Solution**
+Use`ST_Crosses` on all intersecting pairs of lines.
+Use a [triangle join](https://www.sqlservercentral.com/articles/hidden-rbar-triangular-joins) to ensure checking each pair only once.
+```
+WITH data(id, geom) AS (VALUES
+  (1,ST_GeomFromText('MULTILINESTRING((136.63964778201967 36.58031552554121,136.64078637948796 36.57968013023401,136.6414207216891 36.579313967665655,136.64203092428795 36.578959650067986,136.6428838673968 36.57843301697034,136.6438347098042 36.577844992552514))', 4326)),
+  (2,ST_GeomFromText('MULTILINESTRING((136.64039880046448 36.57933335255234,136.64078637948796 36.57968013023401,136.64119407544638 36.580076445271914,136.64165541506554 36.58051798901414))', 4326)),
+  (3,ST_GeomFromText('MULTILINESTRING((136.64039880046448 36.57933335255234,136.64044439789086 36.578869185464725))', 4326)),
+  (4,ST_GeomFromText('MULTILINESTRING((136.6409003730539 36.57873995108804,136.6414207216891 36.579313967665655,136.64222404380473 36.580108753416425))', 4326)),
+  (5,ST_GeomFromText('MULTILINESTRING((136.6416232292288 36.57843409435816,136.64203092428795 36.578959650067986))', 4326)),
+  (6,ST_GeomFromText('MULTILINESTRING((136.64203092428795 36.578959650067986,136.64244666738 36.57935489221467,136.64283290461503 36.57974259264671))', 4326)),
+  (7,ST_GeomFromText('MULTILINESTRING((136.64250969906357 36.57802376968141,136.6428838673968 36.57843301697034,136.64326608196427 36.578854108330574))', 4326)),
+  (8,ST_GeomFromText('MULTILINESTRING((136.64364829653186 36.577513284810436,136.6438347098042 36.577844992552514))', 4326)),
+  (9,ST_GeomFromText('MULTILINESTRING((136.6438347098042 36.577844992552514,136.64412438862985 36.57833070559775))', 4326))
+)
+SELECT a.id, b.id, ST_Intersection(a.geom, b.geom) AS geom 
+FROM data a
+JOIN data b ON ST_Intersects(a.geom, b.geom)
+WHERE a.id < b.id AND ST_Crosses(a.geom, b.geom);
+```
+
+
 ## Minimum Spanning Tree of a set of Points
 <https://gis.stackexchange.com/questions/418840/creating-polygon-around-set-of-points-without-blank-polygon-spaces-in-between-in>
 
