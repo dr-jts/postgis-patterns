@@ -4,8 +4,14 @@
 1. TOC
 {:toc}
 
-## Validate Polygons
+## Constraint to Validate Geometry column
 <https://gis.stackexchange.com/questions/1060/what-are-the-implications-of-invalid-geometries>
+<https://gis.stackexchange.com/a/11234/14766>
+
+```sql
+ALTER TABLE public.my_valid_table
+  ADD CONSTRAINT enforce_valid_geom CHECK (st_isvalid(geom));
+```
 
 ## Remove Ring Self-Intersections / MakeValid
 <https://gis.stackexchange.com/questions/15286/ring-self-intersections-in-postgis>
