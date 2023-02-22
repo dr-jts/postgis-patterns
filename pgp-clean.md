@@ -20,6 +20,14 @@ The question and standard answer (buffer(0) are fairly mundane. But note the ans
 Gives outline for function `cleanPolygon` but does not provide source
 
 ## Remove Spikes
+<https://gis.stackexchange.com/questions/173977/how-to-remove-spikes-in-polygons-with-postgis>
+
+![](https://i.stack.imgur.com/iCRwL.png)
+
+**Solutions**
+
+Some custom code implementations:
+
 <https://trac.osgeo.org/postgis/wiki/UsersWikiExamplesSpikeRemover>
 
 <https://gasparesganga.com/labs/postgis-normalize-geometry/>
