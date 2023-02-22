@@ -31,3 +31,16 @@ Some custom code implementations:
 <https://trac.osgeo.org/postgis/wiki/UsersWikiExamplesSpikeRemover>
 
 <https://gasparesganga.com/labs/postgis-normalize-geometry/>
+
+## Remove vertices along straight edges
+<https://gis.stackexchange.com/questions/15127/how-to-rectify-the-walls-of-buildings-in-postgis>
+
+![](https://i.stack.imgur.com/GQB3b.jpg)
+
+**Solution**
+
+* Simplify the polygon with a very small distance tolerance, using one of: 
+  * `[ST_Simplify](https://postgis.net/docs/manual-3.3/ST_Simplify.html)` 
+  * `[ST_SimplifyPreserveTopology](https://postgis.net/docs/manual-3.3/ST_SimplifyPreserveTopology.html)` 
+  * `[ST_SimplifyVW](https://postgis.net/docs/manual-3.3/ST_SimplifyVW.html)` 
+  * `[ST_SimplifyPolygonHull](https://postgis.net/docs/manual-3.3/ST_SimplifyPolygonHull.html)` 
