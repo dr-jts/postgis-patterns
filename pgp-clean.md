@@ -46,7 +46,7 @@ Some custom code implementations:
 **Solution**
 
 * Simplify the polygon with a very small distance tolerance, using one of: 
-  * `[ST_Simplify](https://postgis.net/docs/manual-3.3/ST_Simplify.html)` 
-  * `[ST_SimplifyPreserveTopology](https://postgis.net/docs/manual-3.3/ST_SimplifyPreserveTopology.html)` 
-  * `[ST_SimplifyVW](https://postgis.net/docs/manual-3.3/ST_SimplifyVW.html)` 
-  * `[ST_SimplifyPolygonHull](https://postgis.net/docs/manual-3.3/ST_SimplifyPolygonHull.html)` 
+  * [`ST_Simplify`](https://postgis.net/docs/manual-3.3/ST_Simplify.html)
+  * [`ST_SimplifyPreserveTopology`](https://postgis.net/docs/manual-3.3/ST_SimplifyPreserveTopology.html) 
+  * [`ST_SimplifyVW`](https://postgis.net/docs/manual-3.3/ST_SimplifyVW.html) 
+  * [`ST_SimplifyPolygonHull`](https://postgis.net/docs/manual-3.3/ST_SimplifyPolygonHull.html) 
