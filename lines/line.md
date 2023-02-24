@@ -28,7 +28,51 @@ Solution
 Use CROSS JOIN LATERAL with generate_series and ST_MakeLine, ST_Length
 ST_DumpSegments would make this much easier!
 
-## Extracting Points
+## Inserting Vertices into Lines
+
+### Find Segment of Line Closest to Point to allow Point Insertion
+<https://gis.stackexchange.com/questions/368479/finding-line-segment-of-point-on-linestring-using-postgis>
+
+Currently requires iteration.
+Would be nice if the Linear Referencing functions could return segment index.
+See <https://trac.osgeo.org/postgis/ticket/892>
+
+```sql
+CREATE OR REPLACE FUNCTION ST_LineLocateN( line geometry, pt geometry )
+RETURNS integer
+AS $$
+    SELECT i FROM (
+    SELECT i, ST_Distance(
+        ST_MakeLine( ST_PointN( line, s.i ), ST_PointN( line, s.i+1 ) ),
+        pt) AS dist
+      FROM generate_series(1, ST_NumPoints( line )-1) AS s(i)
+      ORDER BY dist
+    ) AS t LIMIT 1;
+$$
+LANGUAGE sql STABLE STRICT;
+```
+### Insert LineString Vertices at Closest Point(s)
+<https://gis.stackexchange.com/questions/40622/how-to-add-vertices-to-existing-linestrings>
+<https://gis.stackexchange.com/questions/370488/find-closest-index-in-line-string-to-insert-new-vertex-using-postgis>
+<https://gis.stackexchange.com/questions/41162/adding-multiple-points-to-a-linestring-in-postgis>
+
+ST_Snap does this nicely
+```sql
+SELECT ST_AsText( ST_Snap('LINESTRING (0 0, 9 9, 20 20)',
+  'MULTIPOINT( (1 1.1), (12 11.9) )', 0.2));
+```
+
+### Add intersection points between sets of Lines (AKA Noding)
+<https://gis.stackexchange.com/questions/41162/adding-multiple-points-to-a-linestring-in-postgis>
+Problem
+Add nodes into a road network from access side roads
+
+Solutions
+One post recommends simply unioning (overlaying) all the linework.  This was accepted, but has obvious problems:
+Hard to extract just the road network lines
+If side road falls slightly short will not create a node
+
+## Extracting Vertices from Lines
 
 ### Select every Nth point from a LineString
 <https://stackoverflow.com/questions/60319473/postgis-how-do-i-select-every-second-point-from-linestring>
@@ -48,7 +92,7 @@ SELECT i, ST_LineInterpolatePoint(geom, (i-1.0)/40) pt
     JOIN generate_series (1, 40) AS step(i) ON true;
 ```
 
-## Extracting Segments
+## Extracting Segments from Lines
 
 ### Extract Segments from LineStrings
 <http://blog.cleverelephant.ca/2015/02/breaking-linestring-into-segments.html>
@@ -116,6 +160,138 @@ SELECT ST_MakeLine(ST_PointN(line, j-1), ST_PointN(line, j)) AS seg
           FROM data, 
                generate_series(1, ST_NumGeometries(data.geom)) AS i) AS t,
                generate_series(2, ST_NumPoints(t.line)) AS j;
+```
+
+
+## Interpolating Lines
+
+### Construct Line substring containing a set of Points
+<https://gis.stackexchange.com/questions/408337/get-the-subline-of-a-linestring-consisting-of-all-intersecting-points-without-kn>
+
+![](https://i.stack.imgur.com/LtZM0.png)
+
+**Solution 1 - Extract subline with new endpoints**
+* use `ST_LineLocatePoint()` on each intersection point to get the fraction of the point on the line
+* use `ST_LineSubstring(my_line.geom, min(fraction), max(fraction))` with a GROUP BY on the line id to get subline
+
+**Solution 2 - Extract subline with all points added**
+
+Comment: this probably only works for a single line and using all points in a table.
+
+```sql
+SELECT  id, ST_Makeline(geom) AS geom
+FROM   (
+    SELECT  lns.id, 
+            ST_LineSubstring(
+                ln.geom,
+                ST_LineLocatePoint(ln.geom, pts.geom),
+                ST_LineLocatePoint(ln.geom, LEAD(pts.geom) OVER(ORDER BY pts.id))
+            ) AS geom
+    FROM    <line> AS ln
+    CROSS JOIN
+            <points> AS pts
+) q
+WHERE   geom IS NOT NULL
+GROUP BY id;
+```
+
+
+## Extrapolating Lines
+
+### Extrapolate a Line
+<https://gis.stackexchange.com/questions/33055/extrapolating-a-line-in-postgis>
+
+Also: <https://gis.stackexchange.com/questions/367486/how-to-do-small-expansion-into-linestring-ends>
+
+![](https://i.stack.imgur.com/FTMi3.png)
+
+### Extending a straight Line
+<https://gis.stackexchange.com/questions/104439/how-to-extend-a-straight-line-in-postgis>
+
+Extend a line between two points by a given amount (1 m) at both ends.
+
+**Solution**
+```sql
+WITH data AS ( SELECT ST_MakeLine(ST_Point(1,2), ST_Point(3,4)) AS geom )
+SELECT ST_AsText( ST_MakeLine(  
+                    ST_Translate(b, sin(azBA) * len, cos(azBA) * len),
+                    ST_Translate(a, sin(azAB) * len, cos(azAB) * len)) )
+  FROM (
+    SELECT a, b, 
+           ST_Azimuth(a, b) AS azAB, ST_Azimuth(b, a) AS azBA, 
+           ST_Distance(a, b) + len_extend AS len
+    FROM (
+        SELECT ST_StartPoint(geom) AS a, ST_EndPoint(geom) AS b, 1.0 as len_extend
+        FROM data
+        ) AS sub
+    ) AS sub2;
+```
+
+### PostGIS Ideas
+`ST_LineSubstring` could be enhanced to allow fractions outside [0,1].  
+Or make a new function `ST_LineExtend` (which should also handle shortening the line).
+
+### Extend a LineString to the boundary of a polygon
+<https://gis.stackexchange.com/questions/345463/how-can-i-extend-a-linestring-to-the-edge-of-an-enclosing-polygon-in-postgis>
+
+![](https://i.stack.imgur.com/zvKKx.png)
+
+**PostGIS Idea**
+Create a new function `ST_LineExtract(line, index1, index2)` to extract a portion of a LineString between two vertex indices
+
+### Extrapolate a Line to opposite side of Polygon
+<https://gis.stackexchange.com/questions/376274/finding-opposite-side-of-a-polygon>
+
+Given a point in a polygon and a point outside the polygon, find the point on the opposite side of the polygon lying on the line between them.
+
+![](https://i.stack.imgur.com/WyYuO.png)
+
+**Solution**
+
+
+```sql
+WITH
+radius AS (SELECT ST_MakeLine( pt.geom, ST_Centroid(poly.geom) ) AS geom FROM pnt pt, polygon poly),
+asilen AS (SELECT ST_Azimuth(ST_StartPoint(geom), ST_EndPoint(geom)) AS azimuth, 
+                ST_Distance(ST_StartPoint(geom), ST_EndPoint(geom)) + 0.00001 AS length FROM radius),
+tblc AS (SELECT ST_MakeLine(a.geom, ST_Translate(a.geom, sin(azimuth)*length, cos(azimuth)*length)) geom FROM radius a, asilen b),
+tbld AS (SELECT ST_Intersection(a.geom, ST_ExteriorRing(b.geom)) geom FROM tblc a JOIN polygon b ON ST_Intersects(a.geom, b.geom)),
+all_pts AS (SELECT (ST_Dump(geom)).geom geom FROM tbld)
+SELECT (all_pts.geom) geom, ST_Distance(all_pts.geom, radius.geom) dist 
+  FROM all_pts, radius 
+  ORDER BY dist DESC LIMIT 1;
+```
+
+### Find Intersection point of disjoint Lines
+<https://gis.stackexchange.com/questions/424682/intersection-of-lines-passing-from-two-line-segments-in-postgis>
+
+![](https://i.stack.imgur.com/DEUn7.png)
+
+**Solution**
+Extend both lines so that they intersect, then compute intersection point.
+
+```sql
+WITH segments AS ( 
+    SELECT ST_StartPoint('LINESTRING (4.505476754241158 51.92221504789901, 4.505379267847784 51.92221833721103)') AS s1_a, 
+           ST_EndPoint(  'LINESTRING (4.505476754241158 51.92221504789901, 4.505379267847784 51.92221833721103)') AS s1_b,
+           
+           ST_StartPoint('LINESTRING (4.50554487780521 51.922119943633575, 4.504656820078167 51.92231795217855)') AS s2_a, 
+           ST_EndPoint(. 'LINESTRING (4.50554487780521 51.922119943633575, 4.504656820078167 51.92231795217855)') AS s2_b
+)
+,azimuths AS ( SELECT *,
+    ST_Azimuth(s1_a, s1_b) AS s1_az1,
+    ST_Azimuth(s1_b, s1_a) AS s1_az2,    1 AS s1_len,
+    ST_Azimuth(s2_a, s2_b) AS s2_az1,
+    ST_Azimuth(s2_b, s2_a) AS s2_az2,    1 AS s2_len 
+  FROM segments
+)
+SELECT ST_Intersection(
+  ST_MakeLine( ST_Translate(s1_b, sin(s1_az1) * s1_len, cos(s1_az1) * s1_len), 
+               ST_Translate(s1_a, sin(s1_az2) * s1_len, cos(s1_az2) * s1_len) ),
+  ST_MakeLine( ST_Translate(s2_b, sin(s2_az1) * s2_len, cos(s2_az1) * s2_len), 
+               ST_Translate(s2_a, sin(s2_az2) * s2_len, cos(s2_az2) * s2_len) )
+)
+FROM azimuths;
 ```
 
 ## Splitting Lines
@@ -218,146 +394,37 @@ SELECT
   FROM data;
 ```
 
-## Interpolating
-
-### Construct Line substring containing a set of Points
-<https://gis.stackexchange.com/questions/408337/get-the-subline-of-a-linestring-consisting-of-all-intersecting-points-without-kn>
-
-![](https://i.stack.imgur.com/LtZM0.png)
-
-**Solution 1 - Extract subline with new endpoints**
-* use `ST_LineLocatePoint()` on each intersection point to get the fraction of the point on the line
-* use `ST_LineSubstring(my_line.geom, min(fraction), max(fraction))` with a GROUP BY on the line id to get subline
-
-**Solution 2 - Extract subline with all points added**
-
-Comment: this probably only works for a single line and using all points in a table.
-
-```sql
-SELECT  id, ST_Makeline(geom) AS geom
-FROM   (
-    SELECT  lns.id, 
-            ST_LineSubstring(
-                ln.geom,
-                ST_LineLocatePoint(ln.geom, pts.geom),
-                ST_LineLocatePoint(ln.geom, LEAD(pts.geom) OVER(ORDER BY pts.id))
-            ) AS geom
-    FROM    <line> AS ln
-    CROSS JOIN
-            <points> AS pts
-) q
-WHERE   geom IS NOT NULL
-GROUP BY id;
-```
-
-
-## Extrapolating
-
-### Extrapolate a Line
-<https://gis.stackexchange.com/questions/33055/extrapolating-a-line-in-postgis>
-
-Also: <https://gis.stackexchange.com/questions/367486/how-to-do-small-expansion-into-linestring-ends>
-
-![](https://i.stack.imgur.com/FTMi3.png)
-
-### Extending a straight Line
-<https://gis.stackexchange.com/questions/104439/how-to-extend-a-straight-line-in-postgis>
-
-Extend a line between two points by a given amount (1 m) at both ends.
-
-**Solution**
-```sql
-WITH data AS ( SELECT ST_MakeLine(ST_Point(1,2), ST_Point(3,4)) AS geom )
-SELECT ST_AsText( ST_MakeLine(  
-                    ST_Translate(b, sin(azBA) * len, cos(azBA) * len),
-                    ST_Translate(a, sin(azAB) * len, cos(azAB) * len)) )
-  FROM (
-    SELECT a, b, 
-           ST_Azimuth(a, b) AS azAB, ST_Azimuth(b, a) AS azBA, 
-           ST_Distance(a, b) + len_extend AS len
-    FROM (
-        SELECT ST_StartPoint(geom) AS a, ST_EndPoint(geom) AS b, 1.0 as len_extend
-        FROM data
-        ) AS sub
-    ) AS sub2;
-```
-
-### PostGIS Ideas
-`ST_LineSubstring` could be enhanced to allow fractions outside [0,1].  
-Or make a new function `ST_LineExtend` (which should also handle shortening the line).
-
-### Extend a LineString to the boundary of a polygon
-<https://gis.stackexchange.com/questions/345463/how-can-i-extend-a-linestring-to-the-edge-of-an-enclosing-polygon-in-postgis>
-
-![](https://i.stack.imgur.com/zvKKx.png)
-
-**PostGIS Idea**
-Create a new function `ST_LineExtract(line, index1, index2)` to extract a portion of a LineString between two vertex indices
-
-### Extrapolate a Line to opposite side of Polygon
-<https://gis.stackexchange.com/questions/376274/finding-opposite-side-of-a-polygon>
-
-Given a point in a polygon and a point outside the polygon, find the point on the opposite side of the polygon lying on the line between them.
-
-![](https://i.stack.imgur.com/WyYuO.png)
-
-**Solution**
-
-
-```sql
-WITH
-radius AS (SELECT ST_MakeLine( pt.geom, ST_Centroid(poly.geom) ) AS geom FROM pnt pt, polygon poly),
-asilen AS (SELECT ST_Azimuth(ST_StartPoint(geom), ST_EndPoint(geom)) AS azimuth, 
-                ST_Distance(ST_StartPoint(geom), ST_EndPoint(geom)) + 0.00001 AS length FROM radius),
-tblc AS (SELECT ST_MakeLine(a.geom, ST_Translate(a.geom, sin(azimuth)*length, cos(azimuth)*length)) geom FROM radius a, asilen b),
-tbld AS (SELECT ST_Intersection(a.geom, ST_ExteriorRing(b.geom)) geom FROM tblc a JOIN polygon b ON ST_Intersects(a.geom, b.geom)),
-all_pts AS (SELECT (ST_Dump(geom)).geom geom FROM tbld)
-SELECT (all_pts.geom) geom, ST_Distance(all_pts.geom, radius.geom) dist 
-  FROM all_pts, radius 
-  ORDER BY dist DESC LIMIT 1;
-```
-
-### Find Intersection point of disjoint Lines
-<https://gis.stackexchange.com/questions/424682/intersection-of-lines-passing-from-two-line-segments-in-postgis>
-
-![](https://i.stack.imgur.com/DEUn7.png)
-
-**Solution**
-Extend both lines so that they intersect, then compute intersection point.
-
-```sql
-WITH segments AS ( 
-    SELECT ST_StartPoint('LINESTRING (4.505476754241158 51.92221504789901, 4.505379267847784 51.92221833721103)') AS s1_a, 
-           ST_EndPoint(  'LINESTRING (4.505476754241158 51.92221504789901, 4.505379267847784 51.92221833721103)') AS s1_b,
-           
-           ST_StartPoint('LINESTRING (4.50554487780521 51.922119943633575, 4.504656820078167 51.92231795217855)') AS s2_a, 
-           ST_EndPoint(. 'LINESTRING (4.50554487780521 51.922119943633575, 4.504656820078167 51.92231795217855)') AS s2_b
-)
-,azimuths AS ( SELECT *,
-    ST_Azimuth(s1_a, s1_b) AS s1_az1,
-    ST_Azimuth(s1_b, s1_a) AS s1_az2,    1 AS s1_len,
-    ST_Azimuth(s2_a, s2_b) AS s2_az1,
-    ST_Azimuth(s2_b, s2_a) AS s2_az2,    1 AS s2_len 
-  FROM segments
-)
-SELECT ST_Intersection(
-  ST_MakeLine( ST_Translate(s1_b, sin(s1_az1) * s1_len, cos(s1_az1) * s1_len), 
-               ST_Translate(s1_a, sin(s1_az2) * s1_len, cos(s1_az2) * s1_len) ),
-  ST_MakeLine( ST_Translate(s2_b, sin(s2_az1) * s2_len, cos(s2_az1) * s2_len), 
-               ST_Translate(s2_a, sin(s2_az2) * s2_len, cos(s2_az2) * s2_len) )
-)
-FROM azimuths;
-```
-## Merging
+## Merging Lines
 
 ### Merge lines that touch at endpoints
 <https://gis.stackexchange.com/questions/177177/finding-and-merging-lines-that-touch-in-postgis>
 
-Solution given uses ST_ClusterWithin, which is clever.  Can be improved slightly however (e.g. can use ST_Boundary to get endpoints?).  Would be much nicer if ST_ClusterWithin was a window function.  
+![](https://i.stack.imgur.com/dCCQZ.jpg)
+
+Solution given uses `ST_ClusterWithin`.  Can be improved slightly (e.g. can use `ST_Boundary` to get endpoints?).  Would be nicer if `ST_ClusterWithin` was a window function.  
 
 Could also use a recursive query to do a transitive closure of the “touches at endpoints” condition.  This would be a nice example, and would scale better.
 
-Can also use ST_LineMerge to do this very simply (posted).
+Can also use `ST_LineMerge` to do this:
+
+```sql
+WITH data(geom) AS (VALUES
+        ('LINESTRING (0 0, 1 1)'),
+        ('LINESTRING (2 2, 1 1)'),
+        ('LINESTRING (7 3, 0 0)'),
+        ('LINESTRING (2 4, 2 3)'),
+        ('LINESTRING (3 8, 1 5)'),
+        ('LINESTRING (1 5, 2 5)'),
+        ('LINESTRING (7 3, 0 7)')
+),
+merged AS (
+    SELECT (ST_Dump(ST_LineMerge(ST_Collect(geom)))).geom
+    FROM data
+)
+SELECT row_number() OVER () AS cid,
+      geom
+FROM  merged;
+```
 
 #### See Also
 
@@ -414,48 +481,3 @@ select ST_LineMerge(st_union(st_union($1,
 
 $BODY$ 
 ```
-
-## Inserting Vertices
-
-### Find Segment of Line Closest to Point to allow Point Insertion
-<https://gis.stackexchange.com/questions/368479/finding-line-segment-of-point-on-linestring-using-postgis>
-
-Currently requires iteration.
-Would be nice if the Linear Referencing functions could return segment index.
-See <https://trac.osgeo.org/postgis/ticket/892>
-
-```sql
-CREATE OR REPLACE FUNCTION ST_LineLocateN( line geometry, pt geometry )
-RETURNS integer
-AS $$
-    SELECT i FROM (
-    SELECT i, ST_Distance(
-        ST_MakeLine( ST_PointN( line, s.i ), ST_PointN( line, s.i+1 ) ),
-        pt) AS dist
-      FROM generate_series(1, ST_NumPoints( line )-1) AS s(i)
-      ORDER BY dist
-    ) AS t LIMIT 1;
-$$
-LANGUAGE sql STABLE STRICT;
-```
-### Insert LineString Vertices at Closest Point(s)
-<https://gis.stackexchange.com/questions/40622/how-to-add-vertices-to-existing-linestrings>
-<https://gis.stackexchange.com/questions/370488/find-closest-index-in-line-string-to-insert-new-vertex-using-postgis>
-<https://gis.stackexchange.com/questions/41162/adding-multiple-points-to-a-linestring-in-postgis>
-
-ST_Snap does this nicely
-```sql
-SELECT ST_AsText( ST_Snap('LINESTRING (0 0, 9 9, 20 20)',
-  'MULTIPOINT( (1 1.1), (12 11.9) )', 0.2));
-```
-
-### Add intersection points between sets of Lines (AKA Noding)
-<https://gis.stackexchange.com/questions/41162/adding-multiple-points-to-a-linestring-in-postgis>
-Problem
-Add nodes into a road network from access side roads
-
-Solutions
-One post recommends simply unioning (overlaying) all the linework.  This was accepted, but has obvious problems:
-Hard to extract just the road network lines
-If side road falls slightly short will not create a node
-
