@@ -68,7 +68,7 @@ This says that copying geometries to another database causes them to fail `ST_Eq
 
 <https://gis.stackexchange.com/questions/176359/tolerance-in-postgis>
 
-### ST_ClosestPoint does not intersect Line
+### `ST_ClosestPoint` does not intersect Line
 
 <https://gis.stackexchange.com/questions/11510/st-closestpointline-point-does-not-intersect-line>
 
@@ -81,6 +81,23 @@ Use `ST_DWithin`
 Actually it doesn’t look like there is a discrepancy now.  But still a case where a distance tolerance might clarify things.
 
 ## Polygon / Polygon
+
+### Find Polygons not contained by other Polygons
+<https://gis.stackexchange.com/questions/453009/how-to-check-if-two-polygons-have-internal-points-in-common-with-geodjango-and>
+
+![](https://i.stack.imgur.com/SeTON.png)
+
+**Solution**
+
+This relationship can be called `interiorIntersects`.  
+It can be used to determine if polygons form a valid polygonal coverage.
+It can be evaluated as:
+```sql
+  ST_Relate(a.geom, b.geom, 'T********')
+```
+
+See this post for possible robustness issues with this relationship test:
+<https://gis.stackexchange.com/questions/407520/postgis-thresholded-intersect-or-signfiicant-intersect-query>
 
 ### Find Polygons not contained by other Polygons
 <https://gis.stackexchange.com/questions/185308/find-polygons-that-does-not-contain-any-polygons-with-postgis>
