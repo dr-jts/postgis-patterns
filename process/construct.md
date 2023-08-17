@@ -215,6 +215,20 @@ See also note about using a scaling rather than buffer, to preserve shape of pol
 ### Construct Land-Constrained Point Grid
 <https://korban.net/posts/postgres/2019-10-17-generating-land-constrained-point-grids/>
 
+```sql
+with geoms as (
+    select st_setsrid(encode(wkb_geometry, 'hex'), 4326) as g from coastlines
+) 
+, row as (
+    select st_project(st_setSrid(st_point(174.8431, -41.2581), 4326)::geography, s.a * 50000, pi() / 2) as pt
+    from generate_series(-10, 10, 1) as s(a)
+)
+select st_project(pt, s.a * 50000, 0) as projected_pt
+from row, generate_series(-10, 10, 1) as s(a)
+where st_distance(st_setSrid(st_point(174.8431, -41.2581), 4326)::geography, st_project(pt, s.a * 50000, 0)) < 500000
+    and exists(select 1 from geoms where st_nPoints(g) > 1000 and st_contains(g, st_project(pt, s.a * 50000, 0)::geometry))
+```
+
 ![](https://korban.net/img/2019-10-16-12-44-48.png)
 
 ### Construct Square Grid
