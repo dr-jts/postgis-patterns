@@ -212,6 +212,10 @@ See also note about using a scaling rather than buffer, to preserve shape of pol
 
 ## Grids
 
+### Construct regular point grid inside polygon
+<https://gis.stackexchange.com/questions/4663/creating-regular-point-grid-inside-polygon-in-postgis>
+
+
 ### Construct Land-Constrained Point Grid
 <https://korban.net/posts/postgres/2019-10-17-generating-land-constrained-point-grids/>
 
