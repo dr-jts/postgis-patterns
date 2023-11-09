@@ -15,13 +15,10 @@ Use ST_Segmentize to add intermediary segments in the lines.  This provides a be
 SELECT
   ST_Area(
     ST_Segmentize(
-      ST_Intersection(
-        ST_GeomFromEWKT(
-          'SRID=4326;POLYGON((-180 -52, -180 52, 180 52, 180 -52, -180 -52))'),
+        ST_GeomFromEWKT('SRID=4326;POLYGON((-180 -52, -180 52, 180 52, 180 -52, -180 -52))'),
         geom
-      ), 0.1
-    )::geography
-  ) AS area
+      )::geography
+    ) AS area
 FROM land;
 ```
 
