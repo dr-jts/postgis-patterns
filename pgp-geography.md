@@ -12,14 +12,12 @@ The problem: calculating the area of a large polygon with straight lines that is
 Use ST_Segmentize to add intermediary segments in the lines.  This provides a better representation of the geodesic lines in geography.
 
 ```sql
-SELECT
-  ST_Area(
-    ST_Segmentize(
-        ST_GeomFromEWKT('SRID=4326;POLYGON((-180 -52, -180 52, 180 52, 180 -52, -180 -52))'),
-        geom
-      )::geography
-    ) AS area
-FROM land;
+WITH data(geom) AS (VALUES
+   ( ST_GeomFromEWKT('SRID=4326;POLYGON ((-125 49, -67 49, -67 25, -125 25, -125 49))') )
+)
+SELECT ST_Area( ST_Segmentize( geom, 0.1)::geography ) AS segarea,
+        ST_Area( geom::geography ) AS area
+FROM data;
 ```
 
 ## Find geometry with invalid geodetic coordinates
