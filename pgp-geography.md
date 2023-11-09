@@ -4,7 +4,7 @@
 1. TOC
 {:toc}
 
-## Segmenting lines for accurate area computation
+## Segmentize lines for accurate area computation
 <https://gis.stackexchange.com/questions/206973/postgis-st-area-with-similar-geographies-producing-different-results>
 
 The problem: calculating the area of a large polygon with straight lines that is converted to a `geography`.
