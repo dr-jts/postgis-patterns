@@ -9,7 +9,7 @@
 
 The problem: calculating the area of a large polygon with straight lines that is converted to a `geography`.
 
-Use ST_Segmentize to add intermediary segments in the lines.  This provides a better representation of the geodesic lines in geography.
+Use `ST_Segmentize` to add intermediary segments in the lines.  This provides a better representation of the geodesic lines in geography.
 
 ```sql
 WITH data(geom) AS (VALUES
