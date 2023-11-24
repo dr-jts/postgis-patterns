@@ -78,7 +78,9 @@ If it is required to test the rectangularity of polygons with more than 4 vertic
 
 ```sql
 SELECT geom, fld1, fld2
-FROM (SELECT row_number() OVER (PARTITION BY geom) AS row_num, geom, fld1, fld2 FROM some_table) AS t
+FROM (SELECT row_number() OVER (PARTITION BY geom) AS row_num,
+            geom, fld1, fld2
+        FROM some_table) AS t
 WHERE row_num = 1;
 ```
 
