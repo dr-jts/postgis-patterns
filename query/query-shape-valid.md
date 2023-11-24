@@ -117,7 +117,7 @@ LEFT JOIN table2 t2 ON a.geom = t2.geom
 ## Find geometries which are NOT in another table
 <https://gis.stackexchange.com/questions/470623/find-all-geometries-in-one-table-that-do-not-exist-in-another>
 
-Use an **anti-join** with `ST_Equals`:
+Use an **anti-join** with a filter using `&&` and `ST_Equals`:
 ```sql
 SELECT t1.geom
 FROM tbl1 AS t1
