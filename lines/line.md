@@ -8,7 +8,7 @@ parent: Lines and Networks
 1. TOC
 {:toc}
 
-## Angles and Distance
+## Angles
 
 ### Compute Angle at which Two Lines Intersect
 <https://gis.stackexchange.com/questions/25126/how-to-calculate-the-angle-at-which-two-lines-intersect-in-postgis>
@@ -19,6 +19,8 @@ parent: Lines and Networks
 Solution
 Would be nice to have a ST_SegmentIndex function to get the index of the segment nearest to a point.  Then this becomes simple.
 
+## Distance
+
 ### Compute Perpendicular Distance to a Baseline (AKA “Width” of a curve)
 <https://gis.stackexchange.com/questions/54575/how-to-calculate-the-depth-of-a-linestring-using-postgis>
 
@@ -27,6 +29,12 @@ Would be nice to have a ST_SegmentIndex function to get the index of the segment
 Solution
 Use CROSS JOIN LATERAL with generate_series and ST_MakeLine, ST_Length
 ST_DumpSegments would make this much easier!
+
+## Line Metrics
+
+### Sinuosity of a Line
+<https://gis.stackexchange.com/questions/33041/calculating-path-sinuosity-in-postgis>
+
 
 ## Inserting Vertices into Lines
 
