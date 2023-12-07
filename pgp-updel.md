@@ -24,7 +24,7 @@ Is LIMIT 1 needed?
 
 ## Delete
 
-### Delete Lines Contained in Polygons
+### Delete Geometries Contained in Polygons
 <https://gis.stackexchange.com/questions/372549/delete-lines-within-polygon>
 
 Use an `EXISTS` expression.
@@ -33,11 +33,28 @@ This is an efficient way when traversing a table by row (as in an `UPDATE`/`DELE
 or otherwise comparing against a pre-selection (e.g. of ids).
 
 ```sql
-DELETE FROM <lines> AS ln
-WHERE  EXISTS (
+DELETE FROM <geom_tbl> AS g
+WHERE EXISTS (
   SELECT 1
-  FROM   <poly> AS pl
-  WHERE  ST_Within(ln.geom, pl.geom)
+  FROM   <poly_tbl> AS p
+  WHERE  ST_Within(g.geom, p.geom)
+);
+```
+
+### Delete Geometries NOT Contained in Polygons
+<https://gis.stackexchange.com/questions/471587/delete-points-in-in-a-certain-area-using-postgis>
+
+Use an `NOT EXISTS` expression.
+`NOT EXISTS` terminates the subquery as soon as a single row satisfying the `ST_Within` condition is found.
+This is an efficient way when traversing a table by row (as in an `UPDATE`/`DELETE`), 
+or otherwise comparing against a pre-selection (e.g. of ids).
+
+```sql
+DELETE FROM <geom_tbl> AS g
+WHERE NOT EXISTS (
+  SELECT 1
+  FROM   <poly_tbl> AS p
+  WHERE  ST_Within(g.geom, p.geom)
 );
 ```
 
