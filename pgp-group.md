@@ -33,8 +33,9 @@ An alernate solution using recursive CTE and ST_DWithin?:
 Similar problem in R
 <https://gis.stackexchange.com/questions/254519/group-and-union-polygons-that-share-a-border-in-r>
 
-Issues
-DBSCAN uses distance. This will also cluster polygons which touch only at a point, not just along an edge.  Is there a way to improve this?  Allow a different distance metric perhaps - say length of overlap?
+**Issues**
+
+* DBSCAN uses distance. This will also cluster polygons which touch only at a point, not just along an edge.  Is there a way to improve this?  Allow a different distance metric perhaps - say length of overlap?
 
 ### Grouping Intersecting Polygons
 <https://gis.stackexchange.com/questions/301598/only-union-dissolve-intersecting-or-adjacent-features-to-speed-up-query>
