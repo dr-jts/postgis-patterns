@@ -11,6 +11,7 @@
 
 ![](https://i.stack.imgur.com/YkIn5.jpg)
 
+
 **Solution**
 Use `ST_ClusterDBSCAN`, which provides very good performance.
 
@@ -34,6 +35,54 @@ Similar problem in R
 
 Issues
 DBSCAN uses distance. This will also cluster polygons which touch only at a point, not just along an edge.  Is there a way to improve this?  Allow a different distance metric perhaps - say length of overlap?
+
+### Grouping Intersecting Polygons
+<https://gis.stackexchange.com/questions/301598/only-union-dissolve-intersecting-or-adjacent-features-to-speed-up-query>
+<https://gis.stackexchange.com/questions/473030/union-of-multiple-polygons-by-value-that-st-touch>
+
+**Solutions**
+The query `data` is example data.
+
+Using `ST_ClusterDBSCAN` with `eps => 0`:
+
+```sql
+WITH data(fid, class, geom) AS (
+  SELECT ROW_NUMBER() OVER (), 
+      CASE x WHEN 5 THEN 1 ELSE x END AS class,
+      ST_Buffer(ST_Point(x, 1.5 * y), 0.6, 2) AS geom
+    FROM        generate_series(1, 10) AS s1(y)
+    CROSS JOIN  generate_series(1, 10) AS s2(x)
+),
+clust AS (
+  SELECT ST_ClusterDBSCAN(geom, 0, 2) OVER () AS clustid, fid, class, geom 
+  FROM data WHERE class IN (1, 2, 3)
+)
+SELECT * FROM clust WHERE clustid IS NOT NULL;
+```
+
+Using `ST_ClusterIntersectingWin`:
+```sql
+WITH data(fid, class, geom) AS (
+  SELECT ROW_NUMBER() OVER (), 
+      CASE x WHEN 5 THEN 1 ELSE x END AS class,
+      ST_Buffer(ST_Point(x, 1.5 * y), 0.6, 2) AS geom
+    FROM        generate_series(1, 10) AS s1(y)
+    CROSS JOIN  generate_series(1, 10) AS s2(x)
+),
+datasel AS (
+  SELECT * FROM data WHERE class IN (1, 2, 3)
+),
+clust AS (
+  SELECT ST_ClusterIntersectingWin(geom) OVER () AS clustid, fid, class, geom FROM datasel
+),
+clustercnt AS (
+  SELECT clustid, COUNT(*) AS cnt FROM clust GROUP BY clustid
+)
+SELECT fid, class, geom FROM clust c
+  JOIN clustercnt cs ON c.clustid = cs.clustid
+  WHERE cnt > 1;
+```
+
 
 ### Group connected LineStrings
 <https://gis.stackexchange.com/questions/94203/grouping-connected-linestrings-in-postgis>
@@ -145,53 +194,6 @@ Not sure if this is worthwhile or not.  Possibly superseded by more recent stand
 <https://gis.stackexchange.com/questions/348484/clustering-points-in-postgis>
 
 Explains how DBSCAN is a superset of `ST_ClusterWithin`, and provides simpler, more powerful SQL.
-
-### Clustering Intersecting Polygons
-<https://gis.stackexchange.com/questions/301598/only-union-dissolve-intersecting-or-adjacent-features-to-speed-up-query>
-<https://gis.stackexchange.com/questions/473030/union-of-multiple-polygons-by-value-that-st-touch>
-
-**Solutions**
-The query `data` is example data.
-
-Using `ST_ClusterDBSCAN` with `eps => 0`:
-
-```sql
-WITH data(fid, class, geom) AS (
-  SELECT ROW_NUMBER() OVER (), 
-      CASE x WHEN 5 THEN 1 ELSE x END AS class,
-      ST_Buffer(ST_Point(x, 1.5 * y), 0.6, 2) AS geom
-    FROM        generate_series(1, 10) AS s1(y)
-    CROSS JOIN  generate_series(1, 10) AS s2(x)
-),
-clust AS (
-  SELECT ST_ClusterDBSCAN(geom, 0, 2) OVER () AS clustid, fid, class, geom 
-  FROM data WHERE class IN (1, 2, 3)
-)
-SELECT * FROM clust WHERE clustid IS NOT NULL;
-```
-
-Using `ST_ClusterIntersectingWin`:
-```sql
-WITH data(fid, class, geom) AS (
-  SELECT ROW_NUMBER() OVER (), 
-      CASE x WHEN 5 THEN 1 ELSE x END AS class,
-      ST_Buffer(ST_Point(x, 1.5 * y), 0.6, 2) AS geom
-    FROM        generate_series(1, 10) AS s1(y)
-    CROSS JOIN  generate_series(1, 10) AS s2(x)
-),
-datasel AS (
-  SELECT * FROM data WHERE class IN (1, 2, 3)
-),
-clust AS (
-  SELECT ST_ClusterIntersectingWin(geom) OVER () AS clustid, fid, class, geom FROM datasel
-),
-clustercnt AS (
-  SELECT clustid, COUNT(*) AS cnt FROM clust GROUP BY clustid
-)
-SELECT fid, class, geom FROM clust c
-  JOIN clustercnt cs ON c.clustid = cs.clustid
-  WHERE cnt > 1;
-```
 
 
 ### Removing Clusters of Points
