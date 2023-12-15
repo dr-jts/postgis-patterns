@@ -39,6 +39,7 @@ Similar problem in R
 
 ### Grouping Intersecting Polygons
 <https://gis.stackexchange.com/questions/301598/only-union-dissolve-intersecting-or-adjacent-features-to-speed-up-query>
+
 <https://gis.stackexchange.com/questions/473030/union-of-multiple-polygons-by-value-that-st-touch>
 
 **Solutions**
