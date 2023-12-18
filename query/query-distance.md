@@ -86,7 +86,37 @@ WHERE   NOT EXISTS (
     WHERE   a.val = val AND a.id <> id AND ST_DWithin(a.geom, geom, <distance_in_CRS_units>)
 );
 ```
-  
+
+### Find points within a point-specific Distance
+<https://gis.stackexchange.com/questions/473034/postgis-distance-query-using-a-dynamic-radius>
+
+Given a table of points with each record having a `radius` column, 
+find all points whose distance from a given fixed point is less than the radius plus a specified distance `QUERY_DIST`.
+
+**Solution:**
+Use `ST_Expand` and a functional index.
+
+```sql
+-- for GEOMETRY; the radius must be in SRS units
+CREATE INDEX ON <table> USING GIST ( ST_Expand(location, radius) );
+
+-- for GEOGRAPHY; radius is in meters
+CREATE INDEX ON <table> USING GIST ( _ST_Expand(location, radius) );
+
+SELECT *
+FROM <table> AS t
+WHERE
+  -- note the ST_Expand expression needs to match that of the index definition EXACTLY
+  [_]ST_Expand(t.geom, t.radius) && [_]ST_Expand(<QUERY_POINT>, <QUERY_DIST>)
+  AND ST_DWithin(
+    <QUERY_POINT>,
+    t.geom,
+    t.radius + <QUERY_DIST>
+  );
+
+
+
+
 ### Find geometries close to centre of an extent
 <https://stackoverflow.com/questions/60218993/postgis-how-do-i-find-results-within-a-given-bounding-box-that-are-close-to-the>
   
