@@ -113,9 +113,7 @@ WHERE
     t.geom,
     t.radius + <QUERY_DIST>
   );
-
-
-
+```
 
 ### Find geometries close to centre of an extent
 <https://stackoverflow.com/questions/60218993/postgis-how-do-i-find-results-within-a-given-bounding-box-that-are-close-to-the>
@@ -140,10 +138,10 @@ https://gis.stackexchange.com/questions/27564/how-to-get-distance-bearing-betwee
 ### Find points returned by function within elliptical area
 <https://gis.stackexchange.com/questions/17857/finding-points-within-elliptical-area-using-postgis>
 
-### Query Point with highest elevation along a transect through a point cloud
+### Find Point with highest elevation along a transect through a point cloud
 <https://gis.stackexchange.com/questions/223154/find-highest-elevation-along-path>
    
-### Query a single point within a given distance of a road
+### Find a single point within a given distance of a road
 <https://gis.stackexchange.com/questions/361179/postgres-remove-duplicate-rows-returned-by-st-dwithin-query>
 
 ### Find Polygons near Lines but not intersecting them
