@@ -69,8 +69,20 @@ No good solutions provided.
 ### Find points returned by function within elliptical area
 <https://gis.stackexchange.com/questions/17857/finding-points-within-elliptical-area-using-postgis>
 
-### Find Point with highest elevation along a transect through a point cloud
+### Find Point with highest elevation along a transect through a set of elevation points
 <https://gis.stackexchange.com/questions/223154/find-highest-elevation-along-path>
+
+```sql
+SELECT Max(elevation) 
+  FROM points p
+  Where ST_DWithin(geom
+                  , ST_SetSRID(
+                         ST_MakeLine( 
+                                 ST_MakePoint(-71.160281 42.258729)
+                               , ST_MakePoint(-71.161144 42.25932))
+                         , 4326)
+                  , 100);
+```
    
 ### Find a single point within a given distance of a road
 <https://gis.stackexchange.com/questions/361179/postgres-remove-duplicate-rows-returned-by-st-dwithin-query>
