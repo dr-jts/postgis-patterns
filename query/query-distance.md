@@ -81,11 +81,8 @@ SELECT ST_ClosestPoint(ST_Boundary(ST_Union(geom)),<point> ) FROM polygons;
 ```sql
 SELECT Max(elevation) 
   FROM points p
-  Where ST_DWithin(geom
-                  , ST_SetSRID(
-                         ST_MakeLine( 
-                                 ST_MakePoint(-71.160281 42.258729)
-                               , ST_MakePoint(-71.161144 42.25932))
+  WHERE ST_DWithin(geom, ST_SetSRID(
+                           ST_MakeLine( ST_Point(-71.160281 42.258729), ST_Point(-71.161144 42.25932))
                          , 4326)
                   , 100);
 ```
