@@ -22,6 +22,92 @@ LEFT JOIN polygons AS p
 ORDER BY l.geom <-> p.geom;
 ```
 
+### Find Points within a point-specific Distance of a query point
+<https://gis.stackexchange.com/questions/473034/postgis-distance-query-using-a-dynamic-radius>
+
+Given a table of points with each record having a `radius` column, 
+find all points whose distance from a provided query point `QUERY_POINT` is less than `radius` plus a provided distance `QUERY_DIST`.
+
+**Solution:**
+Use `ST_Expand` and a functional index.
+
+```sql
+-- for GEOMETRY; the radius must be in SRS units
+CREATE INDEX ON <table> USING GIST ( ST_Expand(location, radius) );
+
+-- for GEOGRAPHY; radius is in meters
+CREATE INDEX ON <table> USING GIST ( _ST_Expand(location, radius) );
+
+SELECT *
+FROM <table> AS t
+WHERE
+  -- note the ST_Expand expression needs to match that of the index definition EXACTLY
+  [_]ST_Expand(t.geom, t.radius) && [_]ST_Expand(<QUERY_POINT>, <QUERY_DIST>)
+  AND ST_DWithin(
+    <QUERY_POINT>,
+    t.geom,
+    t.radius + <QUERY_DIST>
+  );
+```
+
+### Find geometries close to centre of an extent
+<https://stackoverflow.com/questions/60218993/postgis-how-do-i-find-results-within-a-given-bounding-box-that-are-close-to-the>
+  
+   
+### Remove Duplicate Points within given Distance
+<https://gis.stackexchange.com/questions/24818/remove-duplicate-points-based-on-a-specified-distance>
+<https://gis.stackexchange.com/questions/159600/find-all-points-within-5m-with-same-name-on-large-dataset>
+
+No good solutions provided.
+   
+### Use DWithin instead of Buffer
+<https://gis.stackexchange.com/questions/297317/st-intersects-returns-true-while-st-contains-returns-false-for-a-point-located-o>
+
+### Find nearest point on boundary of a union of polygons
+<https://gis.stackexchange.com/questions/124158/finding-outermost-border-of-set-of-geomertries-circles-using-postgis>
+
+### Find points returned by function within elliptical area
+<https://gis.stackexchange.com/questions/17857/finding-points-within-elliptical-area-using-postgis>
+
+### Find Point with highest elevation along a transect through a point cloud
+<https://gis.stackexchange.com/questions/223154/find-highest-elevation-along-path>
+   
+### Find a single point within a given distance of a road
+<https://gis.stackexchange.com/questions/361179/postgres-remove-duplicate-rows-returned-by-st-dwithin-query>
+
+### Find Polygons near Lines but not intersecting them
+<https://gis.stackexchange.com/questions/408256/how-to-select-polygons-that-dont-intersect-with-line-but-with-its-buffer>
+
+Following query includes polygons multiple times if there are multiple lines within distance.
+ ```sql
+SELECT p.*
+FROM polygons p 
+  INNER JOIN lines l ON ST_DWithin(p.geom,l.geom, DISTANCE )
+WHERE NOT EXISTS (
+      SELECT 1
+      FROM lines l2 
+      WHERE ST_Intersects(p.geom, l2.geom)   
+      );
+```
+
+To include polygons once only:
+```sql
+SELECT p.*
+FROM polygons p
+WHERE EXISTS (
+      SELECT 1
+      FROM lines l 
+      WHERE ST_DWithin(p.geom,l.geom, DISTANCE )  
+      )
+  AND NOT EXISTS (
+      SELECT 1
+      FROM lines l2 
+      WHERE ST_Intersects(p.geom, l2.geom)   
+      );
+```
+## Not Within Distance queries
+
+
 ### Find points NOT within distance of lines
 <https://gis.stackexchange.com/questions/356497/select-points-falling-outside-of-buffer-and-count>
 <https://gis.stackexchange.com/questions/367594/get-all-geom-points-that-are-more-than-3-meters-from-the-linestring-at-big-scal>
@@ -85,94 +171,6 @@ WHERE   NOT EXISTS (
     FROM    points
     WHERE   a.val = val AND a.id <> id AND ST_DWithin(a.geom, geom, <distance_in_CRS_units>)
 );
-```
-
-### Find Points within a point-specific Distance of a query point
-<https://gis.stackexchange.com/questions/473034/postgis-distance-query-using-a-dynamic-radius>
-
-Given a table of points with each record having a `radius` column, 
-find all points whose distance from a provided query point `QUERY_POINT` is less than `radius` plus a provided distance `QUERY_DIST`.
-
-**Solution:**
-Use `ST_Expand` and a functional index.
-
-```sql
--- for GEOMETRY; the radius must be in SRS units
-CREATE INDEX ON <table> USING GIST ( ST_Expand(location, radius) );
-
--- for GEOGRAPHY; radius is in meters
-CREATE INDEX ON <table> USING GIST ( _ST_Expand(location, radius) );
-
-SELECT *
-FROM <table> AS t
-WHERE
-  -- note the ST_Expand expression needs to match that of the index definition EXACTLY
-  [_]ST_Expand(t.geom, t.radius) && [_]ST_Expand(<QUERY_POINT>, <QUERY_DIST>)
-  AND ST_DWithin(
-    <QUERY_POINT>,
-    t.geom,
-    t.radius + <QUERY_DIST>
-  );
-```
-
-### Find geometries close to centre of an extent
-<https://stackoverflow.com/questions/60218993/postgis-how-do-i-find-results-within-a-given-bounding-box-that-are-close-to-the>
-  
-   
-### Remove Duplicate Points within given Distance
-<https://gis.stackexchange.com/questions/24818/remove-duplicate-points-based-on-a-specified-distance>
-<https://gis.stackexchange.com/questions/159600/find-all-points-within-5m-with-same-name-on-large-dataset>
-
-No good solutions provided.
-   
-### Find Distance and Bearing from Point to Polygon
-https://gis.stackexchange.com/questions/27564/how-to-get-distance-bearing-between-a-point-and-the-nearest-part-of-a-polygon
-
-
-### Use DWithin instead of Buffer
-<https://gis.stackexchange.com/questions/297317/st-intersects-returns-true-while-st-contains-returns-false-for-a-point-located-o>
-
-### Find nearest point on boundary of a union of polygons
-<https://gis.stackexchange.com/questions/124158/finding-outermost-border-of-set-of-geomertries-circles-using-postgis>
-
-### Find points returned by function within elliptical area
-<https://gis.stackexchange.com/questions/17857/finding-points-within-elliptical-area-using-postgis>
-
-### Find Point with highest elevation along a transect through a point cloud
-<https://gis.stackexchange.com/questions/223154/find-highest-elevation-along-path>
-   
-### Find a single point within a given distance of a road
-<https://gis.stackexchange.com/questions/361179/postgres-remove-duplicate-rows-returned-by-st-dwithin-query>
-
-### Find Polygons near Lines but not intersecting them
-<https://gis.stackexchange.com/questions/408256/how-to-select-polygons-that-dont-intersect-with-line-but-with-its-buffer>
-
-Following query includes polygons multiple times if there are multiple lines within distance.
- ```sql
-SELECT p.*
-FROM polygons p 
-  INNER JOIN lines l ON ST_DWithin(p.geom,l.geom, DISTANCE )
-WHERE NOT EXISTS (
-      SELECT 1
-      FROM lines l2 
-      WHERE ST_Intersects(p.geom, l2.geom)   
-      );
-```
-
-To include polygons once only:
-```sql
-SELECT p.*
-FROM polygons p
-WHERE EXISTS (
-      SELECT 1
-      FROM lines l 
-      WHERE ST_DWithin(p.geom,l.geom, DISTANCE )  
-      )
-  AND NOT EXISTS (
-      SELECT 1
-      FROM lines l2 
-      WHERE ST_Intersects(p.geom, l2.geom)   
-      );
 ```
 
 ## Farthest queries
@@ -292,3 +290,10 @@ pick(count, geomAll, geom, name) AS (
 )
 SELECT count, ST_AsText(geomAll), ST_AsText(geom), name FROM pick;
 ```                     
+
+## Distance Computation
+
+### Find Distance and Bearing from Point to Polygon
+https://gis.stackexchange.com/questions/27564/how-to-get-distance-bearing-between-a-point-and-the-nearest-part-of-a-polygon
+
+
