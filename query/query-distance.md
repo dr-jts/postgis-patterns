@@ -87,11 +87,11 @@ WHERE   NOT EXISTS (
 );
 ```
 
-### Find points within a point-specific Distance
+### Find Points within a point-specific Distance of a query point
 <https://gis.stackexchange.com/questions/473034/postgis-distance-query-using-a-dynamic-radius>
 
 Given a table of points with each record having a `radius` column, 
-find all points whose distance from a given fixed point is less than the radius plus a specified distance `QUERY_DIST`.
+find all points whose distance from a given fixed point is less than the `radius` plus a specified distance `QUERY_DIST`.
 
 **Solution:**
 Use `ST_Expand` and a functional index.
