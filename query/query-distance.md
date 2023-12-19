@@ -66,6 +66,12 @@ No good solutions provided.
 ### Find nearest point on boundary of a union of polygons
 <https://gis.stackexchange.com/questions/124158/finding-outermost-border-of-set-of-geomertries-circles-using-postgis>
 
+![](https://i.stack.imgur.com/sRdju.jpg)
+
+```sql
+SELECT ST_ClosestPoint(ST_Boundary(ST_Union(geom)),<point> ) FROM polygons;
+```
+
 ### Find points returned by function within elliptical area
 <https://gis.stackexchange.com/questions/17857/finding-points-within-elliptical-area-using-postgis>
 
