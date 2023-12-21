@@ -10,8 +10,9 @@ parent: Querying
 
 ## Find Points contained in Polygons, keeping attributes
 <https://gis.stackexchange.com/questions/354319/how-to-extract-attributes-of-polygons-at-specific-points-into-new-point-layer-in>
+<https://gis.stackexchange.com/questions/260055/speed-up-st-intersects-with-non-overlapping-polygons-in-postgis/473319#473319>
 
-#### Solution
+**Solution**
 A simple query to do this is:
 ```sql
 SELECT pt.id, poly.*
@@ -20,7 +21,8 @@ SELECT pt.id, poly.*
 ```
 Caveat: this will return multiple records if a point lies in multiple polygons. 
 
-To ensure only a single record is returned per point, and include points which do not lie in any polygon, use:
+For efficiency, or because the polygons are known to be overlapping, it is useful to ensure only a single record is returned per point.
+Use `JOIN LATERAL` and `LIMIT 1` to do this:
 ```sql
 SELECT pt.id, poly.*
   FROM points pt
