@@ -15,7 +15,7 @@ parent: Querying
 A simple query to do this is:
 ```sql
 SELECT pt.id, poly.*
-  FROM grid pt
+  FROM points pt
   JOIN polygons poly ON ST_Intersects(poly.geom, pt.geom);
 ```
 Caveat: this will return multiple records if a point lies in multiple polygons. 
@@ -23,7 +23,7 @@ Caveat: this will return multiple records if a point lies in multiple polygons.
 To ensure only a single record is returned per point, and include points which do not lie in any polygon, use:
 ```sql
 SELECT pt.id, poly.*
-  FROM grid pt
+  FROM points pt
   LEFT OUTER JOIN LATERAL 
     (SELECT * FROM polygons poly 
        WHERE ST_Intersects(poly.geom, pt.geom) LIMIT 1) AS poly ON true;
