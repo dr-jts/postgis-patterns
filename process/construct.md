@@ -123,6 +123,35 @@ SELECT
   ) geom
 FROM pts;
 ```
+
+## Line Decorations
+
+### Construct Hatching along a line
+<https://gis.stackexchange.com/questions/300243/creating-perpendicular-line-transects-in-postgis>
+
+![](https://i.stack.imgur.com/fQKSs.png)
+
+```sql
+CREATE OR REPLACE FUNCTION ST_PerpendicularTransectsFromLine(
+    geom GEOMETRY,
+    sl integer)
+    RETURNS TABLE (geom GEOMETRY) AS 
+$BODY$
+WITH
+geodata AS (SELECT row_number() over() AS id, geom),
+linecut AS (SELECT id, ST_LineSubstring(d.geom, substart, CASE WHEN subend > 1 THEN 1 ELSE subend END) geom
+    FROM (SELECT id, geom, ST_Length(((geom)::geometry)) len, sl sublen FROM geodata) AS d
+    CROSS JOIN LATERAL 
+        (SELECT i,  (sublen * i)/len AS substart, (sublen * (i+1))/len AS subend
+            FROM generate_series(0, floor( d.len / sublen)::integer) AS t(i) 
+            WHERE (sublen * i)/len <> 1.0) AS d2),
+rotate AS (SELECT id, (ST_Rotate(ST_Collect(geom), -pi()/2, ST_Centroid(geom))) geom FROM linecut GROUP BY id, geom),
+tbld AS (SELECT id, (ST_Dump(geom)).geom geom FROM rotate)
+        SELECT ST_MakeLine(ST_StartPoint(geom), ST_EndPoint(geom)) geom FROM tbld;
+$BODY$
+LANGUAGE SQL;
+```
+
 ## Extending / Filling Polygons
 
 ### Construct polygons filling gaps in a coverage
