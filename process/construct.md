@@ -126,7 +126,7 @@ FROM pts;
 
 ## Line Decorations
 
-### Construct Hatching along a line
+### Construct Transects (Hatching) along a Line
 <https://gis.stackexchange.com/questions/300243/creating-perpendicular-line-transects-in-postgis>
 
 ![](https://i.stack.imgur.com/fQKSs.png)
