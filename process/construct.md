@@ -132,24 +132,27 @@ FROM pts;
 ![](https://i.stack.imgur.com/fQKSs.png)
 
 ```sql
-CREATE OR REPLACE FUNCTION ST_PerpendicularTransectsFromLine(
-    geom GEOMETRY,
-    sl integer)
-    RETURNS TABLE (geom GEOMETRY) AS 
+CREATE OR REPLACE FUNCTION ST_Transects(
+    geom geometry,
+    sepDist float)
+    RETURNS geometry 
+    LANGUAGE sql AS 
 $BODY$
 WITH
-geodata AS (SELECT row_number() over() AS id, geom),
-linecut AS (SELECT id, ST_LineSubstring(d.geom, substart, CASE WHEN subend > 1 THEN 1 ELSE subend END) geom
-    FROM (SELECT id, geom, ST_Length(((geom)::geometry)) len, sl sublen FROM geodata) AS d
+geodata AS (SELECT geom, ST_Length(geom) len, sepDist),
+section AS (SELECT ST_LineSubstring(d.geom, substart, CASE WHEN subend > 1 THEN 1 ELSE subend END) geom
+    FROM geodata AS d
     CROSS JOIN LATERAL 
-        (SELECT i,  (sublen * i)/len AS substart, (sublen * (i+1))/len AS subend
-            FROM generate_series(0, floor( d.len / sublen)::integer) AS t(i) 
-            WHERE (sublen * i)/len <> 1.0) AS d2),
-rotate AS (SELECT id, (ST_Rotate(ST_Collect(geom), -pi()/2, ST_Centroid(geom))) geom FROM linecut GROUP BY id, geom),
-tbld AS (SELECT id, (ST_Dump(geom)).geom geom FROM rotate)
-        SELECT ST_MakeLine(ST_StartPoint(geom), ST_EndPoint(geom)) geom FROM tbld;
-$BODY$
-LANGUAGE SQL;
+        (SELECT i, (sepDist * i)/len AS substart, (sepDist * (i+1))/len AS subend
+            FROM generate_series(0, floor( d.len / sepDist)::integer) AS t(i) 
+            WHERE (sepDist * i)/len <> 1.0) AS d2),
+rotate AS (SELECT (ST_Rotate(geom, -pi()/2, ST_Centroid(geom))) geom FROM section)
+SELECT ST_Collect(ST_MakeLine(ST_StartPoint(geom), ST_EndPoint(geom))) geom FROM rotate;
+$BODY$;
+```
+**Example:**
+```sql
+SELECT ST_Transects('LINESTRING (30 40, 100 50, 140 80, 110 100, 80 140, 125 164, 170 130, 300 150)', 15);
 ```
 
 ## Extending / Filling Polygons
