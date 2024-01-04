@@ -349,6 +349,24 @@ SELECT ST_MakeLine(a.geom, b.geom) AS geom FROM points a CROSS JOIN points b
 * Intersect with polygon
 * Keep longest result line
 
+### Construct set of parallel lines across Polygon
+<https://gis.stackexchange.com/questions/24064/filling-a-polygon-with-lines-using-postgis>
+
+![](https://i.stack.imgur.com/KxdqN.png)
+
+```sql
+SELECT ST_Intersection(line, polygon) AS geom FROM
+    (SELECT polygon, ST_SetSRID( ST_MakeLine (ST_Point(x_min, y_value),ST_Point(x_max, y_value) ), ST_SRID(polygon)) AS line FROM 
+        (SELECT polygon, GENERATE_SERIES(
+				FLOOR( ST_YMin(polygon))::int,
+				CEILING(ST_YMax(polygon))::int,200) y_value,
+			ST_XMin(polygon) x_min,
+			ST_XMax(polygon) x_max
+		FROM (SELECT geom AS polygon FROM data) l
+        ) AS c
+    ) AS lines;
+```
+
 ### Construct closest boundary point to a point in a polygon
 <https://gis.stackexchange.com/questions/159318/finding-closest-outside-point-to-point-inside-polygon-in-postgis>
 
