@@ -124,7 +124,30 @@ SELECT
 FROM pts;
 ```
 
-## Line Decorations
+## Lines
+
+### Construct a line with given Length and Angle
+<https://gis.stackexchange.com/questions/75407/how-to-create-linestrings-with-a-definite-angle-and-length-that-are-fixed-to-a>
+
+**Solution 1**
+```sql
+WITH params AS (SELECT ST_Point(10, 10) AS origin, 10.0 AS length, 60 AS angle)
+SELECT ST_Translate( ST_Rotate(ST_MakeLine(ST_Point( -length/2, 0), 
+				          ST_Point(  length/2, 0)),
+                                      	radians(angle)),
+		ST_X(origin), ST_Y(origin), ST_SRID(origin)) AS line
+FROM params;
+
+**Solution 2**
+```sql
+WITH params AS (SELECT ST_Point(10, 10) AS origin, 10.0 AS length, 60 AS angle)
+SELECT ST_SetSRID(ST_MakeLine(  ST_Point( ST_X(origin) - length/2 * cos(radians(angle)),
+				          ST_Y(origin) - length/2 * sin(radians(angle)) ), 
+				ST_Point( ST_X(origin) + length/2 * cos(radians(angle)),
+					  ST_Y(origin) + length/2 * sin(radians(angle)) )),
+	ST_SRID(origin)) AS line
+FROM params;
+```
 
 ### Construct Transects (Hatching) along a Line
 <https://gis.stackexchange.com/questions/300243/creating-perpendicular-line-transects-in-postgis>
