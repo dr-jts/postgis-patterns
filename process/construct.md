@@ -156,26 +156,34 @@ FROM params;
 
 ```sql
 CREATE OR REPLACE FUNCTION ST_Transects(
-    geom geometry,
-    sepDist float)
+    lineGeom geometry,
+    secLen float,
+    transectLen float)
     RETURNS geometry 
     LANGUAGE sql AS 
 $BODY$
 WITH
-geodata AS (SELECT geom, ST_Length(geom) len, sepDist),
-section AS (SELECT ST_LineSubstring(d.geom, substart, CASE WHEN subend > 1 THEN 1 ELSE subend END) geom
-    FROM geodata AS d
+geodata AS (SELECT lineGeom, ST_Length(lineGeom) AS lineLen),
+sections AS (SELECT ST_LineSubstring(lineGeom, secStart, CASE WHEN secEnd > 1 THEN 1 ELSE secEnd END) geom
+    FROM geodata AS t
     CROSS JOIN LATERAL 
-        (SELECT i, (sepDist * i)/len AS substart, (sepDist * (i+1))/len AS subend
-            FROM generate_series(0, floor( d.len / sepDist)::integer) AS t(i) 
-            WHERE (sepDist * i)/len <> 1.0) AS d2),
-rotate AS (SELECT (ST_Rotate(geom, -pi()/2, ST_Centroid(geom))) geom FROM section)
-SELECT ST_Collect(ST_MakeLine(ST_StartPoint(geom), ST_EndPoint(geom))) geom FROM rotate;
+        (SELECT i * secLen/lineLen AS secStart, (i+1) * secLen/lineLen AS secEnd
+            FROM generate_series(0, floor(lineLen / secLen)::integer) AS t(i) 
+            WHERE (secLen * i)/lineLen <> 1.0) AS t2 ),
+sectAnglePt AS (SELECT pi() - ST_Azimuth(ST_StartPoint(geom), ST_EndPoint(geom)) AS ang,
+                  ST_LineInterpolatePoint(geom, 0.5) AS centre
+                  FROM sections)
+SELECT ST_Collect(ST_MakeLine(
+                    ST_Point( ST_X(centre) - transectLen/2 * cos(ang), 
+                              ST_Y(centre) - transectLen/2 * sin(ang)),
+                    ST_Point( ST_X(centre) + transectLen/2 * cos(ang), 
+                              ST_Y(centre) + transectLen/2 * sin(ang)) )) AS geom 
+  FROM sectAnglePt;
 $BODY$;
 ```
 **Example:**
 ```sql
-SELECT ST_Transects('LINESTRING (1 1, 3 5, 5 3, 7 4, 7 1)', 0.5);
+SELECT ST_Transects('LINESTRING (1 1, 3 5, 5 3, 7 4, 7 1)', 0.5, 1.0);
 ```
 
 ## Extending / Filling Polygons
