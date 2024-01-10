@@ -137,7 +137,7 @@ SELECT ST_Translate( ST_Rotate(ST_MakeLine(ST_Point( -length/2, 0),
                                       	radians(angle)),
 		ST_X(origin), ST_Y(origin), ST_SRID(origin)) AS line
 FROM params;
-
+```
 **Solution 2**
 ```sql
 WITH params AS (SELECT ST_Point(10, 10) AS origin, 10.0 AS length, 60 AS angle)
