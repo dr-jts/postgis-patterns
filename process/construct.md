@@ -163,9 +163,8 @@ CREATE OR REPLACE FUNCTION ST_Transects(
     LANGUAGE sql AS 
 $BODY$
 WITH
-geodata AS (SELECT lineGeom, ST_Length(lineGeom) AS lineLen),
 sections AS (SELECT ST_LineSubstring(lineGeom, secStart, CASE WHEN secEnd > 1 THEN 1 ELSE secEnd END) geom
-    FROM geodata AS t
+    FROM (SELECT lineGeom, ST_Length(lineGeom) AS lineLen) AS t
     CROSS JOIN LATERAL 
         (SELECT i * secLen/lineLen AS secStart, (i+1) * secLen/lineLen AS secEnd
             FROM generate_series(0, floor(lineLen / secLen)::integer) AS t(i) 
@@ -181,6 +180,7 @@ SELECT ST_Collect(ST_MakeLine(
   FROM sectAnglePt;
 $BODY$;
 ```
+
 **Example:**
 ```sql
 SELECT ST_Transects('LINESTRING (1 1, 3 5, 5 3, 7 4, 7 1)', 0.5, 1.0);
