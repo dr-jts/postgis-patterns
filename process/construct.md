@@ -152,10 +152,10 @@ FROM params;
 ### Construct Transects (Hatching) along a Line
 <https://gis.stackexchange.com/questions/300243/creating-perpendicular-line-transects-in-postgis>
 
-![](https://i.stack.imgur.com/fQKSs.png)
+![](https://i.stack.imgur.com/G9Ypg.png)
 
 ```sql
-CREATE OR REPLACE FUNCTION ST_Transects(
+CREATE OR REPLACE FUNCTION ST_LineTransects(
     lineGeom geometry,
     secLen float,
     transectLen float)
