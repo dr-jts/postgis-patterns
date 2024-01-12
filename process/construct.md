@@ -183,7 +183,7 @@ $BODY$;
 
 **Example:**
 ```sql
-SELECT ST_Transects('LINESTRING (1 1, 3 5, 5 3, 7 4, 7 1)', 0.5, 1.0);
+SELECT ST_LineTransects('LINESTRING (1 1, 3 5, 5 3, 7 4, 7 1)', 0.5, 1.0);
 ```
 
 ## Extending / Filling Polygons
