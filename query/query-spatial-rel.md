@@ -72,7 +72,8 @@ This says that copying geometries to another database causes them to fail `ST_Eq
 
 <https://gis.stackexchange.com/questions/11510/st-closestpointline-point-does-not-intersect-line>
 
-#### Solution
+**Solution**
+
 Use `ST_DWithin`
 
 ### Discrepancy between GEOS predicates and PostGIS Intersects
@@ -102,7 +103,8 @@ See this post for possible robustness issues with this relationship test:
 ### Find Polygons not contained by other Polygons
 <https://gis.stackexchange.com/questions/185308/find-polygons-that-does-not-contain-any-polygons-with-postgis>
 
-#### Solution
+**Solution**
+
 Use the LEFT JOIN on `ST_Contains` with NULL result pattern
 
 ### Find non-covered polygons
@@ -137,6 +139,7 @@ WHERE b.geom IS NULL;
 <https://gis.stackexchange.com/questions/212543/compare-row-to-all-others-in-postgis>
 
 **Solution**
+
 For each polygon, compute union of polygons which intersect it, then test if the union covers the polygon
 
 ### Improve performance to find Polygons covered by other Polygons
@@ -178,6 +181,7 @@ SELECT a.id, b.id,
 ![](https://i.stack.imgur.com/tp5WK.png)
 
 **Solution**
+
 Find each polygon where the total length of the intersection with adjacent polygons is less than length of its boundary.
 
 ```sql
@@ -193,6 +197,7 @@ HAVING 1e-6 >
 ### Find Polygons with maximum overlap with another Polygon table
 
 **Solution with `JOIN LATERAL`**
+
 <https://gis.stackexchange.com/questions/287412/in-postgresql-how-to-get-the-polygon-id-that-intersects-the-most-in-case-it-i>
 
 Example: For each mountain area, find country which has largest overlap.
@@ -208,6 +213,7 @@ LEFT JOIN LATERAL
 ```
 
 **Solution using `DISTINCT ON`**
+
 <https://gis.stackexchange.com/questions/41501/join-based-on-maximum-overlap-in-postgis-postgresql>
 
 1) Calculate area of intersection for every pair of rows which intersect.
