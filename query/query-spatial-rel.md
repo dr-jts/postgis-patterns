@@ -178,16 +178,16 @@ SELECT a.id, b.id,
 ![](https://i.stack.imgur.com/tp5WK.png)
 
 **Solution**
-Find polygons where total length of intersection with others is less than length of boundary
+Find each polygon where the total length of the intersection with adjacent polygons is less than length of its boundary.
 
 ```sql
 SELECT a.id
-FROM data a 
-INNER JOIN data b ON (ST_Intersects(a.geom, b.geom) AND a.id != b.id) 
+  FROM data a 
+  INNER JOIN data b ON (ST_Intersects(a.geom, b.geom) AND a.id != b.id) 
 GROUP BY a.id
 HAVING 1e-6 > 
-  abs(ST_Length(ST_ExteriorRing(a.geom)) - 
-  sum(ST_Length(ST_Intersection(ST_Exteriorring(a.geom), ST_ExteriorRing(b.geom)))));
+  abs( ST_Length(ST_ExteriorRing(a.geom)) - 
+  SUM( ST_Length(ST_Intersection(ST_ExteriorRing(a.geom), ST_ExteriorRing(b.geom)))));
 ```
 
 ### Find Polygons with maximum overlap with another Polygon table
