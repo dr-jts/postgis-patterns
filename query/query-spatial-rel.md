@@ -136,7 +136,7 @@ WHERE b.geom IS NULL;
 ### Find Polygons covered by a set of other polygons
 <https://gis.stackexchange.com/questions/212543/compare-row-to-all-others-in-postgis>
 
-#### Solution
+**Solution**
 For each polygon, compute union of polygons which intersect it, then test if the union covers the polygon
 
 ### Improve performance to find Polygons covered by other Polygons
@@ -177,7 +177,7 @@ SELECT a.id, b.id,
 
 ![](https://i.stack.imgur.com/tp5WK.png)
 
-#### Solution
+**Solution**
 Find polygons where total length of intersection with others is less than length of boundary
 
 ```sql
@@ -192,7 +192,7 @@ HAVING 1e-6 >
 
 ### Find Polygons with maximum overlap with another Polygon table
 
-#### Solution with JOIN LATERAL
+**Solution with `JOIN LATERAL`**
 <https://gis.stackexchange.com/questions/287412/in-postgresql-how-to-get-the-polygon-id-that-intersects-the-most-in-case-it-i>
 
 Example: For each mountain area, find country which has largest overlap.
@@ -207,7 +207,7 @@ LEFT JOIN LATERAL
   ) b ON true;
 ```
 
-#### Solution using DISTINCT ON
+**Solution using `DISTINCT ON`**
 <https://gis.stackexchange.com/questions/41501/join-based-on-maximum-overlap-in-postgis-postgresql>
 
 1) Calculate area of intersection for every pair of rows which intersect.
