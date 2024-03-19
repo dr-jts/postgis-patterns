@@ -4,12 +4,14 @@
 1. TOC
 {:toc}
 
-## Using `ST_Intersects` with `ST_Buffer` for proximity queries
+## Using `ST_Distance` OR `ST_Intersects` with `ST_Buffer` for proximity queries
 
-A simplistic way to test if geometries are near to (within a distance of) a given geometry is to compute the 
-buffer of the query geometry and then use `ST_Intersects` against the buffer geometry.
+A simple way to test if geometries are near to (within a distance of) a given geometry is to compute the 
+buffer of the query geometry and then use `ST_Intersects` against the buffer geometry.  However, this is somewhat inaccurate, since buffers are only approximations, and computing large buffers can be slow.
 
-Use `ST_DWithin` instead, since it is automatically indexed, is faster to compute, and is more accurate. 
+Another way is to use `ST_Distance`.  But this forces the full distance to be computed even though it is not needed.  Also, this query does not take advantage of spatial indexes.
+
+Instead, use `ST_DWithin` instead, since it is automatically indexed, is faster to compute, and is more accurate. 
 (it avoids having to compute the explicit buffer, which is only a close approximiation of the true distance).
 
 ## Using `ST_Contains/ST_Within` instead of `ST_Covers/ST_CoveredBy`
