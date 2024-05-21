@@ -130,9 +130,10 @@ WHERE NOT EXISTS
   AND ST_INTERSECTS(l1.geom, l2.geom)
  );
  ```
- ## Find isolated Network edges (2)
+
+## Find isolated Network edges (2)
  <https://gis.stackexchange.com/questions/408695/compound-contiguous-links-to-lines-in-a-network-and-find-isolated-lines>
  
- ![](https://i.stack.imgur.com/1eoWm.jpg)
+![](https://i.stack.imgur.com/1eoWm.jpg)
  
  
