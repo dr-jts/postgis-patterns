@@ -11,6 +11,10 @@ parent: Lines and Networks
 ## Find Diameter (Longest Path) of Network
 <https://gis.stackexchange.com/questions/295199/how-do-i-select-the-longest-connected-lines-from-postgis-st-approximatemedialaxi>
 
+<https://gis.stackexchange.com/questions/409483/simplify-a-branching-line-string/411926>
+
+<https://gis.stackexchange.com/questions/481620/remove-side-branches-from-linestring>
+
 ![](https://i.stack.imgur.com/lLqqW.jpg)
 
 ### PostGIS Idea
