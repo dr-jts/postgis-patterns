@@ -8,14 +8,16 @@ parent: Overlay
 1. TOC
 {:toc}
 
-## Overlay - Overlapping Polygon Dataset
+## Overlay - Overlapping Polygons Dataset
 
 ### Create coverage from Nested Polygons
 <https://gis.stackexchange.com/questions/266005/postgis-separate-nested-polygons>
 
 ### Create Coverage from Overlapping Polygons
 <https://gis.stackexchange.com/questions/83/separate-polygons-based-on-intersection-using-postgis>
+
 <https://gis.stackexchange.com/questions/112498/postgis-overlay-style-union-not-dissolve-style>
+
 <https://gis.stackexchange.com/questions/109692/how-to-replicate-arcgis-intersect-in-postgis>
 
 #### Solution
