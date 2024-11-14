@@ -153,6 +153,15 @@ for a variety of approaches that predate a lot of the PostGIS clustering functio
 
 Use [`ST_SnapToGrid`](https://postgis.net/docs/manual-3.5/ST_SnapToGrid.html) to compute a cell id for each point, then group the points based on that.  Can use aggregate function to count points in grid cell, or use DISTINCT ON as a way to pick one representative point.  Need to use representative point rather than average, for better visual results (perhaps?)
 
+```sql
+SELECT id, pt FROM (
+SELECT DISTINCT ON (snap) 
+  id, pt,
+  ST_SnapToGrid(pt, 1) AS snap 
+FROM points
+) AS t;
+```
+
 **Solution 2**
 
 Generate grid of cells covering desired area, then `JOIN LATERAL` to points to aggregate.  Not sure how to select a representative point doing this though - perhaps MIN or MAX?  Requires a grid-generating function, which is coming in PostGIS 3.1
