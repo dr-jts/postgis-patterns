@@ -149,10 +149,12 @@ for a variety of approaches that predate a lot of the PostGIS clustering functio
 ### Grid-Based Clustering
 <https://gis.stackexchange.com/questions/352562/is-it-possible-to-get-one-geometry-per-area-box-in-postgis>
 
-Solution 1
-Use `ST_SnapToGrid` to compute a cell id for each point, then bin the points based on that.  Can use aggregate function to count points in grid cell, or use DISTINCT ON as a cheesy way to pick one representative point.  Need to use representative point rather than average, for better visual results (perhaps?)
+**Solution 1**
 
-Solution 2
+Use [`ST_SnapToGrid`](https://postgis.net/docs/manual-3.5/ST_SnapToGrid.html) to compute a cell id for each point, then group the points based on that.  Can use aggregate function to count points in grid cell, or use DISTINCT ON as a way to pick one representative point.  Need to use representative point rather than average, for better visual results (perhaps?)
+
+**Solution 2**
+
 Generate grid of cells covering desired area, then `JOIN LATERAL` to points to aggregate.  Not sure how to select a representative point doing this though - perhaps MIN or MAX?  Requires a grid-generating function, which is coming in PostGIS 3.1
 
 ### Clustering Points using DBSCAN
