@@ -134,7 +134,7 @@ SELECT col,
        (ARRAY_AGG(geo ORDER BY dt))[1]
 FROM t GROUP BY col
 ```
-### Group points by attribute and compute a representative location
+### Group points by attribute and compute a centroid for each group
 <https://gis.stackexchange.com/questions/269407/centroid-of-point-cluster-points>
 
 Use `ST_Collect` with `ST_Centroid` or `ST_GeometricMedian`:
