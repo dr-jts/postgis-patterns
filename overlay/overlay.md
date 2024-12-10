@@ -2,13 +2,13 @@
 parent: Overlay
 ---
 
-# Overlay
+# Full Overlay
 {: .no_toc }
 
 1. TOC
 {:toc}
 
-## Overlay - Overlapping Polygons Dataset
+## Dataset with Overlapping Polygons
 
 ### Create coverage from Nested Polygons
 <https://gis.stackexchange.com/questions/266005/postgis-separate-nested-polygons>
@@ -65,7 +65,7 @@ User implements a very complex overlay process, but can not get it to work, like
 #### Solution
 `ST_Boundary` -> `ST_Union` -> `ST_Polygonize` ??
 
-## Overlay - Two Polygonal Coverages
+## Polygonal Coverages
 
 ### Overlay of two polygon layers - by Intersection
 
