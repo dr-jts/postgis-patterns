@@ -50,10 +50,6 @@ WHERE cluster_id IS NULL
 
 ## Spatial Relationships with a Tolerance
 
-### Test if two 3D geometries are equal
-<https://gis.stackexchange.com/questions/373978/how-to-check-two-3d-geometry-are-equal-in-postgis>
-
-
 ### Geometry Equality with Tolerance
 Example: <https://gis.stackexchange.com/questions/176359/tolerance-in-postgis>
 
@@ -68,31 +64,27 @@ This says that copying geometries to another database causes them to fail `ST_Eq
 
 <https://gis.stackexchange.com/questions/176359/tolerance-in-postgis>
 
-### `ST_ClosestPoint` does not intersect Line
-
-<https://gis.stackexchange.com/questions/11510/st-closestpointline-point-does-not-intersect-line>
-
-**Solution**
-
-Use `ST_DWithin`
-
-### Emulating "Touches with tolerance"
+### Emulating Touches with tolerance
 
 <https://gis.stackexchange.com/a/488563/14766>
 
-The problem is created by using a distance tolerance with overlay functions to avoid result artifacts.
-Theoretically if `C = difference(union(A, B), B)` then `touches(A, C) = true`
+The problem arises when using overlay functions with a distance tolerance (snap-rounding) 
+with polygons as input.  This is done to avoid result artifacts.
+Theoretically, if `C = difference(union(A, B), B)` then `touches(A, C) = true`
 (i.e. A and C should only intersect in a line.) 
 This is not necessarily true in practice, due to numerical imprecision.
-Using overlay snap-rounding makes this obvious, but it can happen in any overlay mode.
-A tolerance-based approach must be used to determine if A and C effectively only touch.
+Using overlay with snap-rounding makes this obvious, but it can happen in any overlay mode.
+A tolerance-based approach must be used to determine if A and result C effectively touch
+(i.e. intersect "almost" in a line).
 
 **Solutions**
 
 * test whether `ST_Intersection(geom1, geom2, tol)` is linear
 * test whether `ST_Intersection(geom1, geom2)` has a small area (based on a fraction of the areas of the input geometries)
 * test whether the  boundary of `geom` which lies within `geom2` lies within
-  the tolerance distance of the boundary of `geom2`.  This can be done in two ways:
+  the tolerance distance of the boundary of `geom2`.
+  This is the exact equivalent of "touches with tolerance".
+  It can be done in two ways:
   * `ST_Covers(ST_Intersection(ST_Boundary(geom1), geom2), ST_Buffer(ST_Boundary(geom2), tol))`
   * `ST_OrientedHausdorffDistance(ST_Intersection(ST_Boundary(geom1), geom2), ST_Boundary(geom2)) <= tol`
     (**NOTE:** ST_OrientedHausdorffDistance is not yet available in PostGIS)
@@ -101,6 +93,18 @@ A tolerance-based approach must be used to determine if A and C effectively only
 <https://gis.stackexchange.com/questions/259210/how-can-a-point-not-be-within-or-touch-but-still-intersect-a-polygon>
 
 Actually it doesn’t look like there is a discrepancy now.  But still a case where a distance tolerance might clarify things.
+
+### Test if two 3D geometries are equal
+<https://gis.stackexchange.com/questions/373978/how-to-check-two-3d-geometry-are-equal-in-postgis>
+
+### `ST_ClosestPoint` does not intersect Line
+
+<https://gis.stackexchange.com/questions/11510/st-closestpointline-point-does-not-intersect-line>
+
+**Solution**
+
+Use `ST_DWithin`
+
 
 ## Polygon / Polygon
 
