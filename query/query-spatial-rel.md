@@ -79,15 +79,15 @@ A tolerance-based approach must be used to determine if A and result C effective
 
 **Solutions**
 
-* test whether `ST_Intersection(geom1, geom2, tol)` is linear
-* test whether `ST_Intersection(geom1, geom2)` has a small area (based on a fraction of the areas of the input geometries)
-* test whether the  boundary of `geom` which lies within `geom2` lies within
-  the tolerance distance of the boundary of `geom2`.
+* test whether `ST_Intersection(A, B, tol)` is linear
+* test whether `ST_Intersection(A, B)` has a small area (based on a fraction of the areas of the input geometries)
+* test whether the  boundary of A which lies within B lies within
+  the tolerance distance of the boundary of B.
   This is the exact equivalent of "touches with tolerance".
   It can be done in two ways:
-  * `ST_Covers(ST_Intersection(ST_Boundary(geom1), geom2), ST_Buffer(ST_Boundary(geom2), tol))`
-  * `ST_OrientedHausdorffDistance(ST_Intersection(ST_Boundary(geom1), geom2), ST_Boundary(geom2)) <= tol`
-    (**NOTE:** ST_OrientedHausdorffDistance is not yet available in PostGIS)
+  * `ST_Covers(ST_Intersection(ST_Boundary(A), B), ST_Buffer(ST_Boundary(B), tol))`
+  * `ST_OrientedHausdorffDistance(ST_Intersection(ST_Boundary(A), B), ST_Boundary(B)) <= tol`
+    (**NOTE:** ST_OrientedHausdorffDistance (or equivalent) is not yet available in PostGIS)
 
 ### Discrepancy between GEOS predicates and PostGIS Intersects
 <https://gis.stackexchange.com/questions/259210/how-can-a-point-not-be-within-or-touch-but-still-intersect-a-polygon>
