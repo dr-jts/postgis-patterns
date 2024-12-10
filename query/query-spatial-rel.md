@@ -94,7 +94,7 @@ A tolerance-based approach must be used to determine if A and C effectively only
 * test whether the  boundary of `geom` which lies within `geom2` lies within
   the tolerance distance of the boundary of `geom2`.  This can be done in two ways:
   * `ST_Covers(ST_Intersection(ST_Boundary(geom1), geom2), ST_Buffer(ST_Boundary(geom2), tol))`
-  * `ST_OrientedHausdorffDistance(ST_Intersection(ST_Boundary(geom1), geom2), ST_Boundary(geom2)) <= tol
+  * `ST_OrientedHausdorffDistance(ST_Intersection(ST_Boundary(geom1), geom2), ST_Boundary(geom2)) <= tol`
     (**NOTE:** ST_OrientedHausdorffDistance is not yet available in PostGIS)
 
 ### Discrepancy between GEOS predicates and PostGIS Intersects
