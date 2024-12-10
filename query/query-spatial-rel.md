@@ -76,6 +76,24 @@ This says that copying geometries to another database causes them to fail `ST_Eq
 
 Use `ST_DWithin`
 
+### `ST_ClosestPoint` does not intersect Line
+
+### Emulating "Touches with tolerance"
+
+<https://gis.stackexchange.com/a/488563/14766>
+
+The problem is created by using a distance tolerance with overlay functions to avoid result artifacts.
+Theoretically if `C = difference(union(A, B), B)` then `touches(A, C) = true`
+(i.e. A and C should only intersect in a line.) 
+This is not necessarily true in practice, due to numerical imprecision.
+Using overlay snap-rounding makes this obvious, but it can happen in any overlay mode.
+A tolerance-based approach must be used to determine if A and C effectively only touch.
+
+**Solutions**
+
+* test whether `ST_Intersection(geom1, geom2, tol)` is linear
+* test whether `ST_Intersection(geom1, geom2)` has a small area (based on a fraction of the areas of the input geometries)
+
 ### Discrepancy between GEOS predicates and PostGIS Intersects
 <https://gis.stackexchange.com/questions/259210/how-can-a-point-not-be-within-or-touch-but-still-intersect-a-polygon>
 
