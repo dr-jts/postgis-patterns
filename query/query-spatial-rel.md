@@ -288,7 +288,8 @@ AC21, AC2, AC, A, geom of AC21
 AC22, AC2, AC, A, geom of AC21
 ```
 
-#### Solution
+**Solution**
+
 Determine contains relationships based on interior points and areas. Can use a recursive query on that to extract paths if needed. 
 
 ```sql
