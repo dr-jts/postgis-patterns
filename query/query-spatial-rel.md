@@ -85,7 +85,7 @@ A tolerance-based approach must be used to determine if A and result C effective
   the tolerance distance of the boundary of B.
   This is the exact equivalent of "touches with tolerance".
   It can be done in two ways:
-  * `ST_Covers(ST_Intersection(ST_Boundary(A), B), ST_Buffer(ST_Boundary(B), tol))`
+  * `ST_Covers( ST_Buffer(ST_Boundary(B), tol), ST_Intersection(ST_Boundary(A), B) )`
   * `ST_OrientedHausdorffDistance(ST_Intersection(ST_Boundary(A), B), ST_Boundary(B)) <= tol`
     (**NOTE:** ST_OrientedHausdorffDistance (or equivalent) is not yet available in PostGIS)
 
