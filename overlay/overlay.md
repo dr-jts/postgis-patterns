@@ -20,9 +20,14 @@ parent: Overlay
 
 <https://gis.stackexchange.com/questions/109692/how-to-replicate-arcgis-intersect-in-postgis>
 
-#### Solution
-One answer suggests the standard Extract Lines > Node > Polygonize approach (although does not include the PIP parentage step).  But a comment says that this does not scale well (Pierre Racine…).
-Also links to PostGIS wiki:  <https://trac.osgeo.org/postgis/wiki/UsersWikiExamplesOverlayTables>
+<https://gis.stackexchange.com/questions/437273/extracting-non-overlapping-polygons-in-postgis>
+
+<https://gis.stackexchange.com/questions/206473/obtaining-each-unique-area-of-overlapping-polygons-in-postgres-9-6-postgis-2-3>
+
+**Solution**
+One answer suggests the standard `Extract Lines > Node > Polygonize` approach (although does not include the PIP parentage step).  But a comment says that this does not scale well (Pierre Racine…).
+
+See also PostGIS wiki:  <https://trac.osgeo.org/postgis/wiki/UsersWikiExamplesOverlayTables>
 
 
 ### Count Overlap Depth in set of polygons
@@ -46,15 +51,10 @@ Howver, this post indicates this approach might be slow for large datasets:
 
 <https://gis.stackexchange.com/questions/315368/listing-all-overlapping-polygons-using-postgis>
 
-
-
 ### Return only polygons from Overlay
 <https://gis.stackexchange.com/questions/89231/postgis-st-intersection-of-polygons-can-return-lines>
 
 <https://gis.stackexchange.com/questions/242741/st-intersection-returns-erroneous-polygons>
-
-### Compute Coverage from Overlapping Polygons
-<https://gis.stackexchange.com/questions/206473/obtaining-each-unique-area-of-overlapping-polygons-in-postgres-9-6-postgis-2-3>
 
 #### Problem
 Reduce a dataset of highly overlapping polygons to a coverage (not clear if attribution is needed or not)
