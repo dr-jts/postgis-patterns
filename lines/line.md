@@ -19,6 +19,10 @@ parent: Lines and Networks
 Solution
 Would be nice to have a ST_SegmentIndex function to get the index of the segment nearest to a point.  Then this becomes simple.
 
+### Create Line Segment with specified angle
+
+<https://gis.stackexchange.com/a/76066/14766>
+
 ## Distance
 
 ### Compute Perpendicular Distance to a Baseline (AKA “Width” of a curve)
