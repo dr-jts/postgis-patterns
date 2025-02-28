@@ -27,3 +27,9 @@ Do not use `NOT IN subquery`, since it forces the subquery to compute the entire
 
 Instead, use the SQL *anti-join* pattern (see this [blog post](https://www.crunchydata.com/blog/rise-of-the-anti-join)).
 This uses `NOT EXISTS subquery` to allow the query engine to short-circuit the subquery evaluation if a match is found. 
+
+## Using `ST_MakePoint` or `ST_PointFromText` instead of `ST_Point`
+
+`ST_Point` (and variants) is the standard function to use.  
+`ST_MakePoint` is obsolete.
+They are both much faster than `ST_PointFromText`.
