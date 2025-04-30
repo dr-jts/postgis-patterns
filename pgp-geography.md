@@ -37,7 +37,7 @@ WHERE abs(ST_XMax(geom)) > 180
    OR abs(ST_YMax(geom) > 90;
 ```
 
-## Find Spatial Reference Systems that are geodetic
+## Find geodetic Spatial Reference System definitions
 
 ```sql
 SELECT srid, srtext
