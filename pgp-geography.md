@@ -35,3 +35,12 @@ ERROR:  transform: latitude or longitude exceeded limits (-14)
 SELECT * FROM data_tbl
 WHERE abs(ST_XMax(geom)) > 180 
    OR abs(ST_YMax(geom) > 90;
+```
+
+## Find Spatial Reference Systems that are geodetic
+
+```sql
+SELECT srid, srtext
+FROM spatial_ref_sys
+WHERE srtext LIKE 'GEO%';
+```
