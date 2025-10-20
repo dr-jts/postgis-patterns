@@ -61,7 +61,7 @@ FROM src;
 
 A solution using:
 
-* `generate_series` to extract the polygons (avoids having to deal with the recordset returned from `ST_Dump`)
+* `generate_series` to extract the polygons (required as input to `ST_DumpRings`)
 * SQL aggregate `FILTER` clauses to separate the shells and holes from the dumped rings
 
 ```sql
