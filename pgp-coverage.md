@@ -27,7 +27,7 @@ WHERE  ST_Relate(a.geom, b.geom, '2********')
 
 ```sql
 WITH union AS (
-    SELECT (ST_DUMP(ST_CoverageUnion(geom))).geom as geom
+    SELECT (ST_Dump(ST_CoverageUnion(geom))).geom as geom
         FROM polycov As f 
 ),
 hasgaps AS (
