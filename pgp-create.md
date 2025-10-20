@@ -54,6 +54,28 @@ FROM src;
 
 ## Geometry Access
 
+### Extract holes from Polygons and MultiPolygons
+
+**Solution**
+
+A solution using:
+
+* `ST_Dump` to extract polygons (required as input to `ST_DumpRings`)
+
+```sql
+WITH polys(geom) AS (VALUES
+  ('POLYGON ((5 1, 5 4, 8 4, 8 1, 5 1), (6 2, 6 3, 7 3, 7 2, 6 2))'::geometry),
+  ('MULTIPOLYGON (((1 1, 1 4, 4 4, 4 1, 1 1), (2 2, 2 3, 3 3, 3 2, 2 2)), ((1 5, 1 8, 4 8, 4 5, 1 5)))'::geometry)
+),
+holes AS (
+  SELECT (r.dumped).geom AS geom
+    FROM (SELECT ST_DumpRings(  (ST_Dump(geom)).geom ) AS dumped 
+            FROM polys) AS r
+    WHERE ((r.dumped).path)[1] > 0
+)
+SELECT geom FROM holes;
+```
+
 ### Extract shells and holes from Polygons and MultiPolygons
 <https://gis.stackexchange.com/questions/396367/postgis-find-outers-and-inners-inside-multipolygon-geometries>
 
@@ -62,6 +84,7 @@ FROM src;
 A solution using:
 
 * `generate_series` to extract the polygons (required as input to `ST_DumpRings`)
+  * Note: simpler to use `ST_Dump` as above 
 * SQL aggregate `FILTER` clauses to separate the shells and holes from the dumped rings
 
 ```sql
