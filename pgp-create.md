@@ -58,9 +58,7 @@ FROM src;
 
 **Solution**
 
-A solution using:
-
-* `ST_Dump` to extract polygons (required as input to `ST_DumpRings`)
+A solution using `ST_Dump` to extract polygons (required as input to `ST_DumpRings`).
 
 ```sql
 WITH polys(geom) AS (VALUES
@@ -69,8 +67,7 @@ WITH polys(geom) AS (VALUES
 ),
 holes AS (
   SELECT (dump).geom AS geom
-    FROM (SELECT ST_DumpRings(  (ST_Dump(geom)).geom ) AS dump
-            FROM polys) AS r
+    FROM (SELECT ST_DumpRings( (ST_Dump(geom)).geom ) AS dump FROM polys) AS r
     WHERE ((dump).path)[1] > 0
 )
 SELECT geom FROM holes;
