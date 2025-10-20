@@ -68,10 +68,10 @@ WITH polys(geom) AS (VALUES
   ('MULTIPOLYGON (((1 1, 1 4, 4 4, 4 1, 1 1), (2 2, 2 3, 3 3, 3 2, 2 2)), ((1 5, 1 8, 4 8, 4 5, 1 5)))'::geometry)
 ),
 holes AS (
-  SELECT (r.dumped).geom AS geom
-    FROM (SELECT ST_DumpRings(  (ST_Dump(geom)).geom ) AS dumped 
+  SELECT (dump).geom AS geom
+    FROM (SELECT ST_DumpRings(  (ST_Dump(geom)).geom ) AS dump
             FROM polys) AS r
-    WHERE ((r.dumped).path)[1] > 0
+    WHERE ((dump).path)[1] > 0
 )
 SELECT geom FROM holes;
 ```
@@ -93,13 +93,13 @@ WITH polys(geom) AS (VALUES
   ('MULTIPOLYGON (((1 1, 1 4, 4 4, 4 1, 1 1), (2 2, 2 3, 3 3, 3 2, 2 2)), ((1 5, 1 8, 4 8, 4 5, 1 5)))'::geometry)
 ),
 rings AS (
-  SELECT (r.dumped).geom AS geom, 
-         ((r.dumped).path)[1] AS loc
+  SELECT (dump).geom AS geom, 
+         ((dump).path)[1] AS loc
     FROM (SELECT ST_DumpRings( 
                      ST_GeometryN(geom, 
                                   generate_series(1, 
-                                            ST_NumGeometries( geom )))) AS dumped 
-            FROM polys) AS r
+                                            ST_NumGeometries( geom )))) AS dump
+            FROM polys) AS p
 )
 SELECT  ST_Collect( geom ) FILTER (WHERE loc = 0) AS shells,
         ST_Collect( geom ) FILTER (WHERE loc > 0) AS holes
