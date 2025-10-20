@@ -99,33 +99,11 @@ rings AS (
                      ST_GeometryN(geom, 
                                   generate_series(1, 
                                             ST_NumGeometries( geom )))) AS dump
-            FROM polys) AS p
+            FROM polys) AS r
 )
 SELECT  ST_Collect( geom ) FILTER (WHERE loc = 0) AS shells,
         ST_Collect( geom ) FILTER (WHERE loc > 0) AS holes
 FROM rings;
-```
-
-### Extract holes from Polygons and MultiPolygons
-
-**Solution**
-
-A solution using:
-
-* `ST_Dump` to extract polygons (required as input to `ST_DumpRings`)
-
-```sql
-WITH polys(geom) AS (VALUES
-  ('POLYGON ((5 1, 5 4, 8 4, 8 1, 5 1), (6 2, 6 3, 7 3, 7 2, 6 2))'::geometry),
-  ('MULTIPOLYGON (((1 1, 1 4, 4 4, 4 1, 1 1), (2 2, 2 3, 3 3, 3 2, 2 2)), ((1 5, 1 8, 4 8, 4 5, 1 5)))'::geometry)
-),
-holes AS (
-  SELECT (r.dumped).geom AS geom
-    FROM (SELECT ST_DumpRings(  (ST_Dump(geom)).geom ) AS dumped 
-            FROM polys) AS r
-    WHERE ((r.dumped).path)[1] > 0
-)
-SELECT geom FROM holes;
 ```
 
 ## Geometry Editing
