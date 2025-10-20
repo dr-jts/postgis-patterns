@@ -7,7 +7,7 @@
 ## Find Overlaps
 
 **Solution**
-Find pairs of polygons whose interiors intersect.
+Find the interection of pairs of polygons whose interiors intersect.
 
 ```sql
 SELECT ST_CollectionExtract( ST_Intersection( a.geom, b.geom), 3))) AS overlap
