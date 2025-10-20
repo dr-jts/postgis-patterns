@@ -18,7 +18,7 @@ WHERE  ST_Relate(a.geom, b.geom, '2********')
        AND a.id > b.id
 ```
 
-## Find Gaps/Slivers
+## Find Gaps
 
 **Solution**
 * Union the polygons in the coverage
@@ -27,7 +27,7 @@ WHERE  ST_Relate(a.geom, b.geom, '2********')
 
 ```sql
 WITH union AS (
-    SELECT (ST_DUMP(ST_Union(geom))).geom as geom
+    SELECT (ST_DUMP(ST_CoverageUnion(geom))).geom as geom
         FROM polycov As f 
 ),
 hasgaps AS (
