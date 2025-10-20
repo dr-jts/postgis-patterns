@@ -54,7 +54,7 @@ FROM src;
 
 ## Geometry Access
 
-### Extract shells and holes from MultiPolygons
+### Extract shells and holes from Polygons and MultiPolygons
 <https://gis.stackexchange.com/questions/396367/postgis-find-outers-and-inners-inside-multipolygon-geometries>
 
 **Solution**
@@ -65,8 +65,9 @@ A solution using:
 * SQL aggregate `FILTER` clauses to separate the shells and holes from the dumped rings
 
 ```sql
-WITH multipoly(geom) AS (VALUES
-('MULTIPOLYGON (((10 10, 10 90, 70 90, 10 10), (20 80, 40 70, 40 80, 20 80), (20 70, 40 60, 20 40, 20 70)), ((50 30, 80 60, 80 30, 50 30)))'::geometry)
+WITH poly(geom) AS (VALUES
+  ('POLYGON ((5 1, 5 4, 8 4, 8 1, 5 1), (6 2, 6 3, 7 3, 7 2, 6 2))'::geometry),
+  ('MULTIPOLYGON (((1 1, 1 4, 4 4, 4 1, 1 1), (2 2, 2 3, 3 3, 3 2, 2 2)), ((1 5, 1 8, 4 8, 4 5, 1 5)))'::geometry)
 ),
 rings AS (
   SELECT (r.dumped).geom AS geom, 
@@ -75,7 +76,7 @@ rings AS (
                      ST_GeometryN(geom, 
                                   generate_series(1, 
                                             ST_NumGeometries( geom )))) AS dumped 
-            FROM multipoly) AS r
+            FROM poly) AS r
 )
 SELECT  ST_Collect( geom ) FILTER (WHERE loc = 0) AS shells,
         ST_Collect( geom ) FILTER (WHERE loc > 0) AS holes
