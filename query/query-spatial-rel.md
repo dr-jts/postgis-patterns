@@ -64,6 +64,13 @@ This says that copying geometries to another database causes them to fail `ST_Eq
 
 <https://gis.stackexchange.com/questions/176359/tolerance-in-postgis>
 
+### Intersects with tolerance?
+<https://gis.stackexchange.com/questions/259210/how-can-a-point-not-be-within-or-touch-but-still-intersect-a-polygon>
+
+This might be a case where `intersects` with a tolerance would be useful.  
+
+It also mentions the possibility of `touches` with tolerance.
+
 ### Emulating Intersects with tolerance
 <https://gis.stackexchange.com/questions/236712/change-st-intersects-default-tolerance>
 
@@ -99,11 +106,6 @@ A tolerance-based approach must be used to determine if A and result C effective
   * `ST_Covers( ST_Buffer(ST_Boundary(B), tol), ST_Intersection(ST_Boundary(A), B) )`
   * `ST_OrientedHausdorffDistance(ST_Intersection(ST_Boundary(A), B), ST_Boundary(B)) <= tol`
     (**NOTE:** ST_OrientedHausdorffDistance (or equivalent) is not yet available in PostGIS)
-
-### Discrepancy between GEOS predicates and PostGIS Intersects
-<https://gis.stackexchange.com/questions/259210/how-can-a-point-not-be-within-or-touch-but-still-intersect-a-polygon>
-
-Actually it doesn’t look like there is a discrepancy now.  But still a case where a distance tolerance might clarify things.
 
 ### Test if two 3D geometries are equal
 <https://gis.stackexchange.com/questions/373978/how-to-check-two-3d-geometry-are-equal-in-postgis>
