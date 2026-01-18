@@ -64,6 +64,17 @@ This says that copying geometries to another database causes them to fail `ST_Eq
 
 <https://gis.stackexchange.com/questions/176359/tolerance-in-postgis>
 
+### Emulating Intersects with tolerance
+<https://gis.stackexchange.com/questions/236712/change-st-intersects-default-tolerance>
+
+This can be provided as a function using `ST_DWithin`:
+```sql
+CREATE OR REPLACE FUNCTION ST_Intersects(geometry, geometry,float8)
+    RETURNS boolean
+    AS 'SELECT ST_DWithin($1, $2, $3)'
+    LANGUAGE 'sql' IMMUTABLE ;
+```
+
 ### Emulating Touches with tolerance
 
 <https://gis.stackexchange.com/a/488563/14766>
